@@ -1,3 +1,48 @@
 [build]
   functions = "netlify/functions"
   publish = "."
+
+[[redirects]]
+  from = "/images/architecture.webp"
+  to = "/architecture.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/archives.webp"
+  to = "/archives.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/commander.webp"
+  to = "/commander.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/decodage.webp"
+  to = "/decodage.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/gate.webp"
+  to = "/gate.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/origine.webp"
+  to = "/origine.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/receive.webp"
+  to = "/receive.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/revelation.webp"
+  to = "/revelation.webp"
+  status = 200
+
+[[redirects]]
+  from = "/images/system.webp"
+  to = "/system.webp"
+  status = 200
