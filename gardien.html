@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Gardien des Archives — SOULSCRIPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --noir:     #0a0806;
+      --encre:    #111009;
+      --or:       #c9a84c;
+      --or-pale:  #e8d5a3;
+      --ivoire:   #f0e6cc;
+      --cendre:   #6b6456;
+      --ligne:    rgba(201, 168, 76, 0.18);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--noir);
+      color: var(--ivoire);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LAYOUT ── */
+    .gardien-wrap {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ── EN-TÊTE ── */
+    header {
+      padding: 2.5rem 0 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--ligne);
+      flex-shrink: 0;
+    }
+
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--or);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      font-weight: 400;
+      color: var(--or-pale);
+      letter-spacing: 0.12em;
+    }
+
+    .trait-or {
+      width: 2.5rem;
+      height: 1px;
+      background: var(--or);
+      margin: 1rem auto 0;
+      opacity: 0.5;
+    }
+
+    /* ── MESSAGES ── */
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ligne) transparent;
+    }
+
+    .messages::-webkit-scrollbar { width: 3px; }
+    .messages::-webkit-scrollbar-thumb { background: var(--ligne); }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      max-width: 92%;
+      animation: apparaitre 0.35s ease both;
+    }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.visiteur { align-self: flex-end; align-items: flex-end; }
+    .msg.gardien  { align-self: flex-start; align-items: flex-start; }
+
+    .msg-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      color: var(--cendre);
+      text-transform: uppercase;
+    }
+
+    .msg-bubble {
+      padding: 1rem 1.25rem;
+      border-radius: 2px;
+      font-size: 1rem;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .visiteur .msg-bubble {
+      background: rgba(201, 168, 76, 0.08);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      color: var(--ivoire);
+    }
+
+    .gardien .msg-bubble {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      color: var(--or-pale);
+      font-style: italic;
+    }
+
+    /* ── INDICATEUR DE FRAPPE ── */
+    .typing .msg-bubble {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 1rem 1.25rem;
+      min-height: 3rem;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--or);
+      opacity: 0.4;
+      animation: pulse 1.2s infinite ease-in-out;
+    }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes pulse {
+      0%, 80%, 100% { opacity: 0.2; transform: scale(0.85); }
+      40%           { opacity: 0.8; transform: scale(1); }
+    }
+
+    /* ── SAISIE ── */
+    .saisie-zone {
+      padding: 1.25rem 0 2rem;
+      border-top: 1px solid var(--ligne);
+      flex-shrink: 0;
+    }
+
+    .saisie-inner {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+
+    textarea {
+      flex: 1;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201, 168, 76, 0.22);
+      color: var(--ivoire);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 0.85rem 1rem;
+      resize: none;
+      min-height: 50px;
+      max-height: 140px;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    textarea::placeholder { color: var(--cendre); font-style: italic; }
+    textarea:focus { border-color: rgba(201, 168, 76, 0.5); }
+
+    button {
+      background: transparent;
+      border: 1px solid var(--or);
+      color: var(--or);
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.1rem;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+      height: 50px;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--or);
+      color: var(--noir);
+    }
+
+    button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ── MESSAGE D'ACCUEIL ── */
+    .accueil {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--cendre);
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      animation: apparaitre 0.6s ease both;
+    }
+
+    .accueil em {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      color: var(--or);
+      font-style: normal;
+      margin-top: 1.5rem;
+      opacity: 0.7;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      header h1 { font-size: 1rem; }
+      .msg-bubble { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="gardien-wrap">
+
+  <header>
+    <p class="eyebrow">Archives de l'Âme · Bibliothèque Interdite</p>
+    <h1>Le Gardien des Archives</h1>
+    <div class="trait-or"></div>
+  </header>
+
+  <div class="messages" id="messages">
+    <div class="accueil" id="accueil">
+      Posez votre question.<br>
+      Ce qui compte, ce n'est pas la formulation.<br>
+      C'est ce qui se cache derrière.
+      <em>◆ &nbsp; SOULSCRIPT &nbsp; ◆</em>
+    </div>
+  </div>
+
+  <div class="saisie-zone">
+    <div class="saisie-inner">
+      <textarea
+        id="input"
+        rows="1"
+        placeholder="Ce que vous portez depuis trop longtemps…"
+      ></textarea>
+      <button id="envoyer">Ouvrir</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const messagesEl = document.getElementById('messages');
+  const inputEl    = document.getElementById('input');
+  const btnEl      = document.getElementById('envoyer');
+  const accueilEl  = document.getElementById('accueil');
+
+  // Historique complet envoyé à l'API
+  const historique = [];
+
+  // Auto-resize textarea
+  inputEl.addEventListener('input', () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 140) + 'px';
+  });
+
+  // Envoi via Enter (Shift+Enter = saut de ligne)
+  inputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      envoyer();
+    }
+  });
+
+  btnEl.addEventListener('click', envoyer);
+
+  function ajouterMessage(role, texte) {
+    // Supprimer l'accueil au premier message
+    if (accueilEl) accueilEl.remove();
+
+    const label = role === 'visiteur' ? 'Vous' : 'Le Gardien';
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = `
+      <span class="msg-label">${label}</span>
+      <div class="msg-bubble">${texte.replace(/\n/g, '<br>')}</div>
+    `;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  function afficherTyping() {
+    const div = document.createElement('div');
+    div.className = 'msg gardien typing';
+    div.innerHTML = `
+      <span class="msg-label">Le Gardien</span>
+      <div class="msg-bubble">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    `;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  async function envoyer() {
+    const texte = inputEl.value.trim();
+    if (!texte || btnEl.disabled) return;
+
+    // Afficher le message visiteur
+    ajouterMessage('visiteur', texte);
+    historique.push({ role: 'user', content: texte });
+
+    // Réinitialiser le champ
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    btnEl.disabled = true;
+
+    // Indicateur de frappe
+    const typing = afficherTyping();
+
+    try {
+      const res = await fetch('/.netlify/functions/gardien', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: historique }),
+      });
+
+      const data = await res.json();
+      const reponse = data.reply ?? "Les Archives sont silencieuses pour l'instant.";
+
+      typing.remove();
+      ajouterMessage('gardien', reponse);
+      historique.push({ role: 'assistant', content: reponse });
+
+    } catch {
+      typing.remove();
+      ajouterMessage('gardien', "Une interruption dans les Archives. Reposez votre question.");
+    }
+
+    btnEl.disabled = false;
+    inputEl.focus();
+  }
+</script>
+
+</body>
+</html>

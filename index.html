@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOULSCRIPT — Votre Âme Est Déjà Écrite</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500;600&family=Cormorant+Upright:wght@300;400;500;600;700&family=IM+Fell+English+SC&family=Pinyon+Script&family=Alex+Brush&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#D7D0C4;font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+:root{--gold:#D4AF37;--gold-b:#B8924A;--gold-pale:#E8CC7A;--gold-dim:#6B5010;--text:#D7D0C4;--text-soft:rgba(215,208,196,.65);}
+
+body::before{content:'';position:fixed;inset:0;z-index:300;pointer-events:none;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px;}
+#dust{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity 1s cubic-bezier(.4,0,.2,1),visibility 1s;}
+#loader.out{opacity:0;visibility:hidden;}
+.l-emblem{display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeUp .9s .2s forwards;}
+.l-top{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:8px;color:var(--gold-dim);text-transform:uppercase;}
+.l-name{font-family:'Cinzel Decorative',serif;font-size:19px;letter-spacing:7px;color:var(--gold);text-shadow:0 0 40px rgba(212,175,55,.35);}
+.l-tagline{display:flex;align-items:center;gap:10px;font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:5px;color:var(--gold-dim);}
+.l-tagline::before,.l-tagline::after{content:'';display:block;width:28px;height:1px;background:linear-gradient(to right,transparent,var(--gold-dim));}
+.l-tagline::after{background:linear-gradient(to left,transparent,var(--gold-dim));}
+.l-track{width:90px;height:1px;background:rgba(212,175,55,.12);overflow:hidden;opacity:0;animation:fadeUp .9s .6s forwards;}
+.l-fill{height:100%;width:0;background:linear-gradient(to right,var(--gold-b),var(--gold));transition:width 1.6s ease;}
+.l-sub{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:4px;color:rgba(212,175,55,.28);text-transform:uppercase;opacity:0;animation:fadeUp .9s .9s forwards;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(0,0,0,.92) 0%,transparent 100%);transition:opacity .5s ease;}
+.nav-logo{text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;gap:2px;transition:opacity .3s;}
+.nav-logo:hover{opacity:.65;}
+.logo-mark{display:flex;align-items:center;gap:7px;font-family:'Cinzel Decorative',serif;font-size:13px;letter-spacing:5px;color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,.18);}
+.logo-mark .orn{color:var(--gold-b);font-size:10px;}
+.logo-sub{font-family:'Cormorant SC',serif;font-size:7.5px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;}
+.nav-links{list-style:none;display:flex;gap:22px;align-items:center;}
+.nav-links a{font-family:'Cormorant SC',serif;font-size:10.5px;letter-spacing:3px;color:rgba(212,175,55,.45);text-decoration:none;text-transform:uppercase;transition:color .3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{transform:scaleX(1);}
+
+/* ── DOTS ── */
+.dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:14px;}
+.dot{width:4px;height:4px;border-radius:50%;border:1px solid rgba(212,175,55,.3);background:transparent;cursor:pointer;transition:all .35s;}
+.dot.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px rgba(212,175,55,.45);}
+
+/* ── CHAPTER BASE ── */
+.chapter{display:flex;flex-direction:column;align-items:center;background:#000;}
+.chapter-img{width:100%;background:#000;line-height:0;position:relative;}
+.chapter-img img{width:100%;height:auto;display:block;object-fit:contain;}
+.chapter-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:18%;background:linear-gradient(to bottom,transparent,#000);pointer-events:none;}
+.chapter-text{width:100%;max-width:620px;padding:56px 36px 80px;text-align:center;opacity:0;transform:translateY(24px);transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);}
+.chapter-text.show{opacity:1;transform:translateY(0);}
+.ch-num{font-family:'Cormorant SC',serif;font-size:10px;letter-spacing:7px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;}
+.ch-title{font-family:'Cinzel',serif;font-size:clamp(20px,3.2vw,34px);font-weight:500;letter-spacing:7px;color:var(--gold);text-transform:uppercase;line-height:1.4;margin-bottom:30px;text-shadow:0 0 60px rgba(212,175,55,.18),0 1px 0 rgba(0,0,0,.8);}
+.ch-rule{display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:32px;}
+.ch-rule::before,.ch-rule::after{content:'';display:block;width:52px;height:1px;background:linear-gradient(to right,transparent,var(--gold-b));}
+.ch-rule::after{background:linear-gradient(to left,transparent,var(--gold-b));}
+.ch-rule-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 6px rgba(212,175,55,.4);}
+.ch-body{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.4vw,20px);font-weight:400;font-style:italic;color:var(--text);line-height:2.15;letter-spacing:.5px;}
+.ch-note{margin-top:26px;font-family:'Cormorant SC',serif;font-size:10px;letter-spacing:3.5px;color:var(--gold-dim);text-transform:uppercase;line-height:2.2;}
+.arch-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 44px;margin:26px auto 0;width:fit-content;text-align:left;}
+.arch-list li{font-family:'Cormorant SC',serif;font-size:10px;letter-spacing:3px;color:rgba(212,175,55,.68);text-transform:uppercase;padding-left:16px;position:relative;}
+.arch-list li::before{content:'◆';position:absolute;left:0;top:1px;font-size:5px;color:var(--gold);}
+
+/* ─────────────────────────────────────
+   GATE SECTION — LA PORTE
+   Mobile-first: image limitée en hauteur
+   puis texte aéré dessous
+───────────────────────────────────── */
+.gate-section{display:flex;flex-direction:column;align-items:center;background:#000;border-top:1px solid rgba(212,175,55,.05);}
+
+.gate-img{
+  width:100%;
+  background:#000;
+  line-height:0;
+  position:relative;
+  /* Desktop: image naturelle pleine largeur */
+}
+.gate-img img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  /* Hauteur max desktop */
+  max-height:90vh;
+  object-position:center center;
+}
+.gate-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:22%;background:linear-gradient(to bottom,transparent,#000);pointer-events:none;}
+
+/* Texte gate — bien séparé du logo nav en mobile */
+.gate-text{
+  width:100%;max-width:560px;
+  /* Espace généreux au-dessus du texte, surtout mobile */
+  padding:48px 36px 64px;
+  text-align:center;
+  opacity:0;transform:translateY(24px);
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
+}
+.gate-text.show{opacity:1;transform:translateY(0);}
+
+.gate-headline{
+  font-family:'Cinzel',serif;
+  font-size:clamp(17px,2.8vw,28px);
+  font-weight:500;letter-spacing:7px;
+  color:var(--gold);text-transform:uppercase;
+  line-height:1.45;margin-bottom:36px;
+  text-shadow:0 0 50px rgba(212,175,55,.2),0 1px 0 rgba(0,0,0,.8);
+}
+.gate-items{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.gate-items li{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.2vw,19px);font-style:italic;color:var(--text-soft);line-height:1.8;}
+.gate-close{font-family:'Cormorant SC',serif;font-size:10px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;line-height:2.4;margin-top:8px;}
+
+/* ── SEPARATOR ── */
+.sep{display:flex;flex-direction:column;align-items:center;}
+.sep-line{width:1px;height:60px;background:linear-gradient(to bottom,rgba(212,175,55,.22),transparent);}
+
+/* ── CTA FRAME ── */
+.cta-frame{position:relative;padding:44px 52px;margin-top:12px;text-align:center;border:1px solid rgba(212,175,55,.12);}
+.cta-frame::before,.cta-frame::after,.cta-frame .corner-bl,.cta-frame .corner-tr{content:'';position:absolute;width:12px;height:12px;border-color:var(--gold-b);border-style:solid;}
+.cta-frame::before{top:-1px;left:-1px;border-width:1px 0 0 1px;}
+.cta-frame::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
+.cta-frame .corner-bl{bottom:-1px;left:-1px;border-width:0 0 1px 1px;}
+.cta-frame .corner-tr{top:-1px;right:-1px;border-width:1px 1px 0 0;}
+.cta-soul{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.2vw,19px);font-style:italic;color:var(--text);line-height:2;margin-bottom:32px;}
+.cta-sub{margin-top:20px;font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;letter-spacing:2px;color:rgba(212,175,55,.3);}
+
+/* ── BOUTONS ── */
+.cta-btn,.form-submit,.conf-back-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:13px;
+  padding:20px 56px;
+  border:1px solid var(--gold-b);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:6px;
+  color:var(--gold);text-decoration:none;text-transform:uppercase;
+  background:transparent;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:color .45s cubic-bezier(.4,0,.2,1),box-shadow .45s;
+  animation:breathe 4s ease-in-out infinite;
+}
+.form-submit{width:100%;padding:19px 40px;margin-top:8px;}
+.conf-back-btn{animation:none;padding:16px 44px;font-size:9px;letter-spacing:5px;
+  color:rgba(212,175,55,.55);border-color:rgba(212,175,55,.35);opacity:0;}
+.cta-btn::before,.form-submit::before,.conf-back-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold-b),var(--gold));
+  transform:translateX(-101%);
+  transition:transform .45s cubic-bezier(.4,0,.2,1);z-index:0;
+}
+.cta-btn span,.form-submit span,.conf-back-btn span{position:relative;z-index:1;white-space:nowrap;}
+.arr{font-size:12px;transition:transform .3s;}
+a.contact-submit,a.contact-submit:visited,a.contact-submit span{text-decoration:none !important;}
+@media(hover:hover){
+  .cta-btn:hover,.form-submit:hover{color:#000;box-shadow:0 0 52px rgba(212,175,55,.32);}
+  .cta-btn:hover::before,.form-submit:hover::before{transform:translateX(0);}
+  .cta-btn:hover .arr,.form-submit:hover .arr{transform:translateX(5px);}
+  .conf-back-btn:hover{color:#000;border-color:var(--gold);}
+  .conf-back-btn:hover::before{transform:translateX(0);}
+}
+.cta-btn:active,.form-submit:active{color:#000;}
+.cta-btn:active::before,.form-submit:active::before{transform:translateX(0);}
+@keyframes breathe{0%,100%{box-shadow:0 0 18px rgba(212,175,55,.08),inset 0 0 20px rgba(212,175,55,.03);}50%{box-shadow:0 0 38px rgba(212,175,55,.22),inset 0 0 30px rgba(212,175,55,.06);}}
+
+/* ── SYSTÈME COMPLET ── */
+.system-block{width:100%;display:flex;flex-direction:column;align-items:center;background:#000;}
+.system-img{width:100%;background:#000;line-height:0;position:relative;}
+.system-img img{width:100%;height:auto;display:block;object-fit:contain;}
+.system-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:18%;background:linear-gradient(to bottom,transparent,#000);pointer-events:none;}
+.system-text{width:100%;max-width:560px;padding:40px 36px 52px;text-align:center;opacity:0;transform:translateY(20px);transition:opacity 1.1s cubic-bezier(.4,0,.2,1),transform 1.1s cubic-bezier(.4,0,.2,1);}
+.system-text.show{opacity:1;transform:translateY(0);}
+.system-title{font-family:'Cinzel',serif;font-size:clamp(16px,2.5vw,24px);font-weight:500;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;text-shadow:0 0 40px rgba(212,175,55,.15);}
+.system-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.1vw,18px);font-style:italic;color:var(--text);line-height:2.1;}
+
+/* ── CE QUE VOUS RECEVEZ ── */
+.receive-section{display:flex;flex-direction:column;align-items:center;background:#000;border-top:1px solid rgba(212,175,55,.06);}
+.receive-img{width:100%;background:#000;line-height:0;position:relative;}
+.receive-img img{width:100%;height:auto;display:block;object-fit:contain;}
+.receive-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:18%;background:linear-gradient(to bottom,transparent,#000);pointer-events:none;}
+.receive-text{width:100%;max-width:620px;padding:48px 36px 72px;text-align:center;opacity:0;transform:translateY(24px);transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);}
+.receive-text.show{opacity:1;transform:translateY(0);}
+.receive-list{list-style:none;margin:24px auto 0;display:flex;flex-direction:column;gap:14px;max-width:380px;}
+.receive-list li{display:flex;align-items:flex-start;gap:12px;font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.1vw,17px);font-style:italic;color:var(--text);line-height:1.7;text-align:left;}
+.receive-list li::before{content:'✦';color:var(--gold-b);font-size:10px;flex-shrink:0;margin-top:3px;}
+
+/* ── FORMULAIRE ── */
+.form-section{background:#000;padding:80px 24px 100px;display:flex;flex-direction:column;align-items:center;border-top:1px solid rgba(212,175,55,.07);}
+.form-header{text-align:center;max-width:560px;margin-bottom:52px;}
+.form-num{font-size:14px;color:var(--gold-b);margin-bottom:14px;animation:breathe 4s ease-in-out infinite;}
+.form-title{font-family:'Cinzel',serif;font-size:clamp(18px,3vw,28px);font-weight:500;letter-spacing:6px;color:var(--gold);text-transform:uppercase;text-shadow:0 0 40px rgba(212,175,55,.15);}
+.form-sub{margin-top:18px;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--text-soft);line-height:1.9;}
+.soul-form{width:100%;max-width:480px;display:flex;flex-direction:column;gap:28px;}
+.field-group{display:flex;flex-direction:column;gap:8px;}
+.field-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:rgba(212,175,55,.92);text-transform:uppercase;margin-bottom:8px;display:block;}
+.field-input{background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,.55);padding:12px 2px;font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(230,225,215,.95);outline:none;transition:border-color .35s, box-shadow .35s;width:100%;color-scheme:dark;}
+.field-input::placeholder{color:rgba(215,208,196,.5);font-style:italic;}
+.field-input:focus{border-bottom-color:rgba(212,175,55,.95);box-shadow:0 2px 12px rgba(212,175,55,.2);color:#fff;}
+.payment-block{border:1px solid rgba(212,175,55,.15);padding:28px 24px 20px;display:flex;flex-direction:column;gap:16px;}
+.payment-header{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:rgba(212,175,55,.85);text-transform:uppercase;text-align:center;}
+.payment-desc{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-soft);text-align:center;line-height:1.8;}
+#stripe-element{min-height:52px;}
+.payment-guarantees{display:flex;flex-direction:column;gap:9px;margin-top:4px;}
+.guarantee-item{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:rgba(212,175,55,.7);text-transform:uppercase;display:flex;align-items:center;gap:9px;}
+.guarantee-item::before{content:'✦';color:var(--gold-b);font-size:8px;flex-shrink:0;}
+.form-legal{font-family:'Cormorant Garamond',serif;font-size:11px;font-style:italic;color:rgba(215,208,196,.25);text-align:center;line-height:1.9;}
+
+/* ─────────────────────────────────────
+   SECTION CONTACT — ANISSA
+───────────────────────────────────── */
+.contact-section{
+  background:#000;
+  border-top:1px solid rgba(212,175,55,.07);
+  display:flex;flex-direction:column;align-items:center;
+}
+/* Image pleine largeur, non recadrée */
+.contact-img{width:100%;line-height:0;position:relative;background:#000;}
+.contact-img img{width:100%;height:auto;display:block;object-fit:contain;}
+.contact-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:20%;background:linear-gradient(to bottom,transparent,#000);pointer-events:none;}
+
+/* Formulaire de contact sous l'image */
+.contact-form-wrap{
+  width:100%;max-width:560px;
+  padding:56px 36px 80px;
+  opacity:0;transform:translateY(24px);
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
+}
+.contact-form-wrap.show{opacity:1;transform:translateY(0);}
+
+.contact-intro{text-align:center;margin-bottom:40px;}
+.contact-intro-title{font-family:'Cinzel',serif;font-size:clamp(16px,2.5vw,22px);font-weight:500;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;text-shadow:0 0 40px rgba(212,175,55,.15);}
+.contact-intro-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2vw,17px);font-style:italic;color:var(--text-soft);line-height:1.9;}
+
+.contact-form{display:flex;flex-direction:column;gap:22px;}
+.contact-field-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.contact-field{display:flex;flex-direction:column;gap:8px;}
+.contact-label{font-family:'Cormorant SC',serif;font-size:9.5px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;}
+.contact-input,.contact-select,.contact-textarea{background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,.2);padding:12px 2px;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--text);outline:none;transition:border-color .35s;width:100%;color-scheme:dark;}
+.contact-input::placeholder,.contact-textarea::placeholder{color:rgba(215,208,196,.28);font-style:italic;}
+.contact-input:focus,.contact-select:focus,.contact-textarea:focus{border-bottom-color:var(--gold);}
+.contact-select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B5010'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;}
+.contact-select option{background:#0a0a0a;color:#D7D0C4;}
+.contact-textarea{resize:vertical;min-height:120px;border:1px solid rgba(212,175,55,.15);padding:14px 12px;border-bottom-width:1px;}
+.contact-textarea:focus{border-color:rgba(212,175,55,.45);}
+.contact-legal{font-family:'Cormorant Garamond',serif;font-size:11px;font-style:italic;color:rgba(215,208,196,.25);text-align:center;line-height:1.9;}
+.contact-submit{display:inline-flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:18px 40px;border:1px solid var(--gold-b);font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);text-decoration:none;text-transform:uppercase;background:transparent;cursor:pointer;position:relative;overflow:hidden;transition:color .4s,box-shadow .4s;}
+.contact-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-b),var(--gold));transform:translateX(-101%);transition:transform .45s cubic-bezier(.4,0,.2,1);z-index:0;}
+.contact-submit:active::before{transform:translateX(0);}
+.contact-submit:active{color:#000;}
+.contact-submit span{position:relative;z-index:1;white-space:nowrap;}
+.contact-submit:hover{color:#000;box-shadow:0 0 40px rgba(212,175,55,.28);}
+.contact-submit:hover::before{transform:translateX(0);}
+
+/* ── CONFIRMATION OVERLAY ── */
+#confirmation{position:fixed;inset:0;background:#000;z-index:8000;display:none;overflow-y:auto;}
+#confirmation.show{display:block;}
+#conf-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.conf-scroll{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:72px 28px 100px;}
+.conf-logo{font-family:'Cinzel Decorative',serif;font-size:13px;letter-spacing:6px;color:var(--gold);display:flex;align-items:center;gap:9px;margin-bottom:72px;opacity:0;text-shadow:0 0 20px rgba(212,175,55,.2);}
+.conf-logo .orn{color:var(--gold-b);font-size:10px;}
+.conf-bloc{width:100%;max-width:520px;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.conf-steplabel{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:7px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:14px;opacity:0;}
+.conf-archive-num{font-family:'Cormorant SC',serif;font-size:11px;letter-spacing:5px;color:var(--gold-b);text-transform:uppercase;margin-top:10px;opacity:0;border:1px solid rgba(212,175,55,.2);padding:7px 20px;display:inline-block;}
+.conf-big{font-family:'Cinzel',serif;font-size:clamp(26px,5vw,46px);font-weight:600;letter-spacing:8px;color:var(--gold);text-transform:uppercase;line-height:1.15;text-shadow:0 0 80px rgba(212,175,55,.5),0 0 140px rgba(212,175,55,.2);opacity:0;}
+.conf-rule{display:flex;align-items:center;gap:14px;margin:26px 0;opacity:0;}
+.conf-rule::before,.conf-rule::after{content:'';display:block;width:52px;height:1px;background:linear-gradient(to right,transparent,var(--gold-b));}
+.conf-rule::after{background:linear-gradient(to left,transparent,var(--gold-b));}
+.conf-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px rgba(212,175,55,.5);}
+.conf-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.2vw,18px);font-weight:300;font-style:italic;color:rgba(215,208,196,.65);line-height:2.1;opacity:0;}
+.conf-vsep{width:1px;height:60px;background:linear-gradient(to bottom,rgba(212,175,55,.22),transparent);margin:40px auto;opacity:0;}
+.conf-checklist{list-style:none;display:flex;flex-direction:column;gap:16px;text-align:left;width:100%;max-width:320px;margin-top:8px;}
+.conf-check{display:flex;align-items:center;gap:14px;font-family:'Cormorant SC',serif;font-size:10.5px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,175,55,.45);opacity:0;transform:translateX(-10px);}
+.conf-check.lit{animation:checkIn .5s forwards;}
+.conf-check-icon{width:18px;height:18px;border:1px solid rgba(212,175,55,.25);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s;}
+.conf-check.lit .conf-check-icon{border-color:var(--gold);background:rgba(212,175,55,.07);}
+.conf-check-icon::after{content:'';display:block;width:5px;height:9px;border-right:1px solid var(--gold);border-bottom:1px solid var(--gold);transform:rotate(45deg) translate(-1px,-2px);opacity:0;transition:opacity .3s .15s;}
+.conf-check.lit .conf-check-icon::after{opacity:1;}
+@keyframes checkIn{from{opacity:0;transform:translateX(-10px);}to{opacity:1;transform:translateX(0);}}
+.conf-final-frame{position:relative;padding:44px 36px;border:1px solid rgba(212,175,55,.12);text-align:center;width:100%;max-width:500px;opacity:0;}
+.cff-corner{position:absolute;width:12px;height:12px;border-color:var(--gold-b);border-style:solid;}
+.cff-tl{top:-1px;left:-1px;border-width:1px 0 0 1px;}
+.cff-tr{top:-1px;right:-1px;border-width:1px 1px 0 0;}
+.cff-bl{bottom:-1px;left:-1px;border-width:0 0 1px 1px;}
+.cff-br{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
+.conf-final-title{font-family:'Cinzel',serif;font-size:clamp(11px,1.6vw,14px);font-weight:500;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;line-height:1.5;}
+.conf-final-body{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.2vw,17px);font-style:italic;color:rgba(215,208,196,.7);line-height:2.1;}
+.conf-final-note{margin-top:16px;font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;line-height:2.3;}
+@keyframes confBreathe{0%,100%{text-shadow:0 0 80px rgba(212,175,55,.35),0 0 140px rgba(212,175,55,.1);}50%{text-shadow:0 0 110px rgba(212,175,55,.65),0 0 200px rgba(212,175,55,.28);}}
+
+/* ── FOOTER ── */
+footer{background:#000;border-top:1px solid rgba(212,175,55,.07);padding:56px 24px 48px;}
+.footer-center{max-width:400px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+.footer-logo-mark{font-family:'Cinzel Decorative',serif;font-size:14px;letter-spacing:5px;color:var(--gold);display:flex;align-items:center;gap:8px;}
+.footer-logo-mark .orn{color:var(--gold-b);font-size:10px;}
+.footer-tagline{font-family:'Cormorant SC',serif;font-size:8px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;}
+
+.footer-email:hover{color:var(--gold);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav{padding:14px 18px;}
+  .nav-links{display:none;}
+  .dots{display:none;}
+  .sep-line{height:36px;}
+  .conf-vsep{height:36px;margin:24px auto;}
+
+  /* Gate — image entière sur mobile, aucun crop */
+  .gate-img img{
+    max-height:none;
+    object-fit:contain;
+    object-position:center center;
+    background:#000;
+  }
+  .gate-text{
+    padding:36px 20px 48px;
+  }
+  .gate-headline{font-size:15px;letter-spacing:4px;margin-bottom:24px;}
+  .gate-items li{font-size:14px;}
+  .gate-close{font-size:9px;}
+
+  /* Chapters */
+  .chapter-text{padding:28px 20px 44px;}
+  .ch-body{font-size:15px;line-height:2.0;}
+  .ch-title{font-size:18px;letter-spacing:4px;}
+  .ch-num,.ch-note{font-size:9px;}
+  .cta-soul{font-size:14px;}
+  .arch-list{grid-template-columns:1fr;gap:12px;}
+  .cta-frame{padding:28px 20px;}
+  .cta-btn{padding:16px 22px;font-size:9px;letter-spacing:3px;}
+
+  /* System */
+  .system-text{padding:22px 20px 36px;}
+  .system-title{font-size:15px;letter-spacing:4px;}
+  /* Receive */
+  .receive-text{padding:24px 20px 40px;}
+  /* Form commande */
+  .form-section{padding:44px 20px 60px;}
+  .form-title{font-size:17px;letter-spacing:4px;}
+  .field-input{font-size:15px;}
+  .form-submit{padding:16px 22px;font-size:9px;letter-spacing:3px;}
+
+  /* Contact */
+  .contact-form-wrap{padding:28px 20px 48px;}
+  .contact-intro{padding-top:8px;}
+  .contact-field-row{grid-template-columns:1fr;}
+  .contact-intro-title{font-size:15px;letter-spacing:4px;}
+
+  /* Confirmation */
+  .conf-scroll{padding:56px 20px 80px;}
+  .conf-logo{font-size:11px;letter-spacing:4px;margin-bottom:52px;}
+  .conf-big{font-size:22px;letter-spacing:5px;}
+  .conf-final-frame{padding:28px 18px;}
+  .conf-back-btn{padding:14px 26px;}
+
+
+}
+
+/* ===== AUDIT MOBILE — LISIBILITÉ ===== */
+@media(max-width:768px){
+  /* Titres principaux */
+  .section-title{font-size:clamp(28px,7vw,44px) !important;letter-spacing:4px;}
+  .hero-title{font-size:clamp(36px,9vw,56px) !important;}
+  .gate-title{font-size:clamp(24px,6vw,38px) !important;}
+  
+  /* Sous-titres */
+  .section-sub,.hero-sub,.gate-sub{font-size:clamp(14px,3.5vw,18px) !important;letter-spacing:2px;}
+  
+  /* Paragraphes */
+  .section-body,.hero-body,.gate-body,.offer-body,.arch-body{font-size:18px !important;line-height:1.85;}
+  
+  /* Textes descriptifs */
+  .contact-intro-sub,.offer-label,.arch-label{font-size:17px !important;}
+  
+  /* Labels et listes */
+  .offer-item,.arch-item,.receive-item{font-size:17px !important;}
+  .contact-label{font-size:14px !important;letter-spacing:3px;}
+  
+  /* Boutons plus grands */
+  .cta-btn,.form-submit{padding:22px 40px !important;font-size:11px !important;letter-spacing:5px;}
+  .contact-submit{padding:22px 40px !important;font-size:11px !important;}
+  
+  /* Formulaire */
+  .contact-input,.contact-select,.contact-textarea{
+    padding:16px 18px !important;
+    font-size:16px !important;
+    min-height:52px;
+  }
+  .contact-textarea{min-height:140px;}
+  .contact-label{font-size:13px !important;letter-spacing:3px;margin-bottom:10px !important;}
+  
+  /* Aération générale */
+  .section-wrap{padding:80px 20px !important;}
+  .contact-form-wrap{padding:40px 20px 60px !important;}
+}
+
+@media(max-width:480px){
+  .section-title{font-size:26px !important;}
+  .hero-title{font-size:32px !important;}
+  .section-body,.hero-body{font-size:18px !important;}
+  .cta-btn,.form-submit,.contact-submit{font-size:10px !important;padding:20px 32px !important;}
+}
+
+/* Section Anissa fondatrice */
+.anissa-section{display:flex;flex-direction:column;align-items:center;padding:80px 24px 48px;gap:48px;max-width:900px;margin:0 auto;}
+.anissa-img-wrap{width:100%;max-width:480px;}
+.anissa-portrait{width:100%;max-width:100%;display:block;border:1px solid rgba(212,175,55,.2);object-fit:cover;}
+.anissa-text{text-align:center;max-width:560px;}
+.anissa-label{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin:0 0 16px;}
+.anissa-title{font-family:'Cinzel Decorative',serif;font-size:clamp(22px,5vw,36px);letter-spacing:6px;color:var(--gold);margin:0 0 8px;line-height:1.3;}
+.anissa-sub{font-family:'Cinzel',serif;font-size:clamp(11px,2.5vw,14px);letter-spacing:4px;color:rgba(212,175,55,.6);display:block;margin-top:8px;}
+.anissa-body{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,22px);font-style:italic;color:rgba(215,208,196,.85);line-height:1.8;margin:0 0 24px;}
+.anissa-bold{font-family:'Cinzel',serif;font-size:clamp(16px,2.5vw,20px);letter-spacing:5px;color:var(--gold);margin:0 0 24px;}
+@media(min-width:768px){
+  .anissa-section{flex-direction:row;align-items:flex-start;padding:100px 48px 64px;}
+  .anissa-img-wrap{flex:0 0 45%;}
+  .anissa-text{text-align:left;}
+}
+
+/* ===== SECTION LIVRE-SERRURE ===== */
+.serrure-section{
+  position:relative;
+  padding:80px 24px 100px;
+  overflow:hidden;
+  background:radial-gradient(ellipse at center, rgba(212,175,55,.04) 0%, transparent 70%);
+}
+.serrure-inner{
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:60px;
+}
+.serrure-inner-simple{
+  max-width:800px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:48px;
+}
+.serrure-btn-wrap{
+  display:flex;
+  justify-content:center;
+  width:100%;
+}
+.serrure-img-wrap{
+  position:relative;
+  width:100%;
+  max-width:700px;
+}
+.serrure-img{
+  width:100%;
+  display:block;
+  border:1px solid rgba(212,175,55,.15);
+  box-shadow:0 0 80px rgba(212,175,55,.12), 0 0 160px rgba(212,175,55,.06);
+}
+.serrure-particles{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 50% 60%, rgba(212,175,55,.08) 0%, transparent 60%);
+  animation:serrure-breathe 4s ease-in-out infinite;
+}
+@keyframes serrure-breathe{
+  0%,100%{opacity:.6;}
+  50%{opacity:1;}
+}
+.serrure-text{
+  text-align:center;
+  max-width:560px;
+}
+.serrure-title{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(26px,5vw,42px);
+  letter-spacing:6px;
+  color:var(--gold);
+  line-height:1.25;
+  margin:0 0 20px;
+  text-shadow:0 0 40px rgba(212,175,55,.3);
+}
+.serrure-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,2.5vw,22px);
+  font-style:italic;
+  color:rgba(215,208,196,.7);
+  margin:0 0 32px;
+  letter-spacing:1px;
+}
+.serrure-list{
+  margin:0 0 32px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.serrure-list p{
+  font-family:'Cinzel',serif;
+  font-size:clamp(12px,2vw,14px);
+  letter-spacing:4px;
+  color:rgba(212,175,55,.75);
+  margin:0;
+  text-transform:uppercase;
+}
+.serrure-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,2.5vw,21px);
+  font-style:italic;
+  color:rgba(215,208,196,.8);
+  line-height:1.9;
+  margin:0 0 48px;
+}
+/* Bouton serrure */
+.serrure-btn{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  padding:0;
+}
+.serrure-btn-inner{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  padding:20px 56px;
+  border:1px solid var(--gold-b);
+  font-family:'Cinzel',serif;
+  font-size:11px;
+  letter-spacing:6px;
+  color:var(--gold);
+  text-transform:uppercase;
+  position:relative;
+  z-index:1;
+  transition:color .45s, box-shadow .45s;
+  animation:breathe 4s ease-in-out infinite;
+}
+.serrure-key-icon{
+  font-size:16px;
+  animation:key-rotate 3s ease-in-out infinite;
+}
+@keyframes key-rotate{
+  0%,100%{transform:rotate(-10deg);}
+  50%{transform:rotate(10deg);}
+}
+.serrure-halo{
+  position:absolute;
+  inset:-8px;
+  border:1px solid rgba(212,175,55,.2);
+  animation:halo-pulse 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes halo-pulse{
+  0%,100%{opacity:.3;transform:scale(1);}
+  50%{opacity:.8;transform:scale(1.02);}
+}
+@media(hover:hover){
+  .serrure-btn:hover .serrure-btn-inner{
+    color:#000;
+    background:var(--gold);
+    box-shadow:0 0 60px rgba(212,175,55,.4);
+  }
+  .serrure-btn:hover .serrure-halo{
+    opacity:1;
+    border-color:var(--gold);
+  }
+}
+.serrure-btn:active .serrure-btn-inner{
+  color:#000;
+  background:rgba(212,175,55,.3);
+}
+@media(min-width:900px){
+  .serrure-inner{
+    flex-direction:row;
+    align-items:center;
+  }
+  .serrure-img-wrap{flex:0 0 52%;}
+  .serrure-text{text-align:left;}
+  .serrure-list{align-items:flex-start;}
+}
+
+/* ===== LISTE NARRATIVE DOSSIER ===== */
+.receive-title{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(18px,3.5vw,28px);
+  letter-spacing:5px;
+  color:var(--gold);
+  text-align:center;
+  margin:20px 0 0;
+  line-height:1.4;
+}
+.receive-narrative-list{
+  list-style:none;
+  padding:0;
+  margin:0 0 36px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  text-align:left;
+  max-width:440px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.receive-narrative-list li{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(17px,2.5vw,20px);
+  font-style:italic;
+  color:rgba(215,208,196,.85);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  letter-spacing:.5px;
+}
+.rn-star{
+  color:var(--gold);
+  font-size:14px;
+  flex-shrink:0;
+  opacity:.8;
+}
+.receive-narrative-sub{
+  font-family:'Cinzel',serif;
+  font-size:clamp(11px,2vw,13px);
+  letter-spacing:4px;
+  color:rgba(212,175,55,.6);
+  text-align:center;
+  text-transform:uppercase;
+  margin:0;
+  line-height:1.8;
+}
+
+/* ===== BOUTON SERRURE AMÉLIORÉ ===== */
+.serrure-btn-inner{
+  position:relative;
+}
+/* Particules autour de la clé */
+.serrure-key-icon{
+  font-size:18px;
+  animation:key-rotate 3s ease-in-out infinite, key-glow 2s ease-in-out infinite;
+  display:inline-block;
+  filter:drop-shadow(0 0 6px rgba(212,175,55,.6));
+}
+@keyframes key-glow{
+  0%,100%{filter:drop-shadow(0 0 4px rgba(212,175,55,.4));}
+  50%{filter:drop-shadow(0 0 12px rgba(212,175,55,.9));}
+}
+/* Ombre lumineuse sous le bouton */
+.serrure-btn{
+  filter:drop-shadow(0 8px 24px rgba(212,175,55,.15));
+  transition:filter .4s;
+}
+.serrure-btn:hover{
+  filter:drop-shadow(0 8px 40px rgba(212,175,55,.35));
+}
+
+/* ===== EFFET CLIC TOURNER LA CLÉ ===== */
+.key-click-active .serrure-key-icon{
+  animation:key-turn 1.5s cubic-bezier(.4,0,.2,1) forwards !important;
+}
+.key-click-active .serrure-btn-inner{
+  animation:btn-light 1.5s ease-out forwards;
+}
+@keyframes key-turn{
+  0%{transform:rotate(-10deg);filter:drop-shadow(0 0 4px rgba(212,175,55,.4));}
+  30%{transform:rotate(180deg);filter:drop-shadow(0 0 20px rgba(212,175,55,1));}
+  60%{transform:rotate(360deg);filter:drop-shadow(0 0 30px rgba(255,220,100,1));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,175,55,.6));}
+}
+@keyframes btn-light{
+  0%{box-shadow:none;}
+  40%{box-shadow:0 0 0 4px rgba(212,175,55,.3), 0 0 40px rgba(212,175,55,.4);}
+  100%{box-shadow:none;}
+}
+
+/* ===== PORTAIL RÉDUIT ===== */
+
+
+/* ===== TRANSITION AVANT FORMULAIRE ===== */
+.form-transition{
+  padding:28px 24px;
+  text-align:center;
+}
+.ft-inner{
+  max-width:600px;
+  margin:0 auto;
+}
+.ft-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(13px,2.5vw,16px);
+  letter-spacing:6px;
+  color:var(--gold);
+  margin:20px 0 16px;
+  text-transform:uppercase;
+}
+.ft-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(17px,2.5vw,20px);
+  font-style:italic;
+  color:rgba(215,208,196,.7);
+  line-height:1.8;
+  margin:0;
+}
+
+/* ===== BOUTON OUVRIR MON DOSSIER — glow hover ===== */
+.cta-btn:hover{
+  box-shadow:0 0 40px rgba(212,175,55,.25), 0 0 80px rgba(212,175,55,.1) !important;
+}
+
+/* ===== NAV FADE ===== */
+nav.nav-dimmed{opacity:.28 !important;}
+nav.nav-bright{opacity:1 !important;}
+
+/* ===== FORMULAIRE — LISIBILITÉ AMÉLIORÉE ===== */
+.contact-label{
+  color:rgba(212,175,55,.9) !important;
+  font-size:12px;
+  letter-spacing:4px;
+}
+.contact-input,.contact-select,.contact-textarea{
+  border-bottom:1px solid rgba(212,175,55,.5) !important;
+  color:rgba(215,208,196,.95) !important;
+}
+.contact-input::placeholder,.contact-textarea::placeholder{
+  color:rgba(215,208,196,.45) !important;
+  font-style:italic;
+}
+.contact-input:focus,.contact-textarea:focus{
+  border-bottom-color:var(--gold) !important;
+}
+/* Réduire espacements section Anissa */
+.anissa-section{gap:36px !important;}
+.anissa-body{margin-bottom:14px !important;}
+.anissa-bold{margin-bottom:14px !important;}
+
+/* ===== FORMULAIRE COMMANDE — LISIBILITÉ MAXIMALE ===== */
+
+/* Labels — or lumineux, visible */
+.form-label{
+  color:rgba(212,175,55,.95) !important;
+  font-size:11px !important;
+  letter-spacing:4px !important;
+  text-shadow:0 0 12px rgba(212,175,55,.2);
+}
+
+/* Inputs — ligne plus lumineuse */
+.form-input,.form-select{
+  border-bottom:1px solid rgba(212,175,55,.6) !important;
+  color:rgba(230,225,215,.95) !important;
+  font-size:16px !important;
+  background:transparent !important;
+}
+
+/* Placeholders — ivoire clair visible */
+.form-input::placeholder{
+  color:rgba(215,208,196,.55) !important;
+  font-style:italic;
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;
+}
+.form-select option{
+  background:#000;
+  color:rgba(215,208,196,.9);
+}
+
+/* Focus — lueur dorée activation */
+.form-input:focus,.form-select:focus{
+  border-bottom:1px solid rgba(212,175,55,.95) !important;
+  box-shadow:0 2px 12px rgba(212,175,55,.2) !important;
+  outline:none;
+  color:#fff !important;
+}
+
+/* Formulaire contact — même traitement */
+.contact-input,.contact-select,.contact-textarea{
+  border-bottom:1px solid rgba(212,175,55,.55) !important;
+  color:rgba(230,225,215,.95) !important;
+  font-size:16px !important;
+}
+.contact-input::placeholder,.contact-textarea::placeholder{
+  color:rgba(215,208,196,.5) !important;
+  font-style:italic;
+}
+.contact-input:focus,.contact-textarea:focus,.contact-select:focus{
+  border-bottom-color:rgba(212,175,55,.95) !important;
+  box-shadow:0 2px 12px rgba(212,175,55,.18) !important;
+  outline:none;
+}
+.contact-label{
+  color:rgba(212,175,55,.92) !important;
+  font-size:11px !important;
+  letter-spacing:4px !important;
+}
+
+/* ===== PRÉNOM ANISSA — CALLIGRAPHIE MANUSCRIT ANCIEN ===== */
+.anissa-title{
+  margin-bottom:24px !important;
+  padding:8px 0;
+}
+/* Le prénom — signature de registre ancien */
+.anissa-first-name{
+  font-family:'Pinyon Script', 'Alex Brush', cursive;
+  font-weight:400;
+  font-size:clamp(64px, 12vw, 108px) !important;
+  letter-spacing:3px;
+  color:transparent;
+  background:linear-gradient(135deg, #C9A227 0%, #F0D875 30%, #D4AF37 55%, #A07820 80%, #D4AF37 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  display:block;
+  margin-bottom:4px;
+  line-height:1.15;
+  text-shadow:none;
+  filter:drop-shadow(0 0 16px rgba(212,175,55,.3));
+  /* Empêcher le lissage brutal sur mobile */
+  -webkit-font-smoothing:antialiased;
+}
+.anissa-sub{
+  font-family:'Cinzel', serif !important;
+  font-size:clamp(9px, 1.8vw, 11px) !important;
+  letter-spacing:6px !important;
+  color:rgba(212,175,55,.5) !important;
+  text-transform:uppercase;
+}
+
+/* ===== FORMULAIRE COMMANDE — ALIGNEMENT PARFAIT AVEC FORMULAIRE CONTACT ===== */
+/* Supprimer les anciennes règles insuffisantes et réécrire proprement */
+
+/* Labels formulaire commande — identiques au contact */
+.form-label{
+  display:block;
+  font-family:'Cinzel', serif;
+  font-size:11px !important;
+  letter-spacing:4px !important;
+  color:rgba(212,175,55,.92) !important;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  font-weight:400;
+}
+
+/* Champs input commande — identiques au contact */
+.form-input{
+  width:100%;
+  background:transparent !important;
+  border:none !important;
+  border-bottom:1px solid rgba(212,175,55,.55) !important;
+  color:rgba(230,225,215,.95) !important;
+  font-family:'Cormorant Garamond', serif;
+  font-size:16px !important;
+  padding:10px 0 10px !important;
+  outline:none;
+  transition:border-color .3s, box-shadow .3s;
+  -webkit-appearance:none;
+}
+.form-input::placeholder{
+  color:rgba(215,208,196,.5) !important;
+  font-style:italic;
+  font-size:15px;
+}
+.form-input:focus{
+  border-bottom:1px solid rgba(212,175,55,.95) !important;
+  box-shadow:0 2px 12px rgba(212,175,55,.18) !important;
+  color:#fff !important;
+}
+
+/* Select commande */
+.form-select{
+  width:100%;
+  background:#000 !important;
+  border:none !important;
+  border-bottom:1px solid rgba(212,175,55,.55) !important;
+  color:rgba(230,225,215,.9) !important;
+  font-family:'Cormorant Garamond', serif;
+  font-size:16px !important;
+  padding:10px 0 10px !important;
+  outline:none;
+  cursor:pointer;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.form-select:focus{
+  border-bottom-color:rgba(212,175,55,.95) !important;
+}
+.form-select option{
+  background:#0a0a0a;
+  color:rgba(215,208,196,.9);
+}
+
+/* ===== ARTEFACT CLÉ — SOULSCRIPT ===== */
+.serrure-light{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:0;height:0;
+  border-radius:50%;
+  background:radial-gradient(ellipse, rgba(255,220,80,.7) 0%, rgba(212,175,55,.3) 40%, transparent 70%);
+  opacity:0;
+  pointer-events:none;
+  transition:all .8s cubic-bezier(.4,0,.2,1);
+  z-index:2;
+}
+.serrure-light.active{
+  width:60%;
+  height:60%;
+  opacity:.85;
+}
+
+.serrure-artefact{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0;
+  padding:20px 0 8px;
+  text-align:center;
+}
+
+.artefact-text-top{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,2.5vw,19px);
+  font-style:italic;
+  color:rgba(215,208,196,.6);
+  margin:0 0 6px;
+  letter-spacing:.5px;
+}
+.artefact-text-top.artefact-text-light{
+  color:rgba(215,208,196,.4);
+  margin-bottom:36px;
+}
+
+/* La clé — artefact principal */
+.artefact-key-wrap{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:80px;height:80px;
+  cursor:pointer;
+  margin-bottom:20px;
+  -webkit-tap-highlight-color:transparent;
+}
+.artefact-key-glow{
+  position:absolute;
+  inset:-12px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(212,175,55,.12) 0%, transparent 70%);
+  opacity:0;
+  transition:opacity .4s;
+  pointer-events:none;
+}
+.artefact-key-icon{
+  font-size:44px;
+  display:block;
+  animation:artefact-key-idle 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 6px rgba(212,175,55,.3));
+  transition:transform .3s, filter .3s;
+  user-select:none;
+}
+@keyframes artefact-key-idle{
+  0%,100%{transform:rotate(-8deg) scale(1);}
+  50%{transform:rotate(8deg) scale(1.04);}
+}
+
+/* Hover */
+@media(hover:hover){
+  .artefact-key-wrap:hover .artefact-key-icon{
+    filter:drop-shadow(0 0 18px rgba(212,175,55,.8));
+    transform:scale(1.12);
+    animation:none;
+  }
+  .artefact-key-wrap:hover .artefact-key-glow{
+    opacity:1;
+  }
+}
+/* Mobile tap */
+.artefact-key-wrap:active .artefact-key-icon{
+  filter:drop-shadow(0 0 24px rgba(255,220,80,1));
+  transform:scale(1.08);
+}
+
+/* Clic — rotation */
+.artefact-key-wrap.key-turning .artefact-key-icon{
+  animation:key-turn-full 1.4s cubic-bezier(.4,0,.2,1) forwards !important;
+  filter:drop-shadow(0 0 28px rgba(255,220,80,1)) !important;
+}
+@keyframes key-turn-full{
+  0%{transform:rotate(-8deg) scale(1);}
+  20%{transform:rotate(90deg) scale(1.15);}
+  50%{transform:rotate(270deg) scale(1.2);}
+  80%{transform:rotate(400deg) scale(1.1);}
+  100%{transform:rotate(360deg) scale(1);}
+}
+
+/* Particules au clic */
+.artefact-key-wrap.key-turning .artefact-key-glow{
+  animation:glow-burst .8s ease-out forwards;
+}
+@keyframes glow-burst{
+  0%{opacity:0;transform:scale(1);}
+  30%{opacity:1;transform:scale(1.5);}
+  100%{opacity:0;transform:scale(2.5);}
+}
+
+.artefact-cta-label{
+  font-family:'Cinzel',serif;
+  font-size:clamp(10px,2vw,12px);
+  letter-spacing:6px;
+  color:rgba(212,175,55,.55);
+  text-transform:uppercase;
+  margin:0 0 28px;
+  transition:color .3s;
+}
+.artefact-key-wrap:hover ~ .artefact-cta-label{
+  color:rgba(212,175,55,.9);
+}
+
+.artefact-text-bottom{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,2.2vw,17px);
+  font-style:italic;
+  color:rgba(215,208,196,.45);
+  margin:0 0 4px;
+  letter-spacing:.3px;
+}
+.artefact-text-bottom.artefact-text-light{
+  color:rgba(215,208,196,.3);
+}
+
+/* Artefact compact */
+.serrure-artefact{gap:0 !important;padding:16px 0 4px !important;}
+.artefact-text-top{margin:0 0 18px !important;}
+.artefact-key-wrap{margin-bottom:14px !important;width:64px !important;height:100px !important;}
+.artefact-key-svg{width:54px;height:90px;display:block;
+  animation:artefact-key-idle 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 8px rgba(212,175,55,.35));
+  transition:filter .3s;}
+.artefact-key-wrap:hover .artefact-key-svg{
+  filter:drop-shadow(0 0 20px rgba(212,175,55,.85)) !important;
+  animation:none;
+}
+.artefact-key-wrap.key-turning .artefact-key-svg{
+  animation:key-turn-full 1.4s cubic-bezier(.4,0,.2,1) forwards !important;
+  filter:drop-shadow(0 0 28px rgba(255,220,80,1)) !important;
+}
+.artefact-cta-label{
+  font-size:clamp(11px,2vw,14px) !important;
+  letter-spacing:5px !important;
+  margin-bottom:16px !important;
+}
+.artefact-key-wrap:hover + .artefact-cta-label,
+.artefact-key-wrap:hover ~ .artefact-cta-label{
+  color:rgba(212,175,55,.95) !important;
+  text-shadow:0 0 12px rgba(212,175,55,.3);
+}
+.artefact-text-bottom{margin:0 !important;}
+
+/* Anissa text-only — minimaliste premium */
+.anissa-text-only{
+  justify-content:center !important;
+  padding:48px 24px 36px !important;
+}
+.anissa-text-only .anissa-text{
+  text-align:center !important;
+  max-width:520px;
+  margin:0 auto;
+}
+
+/* SERRURE OVERLAYS */
+.serrure-img-wrap{position:relative;overflow:hidden;}
+.sl-overlay{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s ease;z-index:2;}
+#sl-glow-1{background:radial-gradient(ellipse 40% 30% at 52% 45%,rgba(212,175,55,.55) 0%,rgba(180,120,20,.25) 40%,transparent 70%);}
+#sl-glow-2{background:radial-gradient(ellipse 60% 50% at 52% 45%,rgba(255,220,80,.7) 0%,rgba(212,175,55,.35) 45%,transparent 72%);}
+.sl-flash{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 52% 45%,rgba(255,240,140,.9) 0%,rgba(212,175,55,.5) 50%,transparent 75%);opacity:0;z-index:3;transition:opacity .25s ease;}
+.sl-particles-canvas{position:absolute;inset:0;pointer-events:none;z-index:4;opacity:0;transition:opacity .4s;}
+/* CLE SVG */
+.artefact-key-svg{
+  width:110px;height:auto;display:block;
+  transform-origin:50% 18%;
+  animation:key-idle 4s ease-in-out infinite;
+  filter:drop-shadow(0 0 8px rgba(212,175,55,.45));
+  transition:filter .4s;will-change:transform;overflow:visible;
+}
+@keyframes key-idle{0%,100%{transform:rotate(-7deg);}50%{transform:rotate(7deg);}}
+@media(hover:hover){
+  .artefact-key-wrap:hover .artefact-key-svg{animation:key-hover-pulse 1.2s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(212,175,55,.85));}
+  .artefact-key-wrap:hover .artefact-key-glow{opacity:1;}
+  .artefact-key-wrap:hover ~ .artefact-cta-label{color:rgba(212,175,55,.95);text-shadow:0 0 10px rgba(212,175,55,.25);}
+}
+@keyframes key-hover-pulse{0%,100%{transform:rotate(-7deg) scale(1.05);}50%{transform:rotate(7deg) scale(1.08);}}
+.artefact-key-svg.key-s1{animation:key-turn-s1 .5s cubic-bezier(.4,0,.2,1) forwards!important;filter:drop-shadow(0 0 22px rgba(212,175,55,.9))!important;}
+@keyframes key-turn-s1{0%{transform:rotate(-7deg);}100%{transform:rotate(160deg);}}
+.artefact-key-svg.key-s2{animation:key-turn-s2 .6s cubic-bezier(.4,0,.2,1) forwards!important;}
+@keyframes key-turn-s2{0%{transform:rotate(160deg);}100%{transform:rotate(360deg) scale(1.04);}}
+/* Ring */
+.artefact-key-glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,.15) 0%,transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none;}
+/* Particules cle */
+.key-particles-wrap{position:absolute;inset:-20px;pointer-events:none;overflow:visible;}
+.kp{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(212,175,55,.8);opacity:0;animation:kp-float var(--d,1.2s) var(--delay,0s) ease-out forwards;}
+@keyframes kp-float{0%{opacity:0;transform:translate(0,0) scale(0);}20%{opacity:1;transform:translate(var(--tx,8px),var(--ty,-8px)) scale(1);}100%{opacity:0;transform:translate(calc(var(--tx,8px)*2.5),calc(var(--ty,-8px)*2.5)) scale(0.3);}}
+/* Label */
+.artefact-cta-label{font-size:clamp(11px,2vw,13px);letter-spacing:6px;color:rgba(212,175,55,.55);text-transform:uppercase;margin:0 0 16px;transition:color .3s,text-shadow .3s;}
+/* Compact */
+.serrure-artefact{gap:0!important;padding:14px 0 4px!important;}
+.artefact-text-top{margin:0 0 14px!important;}
+.artefact-key-wrap{position:relative;width:125px;height:200px;margin-bottom:16px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;overflow:visible;}
+.artefact-text-bottom{margin:0!important;}
+
+/* Ambiance form — poussière lumineuse */
+.form-ambiance{
+  position:relative;
+  height:40px;
+  margin:8px 0 4px;
+  overflow:visible;
+  pointer-events:none;
+}
+.form-dust-canvas{
+  position:absolute;
+  left:50%;transform:translateX(-50%);
+  width:320px;height:60px;
+  top:-10px;
+  pointer-events:none;
+}
+/* Garanties — plus aérées */
+.payment-guarantees{
+  display:flex;flex-direction:column;gap:11px;
+  margin-bottom:28px;
+  margin-top:4px;
+}
+.guarantee-item{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;
+  color:rgba(212,175,55,.72)!important;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;
+}
+.guarantee-item::before{
+  content:"\2726";
+  color:var(--gold-b);font-size:8px;flex-shrink:0;
+}
+
+/* ===== SECTION DOSSIER PERSONNEL ===== */
+.receive-sub-label{
+  font-family:'Cormorant SC',serif;
+  font-size:clamp(12px,2vw,14px);
+  letter-spacing:5px;
+  color:rgba(212,175,55,.55);
+  text-transform:uppercase;
+  margin:8px 0 0;
+  text-align:center;
+}
+.invest-divider{
+  font-family:Georgia,serif;
+  font-size:20px;
+  color:rgba(212,175,55,.35);
+  text-align:center;
+  margin:32px auto 28px;
+  letter-spacing:8px;
+  display:block;
+}
+.invest-label{
+  font-family:'Cinzel',serif;
+  font-size:clamp(11px,2vw,13px);
+  letter-spacing:7px;
+  color:rgba(212,175,55,.6);
+  text-transform:uppercase;
+  text-align:center;
+  margin:0 0 16px;
+}
+.invest-price{
+  font-family:'Cormorant Upright','Cormorant Garamond',serif;
+  font-size:clamp(52px,9vw,76px);
+  font-weight:300;
+  color:transparent;
+  background:linear-gradient(135deg,#F5E68A 0%,#D4AF37 40%,#A07820 70%,#D4AF37 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-align:center;
+  margin:0 0 20px;
+  line-height:1;
+  filter:drop-shadow(0 0 16px rgba(212,175,55,.25));
+  letter-spacing:2px;
+}
+.invest-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,2.5vw,18px);
+  font-style:italic;
+  color:rgba(215,208,196,.6);
+  text-align:center;
+  margin:0 0 20px;
+}
+.invest-body{
+  display:flex;flex-direction:column;gap:2px;
+  margin:0 0 16px;
+  text-align:center;
+}
+.invest-body p{
+  font-family:'Cinzel',serif;
+  font-size:clamp(11px,2vw,13px);
+  letter-spacing:5px;
+  color:rgba(212,175,55,.7);
+  text-transform:uppercase;
+  margin:0;
+}
+.invest-details{
+  display:flex;flex-direction:column;gap:6px;
+  margin:0 0 24px;
+  text-align:center;
+}
+.invest-details p{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,2.2vw,17px);
+  font-style:italic;
+  color:rgba(215,208,196,.5);
+  margin:0;
+}
+
+/* Bloc transition mini sous email */
+.form-ambiance{position:relative;margin:0 0 8px;}
+.form-transition-mini{
+  text-align:center;
+  padding:8px 0 12px;
+}
+.ftm-icon{
+  font-size:14px;color:rgba(212,175,55,.5);
+  display:block;margin-bottom:8px;
+}
+.ftm-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(14px,2.2vw,16px);
+  font-style:italic;
+  color:rgba(215,208,196,.5);
+  line-height:1.7;
+  margin:0;
+}
+
+/* Footer signature marque */
+footer{background:#000;border-top:1px solid rgba(212,175,55,.1);padding:72px 24px 64px;}
+.footer-center{max-width:480px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;}
+.footer-emblem{
+  font-size:28px;
+  color:rgba(212,175,55,.6);
+  margin-bottom:4px;
+  animation:breathe 4s ease-in-out infinite;
+}
+.footer-logo-main{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(24px,5vw,38px);
+  letter-spacing:10px;
+  color:var(--gold);
+  text-shadow:0 0 30px rgba(212,175,55,.2);
+  margin:0;
+}
+.footer-sub{
+  font-family:'Cinzel',serif;
+  font-size:clamp(10px,2vw,12px);
+  letter-spacing:7px;
+  color:rgba(212,175,55,.5);
+  text-transform:uppercase;
+  margin:0;
+}
+.footer-rule{
+  width:48px;height:1px;
+  background:rgba(212,175,55,.25);
+  position:relative;
+  margin:4px auto;
+}
+.footer-diamond{
+  width:6px;height:6px;
+  background:rgba(212,175,55,.5);
+  transform:rotate(45deg);
+  position:absolute;
+  top:-2.5px;left:21px;
+}
+.footer-phrase{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,2.5vw,17px);
+  font-style:italic;
+  color:rgba(215,208,196,.4);
+  line-height:1.7;
+  margin:0;
+}
+
+.footer-email:hover{color:var(--gold);}
+.footer-copy{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;
+  color:rgba(215,208,196,.2);
+  margin:0;
+  letter-spacing:2px;
+}
+
+
+
+.footer-email{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(12px,2vw,14px);
+  font-style:italic;
+  letter-spacing:0.5px;
+  color:rgba(212,175,55,.45);
+  text-decoration:none;
+  text-transform:none;
+  transition:color .3s;
+}
+.footer-email:hover{color:rgba(212,175,55,.75);}
+
+/* ── FOOTER MENTIONS LÉGALES ── */
+.footer-legal-block{margin-top:36px;width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;}
+.footer-legal-rule{width:60px;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,.25),transparent);}
+.footer-legal-title{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:5px;color:rgba(212,175,55,.35);text-transform:uppercase;}
+.footer-legal-text{font-family:'Cormorant Garamond',serif;font-size:10px;font-style:normal;color:rgba(215,208,196,.18);line-height:1.9;letter-spacing:.3px;}
+.footer-legal-text strong{font-family:'Cormorant SC',serif;font-size:8px;letter-spacing:3px;color:rgba(212,175,55,.2);text-transform:uppercase;font-weight:500;display:block;margin-bottom:4px;}
+.footer-legal-link{color:rgba(212,175,55,.3);text-decoration:none;transition:color .3s;}
+.footer-legal-link:hover{color:rgba(212,175,55,.6);}
+
+/* ═══════════════════════════════════
+   RESPONSIVE MOBILE — SOULSCRIPT v57
+   ═══════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Supprimer les max-width restrictifs */
+  .chapter-text, .section-wrap,
+  .receive-section, .receive-text,
+  .form-section, .form-wrap,
+  .contact-section, .contact-form-wrap,
+  .serrure-section, .serrure-inner-simple,
+  .anissa-text-only, .anissa-text,
+  .form-transition, .ft-inner {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Padding latéral : 20px max */
+  .chapter-text, .receive-text, .receive-section,
+  .form-section, .contact-section,
+  .serrure-section, .anissa-text-only,
+  .form-transition {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Wrappers intérieurs sans padding redondant */
+  .form-wrap, .contact-form-wrap, .anissa-text,
+  .ft-inner, .serrure-inner-simple {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Images plein écran */
+  .chapter-img img,
+  .serrure-img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Livre : 92% largeur */
+  .serrure-img-wrap {
+    width: 92vw !important;
+    max-width: 92vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Titres h1/h2 */
+  .section-title, .ch-title, .receive-title,
+  .anissa-first-name, .form-title, .contact-intro-title,
+  .invest-label, .serrure-title {
+    font-size: clamp(22px, 7vw, 36px) !important;
+  }
+
+  /* Prix */
+  .invest-price {
+    font-size: clamp(52px, 13vw, 72px) !important;
+  }
+
+  /* Corps de texte, listes */
+  .section-body, .ch-body, .anissa-body,
+  .artefact-text-top, .artefact-text-bottom,
+  .invest-sub, .invest-details p,
+  .footer-phrase, .contact-intro-sub,
+  .form-sub, .receive-narrative-sub {
+    font-size: clamp(16px, 4.2vw, 20px) !important;
+    line-height: 1.75 !important;
+  }
+
+  /* Listes */
+  .receive-narrative-list li {
+    font-size: clamp(16px, 4.2vw, 19px) !important;
+    gap: 12px !important;
+  }
+
+  /* Invest body */
+  .invest-body p {
+    font-size: clamp(11px, 3vw, 13px) !important;
+  }
+
+  /* Formulaire commande — champs larges */
+  .field-group { margin-bottom: 20px !important; }
+  .field-label {
+    font-size: 12px !important;
+    letter-spacing: 3px !important;
+  }
+  .field-input, .field-select {
+    font-size: 16px !important;
+    padding: 12px 2px !important;
+    width: 100% !important;
+  }
+
+  /* Formulaire contact */
+  .contact-input, .contact-select, .contact-textarea {
+    font-size: 16px !important;
+    padding: 12px 0 !important;
+  }
+  .contact-label { font-size: 11px !important; }
+
+  /* Boutons pleine largeur */
+  .cta-btn, .form-submit, .contact-submit {
+    width: 100% !important;
+    min-height: 54px !important;
+    font-size: 11px !important;
+    letter-spacing: 5px !important;
+    padding: 18px 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Garanties */
+  .guarantee-item {
+    font-size: 11px !important;
+    letter-spacing: 2px !important;
+  }
+
+  /* Nav */
+  nav { padding: 14px 20px !important; }
+
+  /* Footer */
+  footer { padding: 56px 20px 48px !important; }
+  .footer-center { max-width: 100% !important; }
+  .footer-logo-main {
+    font-size: clamp(24px, 7vw, 34px) !important;
+    letter-spacing: 6px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .serrure-img-wrap {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+  .chapter-text, .receive-section,
+  .form-section, .contact-section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* Bouton Révéler Mon Dossier — mobile */
+@media (max-width: 768px) {
+  .form-submit {
+    white-space: normal !important;
+    text-align: center !important;
+    justify-content: center !important;
+    line-height: 1.4 !important;
+    padding: 16px 12px !important;
+  }
+  .form-submit span:first-child {
+    white-space: normal !important;
+    text-align: center !important;
+    word-break: keep-all !important;
+  }
+  .form-submit .arr {
+    display: none !important;
+  }
+}
+
+/* Bouton Envoyer le Message — mobile */
+@media (max-width: 768px) {
+  .contact-submit {
+    white-space: normal !important;
+    text-align: center !important;
+    justify-content: center !important;
+    line-height: 1.4 !important;
+    padding: 16px 12px !important;
+  }
+  .contact-submit span:first-child {
+    white-space: normal !important;
+    text-align: center !important;
+    word-break: keep-all !important;
+  }
+  .contact-submit .arr {
+    display: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<canvas id="dust"></canvas>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="l-emblem">
+    <span class="l-top">Archives de l'Âme</span>
+    <span class="l-name">SOULSCRIPT</span>
+    <span class="l-tagline">Votre âme est déjà écrite</span>
+  </div>
+  <div class="l-track"><div class="l-fill" id="lf"></div></div>
+  <div class="l-sub">Ouverture des archives…</div>
+</div>
+
+<!-- CONFIRMATION -->
+<div id="confirmation" aria-hidden="true">
+  <canvas id="conf-canvas"></canvas>
+  <div class="conf-scroll">
+    <div class="conf-logo" id="cl-logo"><span class="orn">✦</span>SOULSCRIPT<span class="orn">✦</span></div>
+    <div class="conf-bloc">
+      <p class="conf-steplabel" id="cl-s1l">Archives</p>
+      <h1 class="conf-big" id="cl-s1t">Dossier Localisé</h1>
+      <div class="conf-rule" id="cl-s1r"><div class="conf-diamond"></div></div>
+      <p class="conf-archive-num" id="cl-archnum"></p>
+      <div style="height:18px;"></div>
+      <p class="conf-body" id="cl-s1b">Archives identifiées.<br>Nom confirmé. Date de naissance confirmée.</p>
+    </div>
+    <div class="conf-vsep" id="cl-sep1"></div>
+    <div class="conf-bloc">
+      <p class="conf-steplabel" id="cl-s2l">Analyse</p>
+      <h2 class="conf-big" id="cl-s2t">Décodage en Cours</h2>
+      <div class="conf-rule" id="cl-s2r"><div class="conf-diamond"></div></div>
+      <ul class="conf-checklist">
+        <li class="conf-check" data-cdelay="0"><span class="conf-check-icon"></span><span>Code source identifié</span></li>
+        <li class="conf-check" data-cdelay="420"><span class="conf-check-icon"></span><span>Schémas répétitifs localisés</span></li>
+        <li class="conf-check" data-cdelay="900"><span class="conf-check-icon"></span><span>Contrat d'âme détecté</span></li>
+        <li class="conf-check" data-cdelay="1380"><span class="conf-check-icon"></span><span>Mission de vie analysée</span></li>
+        <li class="conf-check" data-cdelay="1860"><span class="conf-check-icon"></span><span>Rapport en préparation</span></li>
+      </ul>
+    </div>
+    <div class="conf-vsep" id="cl-sep2"></div>
+    <div class="conf-final-frame" id="cl-final">
+      <div class="cff-corner cff-tl"></div><div class="cff-corner cff-tr"></div>
+      <div class="cff-corner cff-bl"></div><div class="cff-corner cff-br"></div>
+      <p class="conf-final-title">Votre Dossier est Désormais Entre Nos Mains</p>
+      <p class="conf-final-body">Votre lecture a été placée dans la file de rédaction.<br>Vous recevrez un e-mail de confirmation dans quelques instants.<br>Votre dossier SOULSCRIPT vous sera envoyé sous 24 à 72 heures.</p>
+      <p class="conf-final-note">Chaque dossier est rédigé individuellement.<br>Aucune génération automatique.</p>
+    </div>
+    <button class="conf-back-btn" id="cl-back" onclick="closeConfirmation()">
+      <span>Retour à l'Accueil</span>
+    </button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#origine" class="nav-logo">
+    <span class="logo-mark"><span class="orn">✦</span>SOULSCRIPT<span class="orn">✦</span></span>
+    <span class="logo-sub">Archives de l'Âme</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#origine">Origine</a></li>
+    <li><a href="#decodage">Décodage</a></li>
+    <li><a href="#revelation">Révélation</a></li>
+    <li><a href="#archives">Archives</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#commander">Commander</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+<div class="dots" id="dotNav">
+  <div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+  <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+</div>
+
+<!-- ════ I — ORIGINE (lion seul) ════ -->
+<div class="chapter" id="origine">
+  <div class="chapter-img"><img src="images/origine.webp" alt="Origine"></div>
+  <div class="chapter-text" data-idx="0">
+    <div class="ch-rule"><div class="ch-rule-diamond"></div></div>
+    <p class="ch-body">Vous avez passé votre vie à chercher des réponses.<br>Certaines vous attendent depuis votre naissance.</p>
+    <p class="ch-note">SOULSCRIPT n'invente rien.<br>Nous retrouvons simplement ce qui était déjà là.</p>
+  </div>
+</div>
+<div class="sep"><div class="sep-line"></div></div>
+
+<!-- ════ GATE — LA PORTE DES ARCHIVES ════ -->
+<!-- Image indépendante, section narrative forte -->
+<div class="gate-section" id="gate">
+  <div class="gate-img">
+    <img src="images/gate.webp" alt="La Porte des Archives — SOULSCRIPT">
+  </div>
+  <!-- Texte séparé, avec espace vertical suffisant même sous le nav mobile -->
+  <div class="gate-text" data-reveal>
+    <h2 class="gate-headline">Les Archives Existent Déjà.</h2>
+    <div class="ch-rule" style="margin-bottom:28px;"><div class="ch-rule-diamond"></div></div>
+    <ul class="gate-items">
+      <li>Votre thème natal.</li>
+      <li>Vos schémas répétitifs.</li>
+      <li>Vos blessures fondatrices.</li>
+      <li>Votre mission de vie.</li>
+    </ul>
+    <p class="ch-body" style="margin-top:10px;">Tout est déjà présent.</p>
+    <p class="gate-close" style="margin-top:24px;">SOULSCRIPT ne crée rien.<br>Nous ouvrons simplement la porte.</p>
+  </div>
+</div>
+<div class="sep"><div class="sep-line"></div></div>
+
+<!-- ════ II — DÉCODAGE ════ -->
+<div class="chapter" id="decodage">
+  <div class="chapter-img"><img src="images/decodage.webp" alt="Décodage"></div>
+  <div class="chapter-text" data-idx="1">
+    <div class="ch-rule"><div class="ch-rule-diamond"></div></div>
+    <p class="ch-body">Votre dossier est en train d'être lu.<br>Chaque choix. Chaque peur. Chaque répétition.<br>Le système commence à relier les fragments.</p>
+  </div>
+</div>
+<div class="sep"><div class="sep-line"></div></div>
+
+<!-- ════ III — RÉVÉLATION ════ -->
+<div class="chapter" id="revelation">
+  <div class="chapter-img"><img src="images/revelation.webp" alt="Révélation"></div>
+  <div class="chapter-text" data-idx="2">
+    <div class="ch-rule"><div class="ch-rule-diamond"></div></div>
+    <p class="ch-body">Les informations émergent.<br>Ce qui était invisible devient visible.<br>Votre code commence à apparaître.</p>
+  </div>
+</div>
+<div class="sep"><div class="sep-line"></div></div>
+
+<!-- ════ IV — ARCHIVES ════ -->
+<div class="chapter" id="archives">
+  <div class="chapter-img"><img src="images/archives.webp" alt="Archives"></div>
+  <div class="chapter-text" data-idx="3">
+    <div class="ch-rule"><div class="ch-rule-diamond"></div></div>
+    <p class="ch-body" style="margin-bottom:8px;">Les archives ont été révélées.</p>
+    <ul class="arch-list">
+      <li>Code Source Principal</li><li>Fracture Dominante</li>
+      <li>Contrat d'Âme</li><li>Mission de Vie</li>
+      <li>Schémas Répétitifs</li><li>Déclencheurs Cachés</li>
+      <li>Potentiel d'Incarnation</li>
+    </ul>
+  </div>
+</div>
+<div class="sep"><div class="sep-line"></div></div>
+
+<!-- ════ V — ARCHITECTURE + SYSTÈME ════ -->
+<div class="chapter" id="architecture">
+  <div class="chapter-img"><img src="images/architecture.webp" alt="Architecture"></div>
+  <div class="system-block">
+    <div class="system-img"><img src="images/system.webp" alt="Le Système Complet"></div>
+    <div class="system-text" data-reveal>
+      <h3 class="system-title">Le Système Complet</h3>
+      <div class="ch-rule" style="margin-bottom:22px;"><div class="ch-rule-diamond"></div></div>
+      <p class="system-body">Les fragments étaient dispersés.<br>Nous les relions.<br>Votre histoire commence à former une architecture cohérente.</p>
+    </div>
+  </div>
+  <div class="chapter-text" data-idx="4">
+    <div class="ch-rule"><div class="ch-rule-diamond"></div></div>
+    <p class="ch-body">Vous comprenez enfin votre propre architecture.<br>Les fragments ne sont plus séparés.<br>L'histoire devient cohérente.</p>
+  </div>
+</div>
+<div class="sep"><div class="sep-line"></div></div>
+
+<!-- ════ VI — COMMANDER ════ -->
+<div class="chapter" id="commander">
+  <div class="chapter-img"><img src="images/commander.webp" alt="Commander"></div>
+  <div class="chapter-text" data-idx="5" style="display:none;"></div>
+</div>
+
+<!-- ════ SECTION LIVRE-SERRURE ════ -->
+<section class="serrure-section" data-reveal>
+  <div class="serrure-inner-simple">
+    <div class="serrure-img-wrap" id="livre-wrap">
+      <img src="https://res.cloudinary.com/dfipud0k2/image/upload/f_auto,q_auto/1000050470_avmxyt"
+           alt="Archives SOULSCRIPT" class="serrure-img" id="livre-img">
+      <div class="sl-overlay" id="sl-glow-1"></div>
+      <div class="sl-overlay" id="sl-glow-2"></div>
+      <div class="sl-flash"   id="sl-flash"></div>
+      <canvas class="sl-particles-canvas" id="sl-canvas"></canvas>
+    </div>
+    <div class="serrure-artefact" data-reveal>
+      <p class="artefact-text-top">Les archives sont ferm&#233;es. Le contenu vous attend.</p>
+      <div class="artefact-key-wrap" id="artefact-key"
+           onclick="openArchives(event)"
+           role="button" tabindex="0" aria-label="Ouvrir les archives">
+        <span class="artefact-key-glow" id="key-glow-ring"></span>
+        <div class="key-particles-wrap" id="key-particles-wrap"></div>
+        <svg class="artefact-key-svg" id="key-svg"
+             viewBox="0 0 120 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rk1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#FEF0A0"/>
+      <stop offset="25%"  stop-color="#E8C840"/>
+      <stop offset="55%"  stop-color="#B8920A"/>
+      <stop offset="85%"  stop-color="#8A6800"/>
+      <stop offset="100%" stop-color="#D4AF37"/>
+    </linearGradient>
+    <linearGradient id="rk2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#FDE87A"/>
+      <stop offset="35%" stop-color="#C89820"/>
+      <stop offset="70%" stop-color="#9A7008"/>
+      <stop offset="100%" stop-color="#C4A020"/>
+    </linearGradient>
+    <linearGradient id="rk3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"  stop-color="#FDE87A"/>
+      <stop offset="50%" stop-color="#E8C840"/>
+      <stop offset="100%" stop-color="#FDE87A"/>
+    </linearGradient>
+    <linearGradient id="rk4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#FFF8C8"/>
+      <stop offset="100%" stop-color="#C49020"/>
+    </linearGradient>
+    <radialGradient id="rkr1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FFF8A8" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#D4AF37" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#9A7008" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rkr2" cx="50%" cy="40%" r="60%">
+      <stop offset="0%"  stop-color="#FFF0A0" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="rkf1" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="rkf2" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="rkf3" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="0.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══ HALO EXTÉRIEUR ═══ -->
+  <circle cx="60" cy="48" r="44" fill="url(#rkr2)" opacity="0.6"/>
+
+  <!-- ═══ ANNEAU EXTERNE — rempli d'or ═══ -->
+  <!-- Corps de l'anneau (plein entre r=30 et r=36) -->
+  <circle cx="60" cy="48" r="36" fill="url(#rk2)" filter="url(#rkf1)"/>
+  <circle cx="60" cy="48" r="30" fill="#0a0a0a"/>
+  <!-- Contour externe -->
+  <circle cx="60" cy="48" r="36" stroke="url(#rk1)" stroke-width="1.5" fill="none"/>
+
+  <!-- Lobes externes — 8 pétales remplis -->
+  <ellipse cx="60" cy="12"  rx="6" ry="8" fill="url(#rk1)" filter="url(#rkf2)"/>
+  <ellipse cx="85" cy="23"  rx="6" ry="8" fill="url(#rk2)" filter="url(#rkf2)" transform="rotate(45 85 23)"/>
+  <ellipse cx="96" cy="48"  rx="8" ry="6" fill="url(#rk1)" filter="url(#rkf2)"/>
+  <ellipse cx="85" cy="73"  rx="6" ry="8" fill="url(#rk2)" filter="url(#rkf2)" transform="rotate(-45 85 73)"/>
+  <ellipse cx="60" cy="84"  rx="6" ry="8" fill="url(#rk1)" filter="url(#rkf2)"/>
+  <ellipse cx="35" cy="73"  rx="6" ry="8" fill="url(#rk2)" filter="url(#rkf2)" transform="rotate(45 35 73)"/>
+  <ellipse cx="24" cy="48"  rx="8" ry="6" fill="url(#rk1)" filter="url(#rkf2)"/>
+  <ellipse cx="35" cy="23"  rx="6" ry="8" fill="url(#rk2)" filter="url(#rkf2)" transform="rotate(-45 35 23)"/>
+
+  <!-- Petits points décoratifs entre les lobes -->
+  <circle cx="60" cy="13"  r="3" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="84" cy="24"  r="2.5" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="95" cy="48"  r="3" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="84" cy="72"  r="2.5" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="60" cy="83"  r="3" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="36" cy="72"  r="2.5" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="25" cy="48"  r="3" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="36" cy="24"  r="2.5" fill="url(#rk4)" filter="url(#rkf3)"/>
+
+  <!-- ═══ ANNEAU MÉDIAN — rempli ═══ -->
+  <circle cx="60" cy="48" r="23" fill="url(#rk2)" filter="url(#rkf2)" opacity="0.7"/>
+  <circle cx="60" cy="48" r="23" stroke="url(#rk1)" stroke-width="1.2" fill="none"/>
+  <!-- Espace vide intérieur -->
+  <circle cx="60" cy="48" r="17" fill="#060606"/>
+
+  <!-- Arabesques dans l'espace du grand anneau — 4 feuilles -->
+  <path d="M60 26 C68 30 70 40 68 48 C70 56 68 66 60 70 C52 66 50 56 52 48 C50 40 52 30 60 26 Z"
+        fill="none" stroke="url(#rk3)" stroke-width="1.1" opacity="0.6"/>
+  <path d="M38 48 C42 40 52 38 60 40 C68 38 78 40 82 48 C78 56 68 58 60 56 C52 58 42 56 38 48 Z"
+        fill="none" stroke="url(#rk3)" stroke-width="1.1" opacity="0.6"/>
+
+  <!-- ═══ CERCLE INTÉRIEUR ORNEMENTAL ═══ -->
+  <circle cx="60" cy="48" r="14" stroke="url(#rk1)" stroke-width="1" fill="none"/>
+  <!-- Croix centrale légère -->
+  <line x1="60" y1="35" x2="60" y2="61" stroke="url(#rk3)" stroke-width="0.8" opacity="0.7"/>
+  <line x1="47" y1="48" x2="73" y2="48" stroke="url(#rk3)" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- Rosace centrale remplie -->
+  <circle cx="60" cy="48" r="8" fill="url(#rkr1)" filter="url(#rkf2)"/>
+  <circle cx="60" cy="48" r="5" fill="url(#rk1)" filter="url(#rkf1)"/>
+  <circle cx="60" cy="48" r="2.5" fill="#FFFCE0"/>
+
+  <!-- ═══ COLLERETTE BAROQUE ═══ -->
+  <path d="M46 84 C48 88 50 92 52 96 L52 100 L68 100 L68 96 C70 92 72 88 74 84"
+        stroke="url(#rk1)" stroke-width="2.2" fill="none" filter="url(#rkf2)"/>
+  <!-- Remplissage collerette -->
+  <path d="M46 84 C48 88 50 92 52 96 L52 100 L68 100 L68 96 C70 92 72 88 74 84 C70 86 66 88 60 88 C54 88 50 86 46 84 Z"
+        fill="url(#rk2)" opacity="0.8"/>
+  <!-- Perles collerette -->
+  <circle cx="48" cy="86" r="2.8" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <circle cx="60" cy="90" r="2.8" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <circle cx="72" cy="86" r="2.8" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <!-- Bague de jonction -->
+  <rect x="52" y="96" width="16" height="7" rx="2" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <rect x="54" y="97.5" width="12" height="4" rx="1.5" fill="url(#rk2)"/>
+
+  <!-- ═══ TIGE SCULPTÉE ═══ -->
+  <!-- Corps tige -->
+  <rect x="53" y="103" width="14" height="110" rx="4" fill="url(#rk2)"/>
+  <!-- Reflet tige -->
+  <rect x="55.5" y="106" width="4" height="104" rx="2" fill="rgba(255,248,160,0.25)"/>
+
+  <!-- Moulures décoratives tige -->
+  <rect x="51" y="118" width="18" height="5" rx="2.5" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <rect x="53" y="118" width="14" height="5" rx="2" fill="url(#rk2)"/>
+
+  <rect x="51" y="148" width="18" height="5" rx="2.5" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <rect x="53" y="148" width="14" height="5" rx="2" fill="url(#rk2)"/>
+
+  <rect x="51" y="178" width="18" height="5" rx="2.5" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <rect x="53" y="178" width="14" height="5" rx="2" fill="url(#rk2)"/>
+
+  <!-- Médaillons sur la tige -->
+  <circle cx="60" cy="133" r="4.5" fill="url(#rk1)" filter="url(#rkf2)"/>
+  <circle cx="60" cy="133" r="2.5" fill="url(#rkr1)"/>
+  <circle cx="60" cy="163" r="4.5" fill="url(#rk1)" filter="url(#rkf2)"/>
+  <circle cx="60" cy="163" r="2.5" fill="url(#rkr1)"/>
+
+  <!-- ═══ PANNEAU DENTS ═══ -->
+  <path d="M53 183 L53 213 Q53 216 56 216 L67 216 Q68 216 68 213 L68 183 Z"
+        fill="url(#rk2)" filter="url(#rkf3)"/>
+
+  <!-- Dent 1 — grande avec arc et perle -->
+  <path d="M68 187 L90 187 Q93 187 93 190 L93 196 Q93 199 90 199 L71 199 Q69 200 69 202 L69 204 L68 204 Z"
+        fill="url(#rk1)" filter="url(#rkf2)"/>
+  <circle cx="89" cy="193" r="3.5" fill="url(#rk4)" filter="url(#rkf3)"/>
+  <circle cx="80" cy="193" r="2"   fill="rgba(255,248,150,0.5)"/>
+
+  <!-- Dent 2 — moyenne avec perle -->
+  <path d="M68 204 L84 204 Q86 204 86 207 L86 213 Q86 216 84 216 L70 216 L70 213 L68 213 Z"
+        fill="url(#rk1)" filter="url(#rkf3)"/>
+  <circle cx="83" cy="210" r="2.8" fill="url(#rk4)"/>
+
+  <!-- Dent 3 — petite finition -->
+  <rect x="68" y="215" width="10" height="6" rx="2" fill="url(#rk1)"/>
+
+  <!-- ═══ PIED BAROQUE ═══ -->
+  <path d="M53 216 Q53 224 48 228 Q43 232 43 235 Q43 239 48 239 L72 239 Q77 239 77 235 Q77 232 72 228 Q67 224 67 216 Z"
+        fill="url(#rk1)" filter="url(#rkf2)"/>
+  <!-- Ornement pied -->
+  <ellipse cx="60" cy="235" rx="12" ry="3.5" fill="url(#rk2)" filter="url(#rkf3)"/>
+  <ellipse cx="60" cy="235" rx="7"  ry="2"   fill="rgba(255,248,150,0.4)"/>
+  <!-- Perles pied -->
+  <circle cx="46" cy="231" r="2.5" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <circle cx="74" cy="231" r="2.5" fill="url(#rk1)" filter="url(#rkf3)"/>
+  <circle cx="60" cy="240" r="3"   fill="url(#rk1)" filter="url(#rkf2)"/>
+  <circle cx="60" cy="240" r="1.5" fill="#FFF8D0"/>
+</svg>
+      </div>
+      <p class="artefact-cta-label" id="cta-label">VOIR CE QUI EST INSCRIT</p>
+      <p class="artefact-text-bottom">Certaines r&#233;ponses ne s&apos;inventent pas. Elles se retrouvent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CE QUE CONTIENT VOTRE DOSSIER ════ -->
+<div class="receive-section" id="parcours-visuel">
+  <div class="receive-text" data-reveal>
+
+    <!-- Titre principal -->
+    <div class="ch-rule"><div class="ch-rule-diamond"></div></div>
+    <h2 class="receive-title">VOTRE DOSSIER<br>PERSONNEL</h2>
+    <p class="receive-sub-label">Lecture int&#233;grale SOULSCRIPT</p>
+    <div class="ch-rule" style="margin:20px auto 36px;"><div class="ch-rule-diamond"></div></div>
+
+    <!-- Liste des &#233;l&#233;ments -->
+    <ul class="receive-narrative-list">
+      <li><span class="rn-star">&#10022;</span>Architecture natale</li>
+      <li><span class="rn-star">&#10022;</span>Sch&#233;mas r&#233;p&#233;titifs</li>
+      <li><span class="rn-star">&#10022;</span>Blessures fondatrices</li>
+      <li><span class="rn-star">&#10022;</span>Mission de vie</li>
+      <li><span class="rn-star">&#10022;</span>Cartographie relationnelle</li>
+      <li><span class="rn-star">&#10022;</span>D&#233;clencheurs cach&#233;s</li>
+      <li><span class="rn-star">&#10022;</span>Potentiel d&apos;incarnation</li>
+      <li><span class="rn-star">&#10022;</span>Synth&#232;se personnalis&#233;e</li>
+    </ul>
+
+    <!-- S&#233;paration -->
+    <div class="invest-divider">&#8212;</div>
+
+    <!-- Section investissement -->
+    <p class="invest-label">INVESTISSEMENT</p>
+    <p class="invest-price">137&#160;&#8364;</p>
+    <p class="invest-sub">Le nombre n&apos;a pas &#233;t&#233; choisi au hasard.</p>
+    <div class="invest-body">
+      <p>137 fragments.</p>
+      <p>Une conscience.</p>
+      <p>Un dossier.</p>
+      <p>Une seule lecture.</p>
+    </div>
+    <div class="invest-details">
+      <p>Enti&#232;rement r&#233;dig&#233;e par Anissa.</p>
+      <p>Aucune automatisation.</p>
+      <p>Aucune g&#233;n&#233;ration instantan&#233;e.</p>
+      <p>Aucun rapport standardis&#233;.</p>
+    </div>
+    <p class="receive-narrative-sub">Livraison priv&#233;e par e-mail sous 24 &#224; 72 heures.</p>
+
+  </div>
+
+<!-- ════ CONTACT — ANISSA ════ -->
+<div class="contact-section" id="contact">
+  <!-- Section Anissa fondatrice -->
+  <div class="anissa-section anissa-text-only" data-reveal>
+    <div class="anissa-text">
+      <p class="anissa-label">&#10022;</p>
+      <h2 class="anissa-title"><span class="anissa-first-name">Anissa</span><span class="anissa-sub">Fondatrice de SOULSCRIPT</span></h2>
+      <div class="ch-rule" style="margin:24px auto;"><div class="ch-rule-diamond"></div></div>
+      <p class="anissa-body">Je ne suis pas la vedette de l&apos;histoire.<br>
+      Je suis celle qui tient la lumi&#232;re pendant que vous retrouvez la v&#244;tre.</p>
+      <p class="anissa-bold">JE VOUS VOIS.</p>
+      <p class="anissa-body" style="margin-bottom:0;">Pas la version que vous montrez au monde.<br>
+      L&apos;autre.<br>La vraie.</p>
+    </div>
+  </div>
+  <!-- Formulaire de contact fonctionnel sous la section Anissa -->
+  
+  <!-- ════ TRANSITION AVANT FORMULAIRE ════ -->
+<div class="form-transition" data-reveal>
+  <div class="ft-inner">
+    <div class="ch-rule"><div class="ch-rule-diamond"></div></div>
+    <h3 class="ft-title">CHAQUE D&#201;TAIL COMPTE</h3>
+    <p class="ft-body">Les coordonn&#233;es exactes de votre naissance constituent<br>la cl&#233; d&apos;acc&#232;s &#224; votre archive personnelle.</p>
+    <div class="ch-rule" style="margin-top:28px;"><div class="ch-rule-diamond"></div></div>
+  </div>
+</div>
+
+<!-- ════ FORMULAIRE COMMANDE ════ -->
+<div class="form-section" id="commander-form">
+  <div class="form-header">
+    <p class="form-num">✦</p>
+    <h2 class="form-title">OUVRIR VOTRE DOSSIER</h2>
+    <div class="ch-rule" style="margin:18px auto 0;"><div class="ch-rule-diamond"></div></div>
+    <p class="form-sub">Vos données de naissance permettront d'accéder à votre dossier unique.</p>
+  </div>
+  <form class="soul-form" id="soulForm" onsubmit="handleSubmit(event);">
+    <div class="field-group"><label class="field-label" for="f-nom">Nom</label><input class="field-input" type="text" id="f-nom" name="nom" placeholder="Votre nom complet" autocomplete="name" required></div>
+    <div class="field-group"><label class="field-label" for="f-dob">Date de naissance</label><input class="field-input" type="date" id="f-dob" name="date_naissance" required></div>
+    <div class="field-group"><label class="field-label" for="f-hob">Heure de naissance</label><input class="field-input" type="time" id="f-hob" name="heure_naissance" required></div>
+    <div class="field-group"><label class="field-label" for="f-lieu">Lieu de naissance</label><input class="field-input" type="text" id="f-lieu" name="lieu_naissance" placeholder="Ville, Pays" required></div>
+    <div class="field-group"><label class="field-label" for="f-email">Email</label><input class="field-input" type="email" id="f-email" name="email" placeholder="votre@email.com" autocomplete="email" required></div>
+    <!-- Ambiance visuelle — particules dorées -->
+    <div class="form-ambiance" id="form-ambiance">
+      <canvas class="form-dust-canvas" id="form-dust-canvas"></canvas>
+      
+    </div>
+    <div class="payment-guarantees">
+      <div class="guarantee-item">Paiement sécurisé</div>
+      <div class="guarantee-item">Livraison priv&#233;e par e-mail sous 24 &#224; 72h</div>
+      <div class="guarantee-item">Rapport PDF complet</div>
+      <div class="guarantee-item">Données strictement confidentielles</div>
+    </div>
+    <button class="form-submit" type="button" onclick="openStripe(event)"><span>R&#233;v&#233;ler Mon Dossier</span><span class="arr">→</span></button>
+    <p class="form-legal">Vos informations sont utilisées exclusivement pour l'élaboration de votre lecture.<br>Aucune donnée n'est partagée ou revendue.</p>
+  </form>
+</div>
+
+<div class="contact-form-wrap" data-reveal>
+    <div class="contact-intro">
+      <h2 class="contact-intro-title">ENTRER EN CONTACT</h2>
+      <div class="ch-rule" style="margin:16px auto 20px;"><div class="ch-rule-diamond"></div></div>
+      <p class="contact-intro-sub">Pour toute question, vous pouvez m&apos;&#233;crire ici.</p>
+    </div>
+    <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event);">
+      <div class="contact-field-row">
+        <div class="contact-field">
+          <label class="contact-label" for="c-nom">Nom</label>
+          <input class="contact-input" type="text" id="c-nom" name="nom" placeholder="Votre nom" required>
+        </div>
+        <div class="contact-field">
+          <label class="contact-label" for="c-email">Email</label>
+          <input class="contact-input" type="email" id="c-email" name="email" placeholder="Votre email" required>
+        </div>
+      </div>
+      <div class="contact-field">
+        <label class="contact-label" for="c-sujet">Sujet</label>
+        <select class="contact-select" id="c-sujet" name="sujet">
+          <option value="">Choisissez un sujet</option>
+          <option value="question">Une question</option>
+          <option value="commande">Ma commande</option>
+          <option value="guidance">Guidance personnalisée</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div class="contact-field">
+        <label class="contact-label" for="c-message">Votre message</label>
+        <textarea class="contact-textarea" id="c-message" name="message" placeholder="Écrivez votre message ici…" rows="5" required></textarea>
+      </div>
+      <p class="contact-legal">Vos données sont confidentielles et utilisées uniquement pour répondre à votre demande.</p>
+      <a href="mailto:soulscript.officiel@outlook.com" id="contact-mailto-link" class="contact-submit" style="text-align:center;"><span>Envoyer le Message</span><span class="arr" style="white-space:nowrap;">&nbsp;&#8594;</span></a>
+    </form>
+  </div>
+</div>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="footer-center">
+    <!-- Logo SVG lion SOULSCRIPT -->
+    <div class="footer-emblem">&#9670;</div>
+    <div class="footer-logo-main">SOULSCRIPT</div>
+    <p class="footer-sub">ARCHIVES DE L&apos;&#194;ME</p>
+    <div class="footer-rule"><div class="footer-diamond"></div></div>
+    <p class="footer-phrase">Les fragments existent d&#233;j&#224;.<br>Nous les relions.</p>
+    <a href="mailto:soulscript.officiel@outlook.com" class="footer-email">soulscript.officiel@outlook.com</a>
+
+    <!-- Mentions légales -->
+    <div class="footer-legal-block">
+      <div class="footer-legal-rule"></div>
+      <p class="footer-legal-title">MENTIONS L&#201;GALES</p>
+
+      <p class="footer-legal-text">
+        <strong>&#201;diteur du site</strong>
+        Anissa Sakouhi — Auto-entrepreneur<br>
+        SIRET&nbsp;: 10574227400019<br>
+        22 rue Hansi, 68270 Wittenheim, France<br>
+        <a href="mailto:soulscript.officiel@outlook.com" class="footer-legal-link">soulscript.officiel@outlook.com</a>
+      </p>
+
+      <p class="footer-legal-text">
+        <strong>H&#233;bergeur</strong>
+        Netlify, Inc.<br>
+        2325 3rd Street, Suite 296<br>
+        San Francisco, CA 94107, USA<br>
+        <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" class="footer-legal-link">netlify.com</a>
+      </p>
+
+      <p class="footer-legal-text">
+        <strong>Activit&#233;</strong>
+        Consultations astrologiques et accompagnement personnel.<br>
+        Activit&#233; exerc&#233;e sous le statut auto-entrepreneur,<br>
+        dispens&#233;e de TVA — Art.&nbsp;293&nbsp;B du CGI.
+      </p>
+
+      <div class="footer-legal-rule"></div>
+      <p class="footer-copy">&copy; 2026 SOULSCRIPT — Tous droits r&#233;serv&#233;s</p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+const SECTIONS = ['origine','decodage','revelation','archives','architecture','commander'];
+
+/* LOADER */
+window.addEventListener('load', () => {
+  document.getElementById('lf').style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('out');
+    initDust(); initReveal();
+  }, 2200);
+});
+
+/* POUSSIERE */
+function initDust() {
+  const c = document.getElementById('dust');
+  const ctx = c.getContext('2d');
+  let W, H, pts;
+  function resize() { W=c.width=innerWidth; H=c.height=innerHeight; spawn(); }
+  function spawn() { pts = Array.from({length:55}, () => mk()); }
+  function mk(b) { return {x:Math.random()*W,y:b?H+4:Math.random()*H,r:Math.random()*1.4+.2,vx:(Math.random()-.5)*.23,vy:-(Math.random()*.35+.07),alpha:Math.random()*.45+.05,fl:Math.random()*Math.PI*2,fs:.008+Math.random()*.012}; }
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.fl+=p.fs;
+      if(p.y<-4) Object.assign(p,mk(true));
+      const a=p.alpha*(.65+.35*Math.sin(p.fl));
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(212,175,55,${a})`; ctx.fill();
+      if(p.r>1.1&&Math.sin(p.fl)>.88){ctx.save();ctx.globalAlpha=a*.5;ctx.strokeStyle=`rgba(232,204,122,${a})`;ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(p.x-p.r*2.8,p.y);ctx.lineTo(p.x+p.r*2.8,p.y);ctx.moveTo(p.x,p.y-p.r*2.8);ctx.lineTo(p.x,p.y+p.r*2.8);ctx.stroke();ctx.restore();}
+    });
+    requestAnimationFrame(draw);
+  }
+  resize(); draw(); window.addEventListener('resize', resize);
+}
+
+/* REVEAL */
+function initReveal() {
+  const dots = document.querySelectorAll('.dot');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('show');
+      const idx = e.target.dataset.idx;
+      if (idx !== undefined) dots.forEach((d,i)=>d.classList.toggle('on',i===+idx));
+    });
+  }, {threshold:.18});
+  document.querySelectorAll('.chapter-text').forEach(t=>io.observe(t));
+  document.querySelectorAll('[data-reveal]').forEach(t=>io.observe(t));
+  document.querySelectorAll('.chapter-img').forEach((img,idx)=>{
+    const io2=new IntersectionObserver(entries=>{if(entries[0].isIntersecting)dots.forEach((d,i)=>d.classList.toggle('on',i===idx));},{threshold:.45});
+    io2.observe(img);
+  });
+}
+
+/* DOTS */
+document.querySelectorAll('.dot').forEach((dot,i)=>{
+  dot.addEventListener('click',()=>document.getElementById(SECTIONS[i])?.scrollIntoView({behavior:'smooth'}));
+});
+
+/* BOUTON OUVRIR MON DOSSIER -- scroll fluide vers le formulaire */
+function openDossier() {
+  // Effet cinematique
+  var btn = event.currentTarget || document.querySelector('.serrure-btn');
+  if (btn) {
+    btn.classList.add('key-click-active');
+    // Halo propagation
+    var halo = btn.querySelector('.serrure-halo');
+    if (halo) {
+      halo.style.transition = 'all .8s ease-out';
+      halo.style.transform = 'scale(1.5)';
+      halo.style.opacity = '0';
+    }
+    setTimeout(function() {
+      // Scroll vers le formulaire
+      var formEl = document.getElementById('commander-form');
+      if (formEl) formEl.scrollIntoView({behavior:'smooth', block:'start'});
+      btn.classList.remove('key-click-active');
+      if (halo) { halo.style.transform = ''; halo.style.opacity = ''; }
+    }, 1600);
+  } else {
+    var formEl = document.getElementById('commander-form');
+    if (formEl) formEl.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+
+function openDossier_old() {
+  const target = document.getElementById('commander-form');
+  if (!target) return;
+  // S'assurer que la section est visible avant de scroller
+  target.style.opacity = '1';
+  target.style.transform = 'none';
+  // Offset pour le nav fixe (~70px)
+  const y = target.getBoundingClientRect().top + window.pageYOffset - 70;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+/* FORMULAIRE COMMANDE */
+function handleSubmit(e) {
+  e.preventDefault();
+}
+
+function openStripe(e) {
+  e.preventDefault();
+  const fields = ['f-nom','f-dob','f-hob','f-lieu','f-email'];
+  for (let i = 0; i < fields.length; i++) {
+    const el = document.getElementById(fields[i]);
+    if (!el || !el.value.trim()) {
+      el.focus();
+      el.style.borderBottomColor = 'rgba(212,80,55,0.75)';
+      setTimeout(() => { el.style.borderBottomColor = ''; }, 2500);
+      return;
+    }
+  }
+  window.open('https://buy.stripe.com/8x2dR80sM7RXdlB2WT5AQ00', '_blank', 'noopener,noreferrer');
+}
+
+/* FORMULAIRE CONTACT -- mailto link */
+function handleContactSubmit(e) {
+  e.preventDefault();
+}
+
+// Mettre a jour le lien mailto en temps reel quand le formulaire change
+function updateMailtoLink() {
+  var link = document.getElementById('contact-mailto-link');
+  if (!link) return;
+  var nom     = (document.getElementById('c-nom') || {}).value || '';
+  var email   = (document.getElementById('c-email') || {}).value || '';
+  var sujet   = (document.getElementById('c-sujet') || {}).value || 'Message SOULSCRIPT';
+  var message = (document.getElementById('c-message') || {}).value || '';
+  var subject = encodeURIComponent('[SOULSCRIPT] ' + sujet + ' - ' + nom);
+  var body    = encodeURIComponent('Nom : ' + nom + '\nEmail : ' + email + '\nSujet : ' + sujet + '\n\n' + message);
+  link.href = 'mailto:soulscript.officiel@outlook.com?subject=' + subject + '&body=' + body;
+}
+
+// Attacher les listeners apres chargement
+document.addEventListener('DOMContentLoaded', function() {
+  var fields = ['c-nom','c-email','c-sujet','c-message'];
+  fields.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateMailtoLink);
+    if (el) el.addEventListener('change', updateMailtoLink);
+  });
+  updateMailtoLink();
+});
+
+/* CONFIRMATION */
+function showConfirmation() {
+  const num = 'SS-' + String(Math.floor(Math.random()*9000)+1000);
+  document.getElementById('cl-archnum').textContent = 'ARCHIVE N. ' + num;
+  const conf = document.getElementById('confirmation');
+  conf.classList.add('show');
+  conf.setAttribute('aria-hidden','false');
+  window.scrollTo(0,0);
+  document.body.style.overflow = 'hidden';
+  initConfCanvas(); runConfSequence();
+}
+function closeConfirmation() {
+  document.getElementById('confirmation').classList.remove('show');
+  document.body.style.overflow = '';
+  document.querySelectorAll('#cl-logo,.conf-steplabel,.conf-big,.conf-rule,.conf-archive-num,.conf-body,.conf-vsep,.conf-final-frame,.conf-back-btn').forEach(el=>{el.style.opacity='0';el.style.transform='';});
+  document.querySelectorAll('.conf-check').forEach(el=>el.classList.remove('lit'));
+}
+function reveal(el,delay){if(!el)return;setTimeout(()=>{el.style.transition='opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1)';el.style.opacity='1';el.style.transform='translateY(0)';},delay);}
+function runConfSequence(){
+  const T=220;
+  setTimeout(()=>{const l=document.getElementById('cl-logo');l.style.transition='opacity .9s .15s';l.style.opacity='1';},150);
+  const t1=450;
+  reveal(document.getElementById('cl-s1l'),t1);
+  reveal(document.getElementById('cl-s1t'),t1+T);
+  reveal(document.getElementById('cl-s1r'),t1+T*2);
+  reveal(document.getElementById('cl-archnum'),t1+T*2.5);
+  reveal(document.getElementById('cl-s1b'),t1+T*3.5);
+  reveal(document.getElementById('cl-sep1'),t1+T*5);
+  const t2=t1+T*7;
+  reveal(document.getElementById('cl-s2l'),t2);
+  reveal(document.getElementById('cl-s2t'),t2+T);
+  reveal(document.getElementById('cl-s2r'),t2+T*2);
+  const chk=t2+T*3;
+  document.querySelectorAll('.conf-check').forEach(item=>setTimeout(()=>item.classList.add('lit'),chk+parseInt(item.dataset.cdelay||0)));
+  reveal(document.getElementById('cl-sep2'),chk+2200);
+  const t3=chk+2600;
+  reveal(document.getElementById('cl-final'),t3);
+  reveal(document.getElementById('cl-back'),t3+T*5);
+  setTimeout(()=>{const ti=document.getElementById('cl-s1t');if(ti)ti.style.animation='confBreathe 4s ease-in-out infinite';},t1+T+900);
+}
+let confCanvasRunning=false;
+function initConfCanvas(){
+  if(confCanvasRunning)return; confCanvasRunning=true;
+  const c=document.getElementById('conf-canvas');
+  const ctx=c.getContext('2d');
+  function resize(){c.width=innerWidth;c.height=innerHeight;}
+  resize(); window.addEventListener('resize',resize);
+  const pts=Array.from({length:70},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.6+.2,vx:(Math.random()-.5)*.28,vy:-(Math.random()*.42+.08),alpha:Math.random()*.5+.06,fl:Math.random()*Math.PI*2,fs:.008+Math.random()*.013}));
+  function draw(){const W=c.width,H=c.height;ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.fl+=p.fs;if(p.y<-4){p.y=H+4;p.x=Math.random()*W;}const a=p.alpha*(.6+.4*Math.sin(p.fl));ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(212,175,55,${a})`;ctx.fill();});requestAnimationFrame(draw);}
+  draw();
+}
+
+
+/* ===== HEADER FADE AU SCROLL ===== */
+(function(){
+  var nav = document.querySelector('nav');
+  var lastY = 0;
+  var ticking = false;
+  function updateNav(){
+    var y = window.scrollY || window.pageYOffset;
+    if(y > 150){
+      nav.classList.add('nav-dimmed');
+      nav.classList.remove('nav-bright');
+    } else {
+      nav.classList.remove('nav-dimmed');
+      nav.classList.add('nav-bright');
+    }
+    lastY = y;
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      requestAnimationFrame(updateNav);
+      ticking = true;
+    }
+  }, {passive:true});
+})();
+
+/* ===== CLE ARTEFACT - INTERACTION ===== */
+function openDossierKey() {
+  var keyWrap = document.getElementById('artefact-key');
+  var light = document.getElementById('serrure-light');
+  var livreImg = document.getElementById('livre-img');
+
+  if (!keyWrap) return;
+
+  // Rotation cle
+  keyWrap.classList.add('key-turning');
+
+  // Lumiere dans le livre
+  if (light) {
+    setTimeout(function(){ light.classList.add('active'); }, 300);
+    setTimeout(function(){ light.classList.remove('active'); }, 1200);
+  }
+
+  // Legere vibration du livre
+  if (livreImg) {
+    livreImg.style.transition = 'filter .4s';
+    setTimeout(function(){
+      livreImg.style.filter = 'brightness(1.15) drop-shadow(0 0 30px rgba(212,175,55,.4))';
+    }, 200);
+    setTimeout(function(){
+      livreImg.style.filter = '';
+    }, 1000);
+  }
+
+  // Scroll vers formulaire apres animation
+  setTimeout(function(){
+    keyWrap.classList.remove('key-turning');
+    var formEl = document.getElementById('commander-form');
+    if (formEl) formEl.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 1500);
+}
+
+// Support clavier
+document.addEventListener('DOMContentLoaded', function(){
+  var keyEl = document.getElementById('artefact-key');
+  if (keyEl) {
+    keyEl.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDossierKey(); }
+    });
+  }
+});
+
+/* ARCHIVES OPENING */
+var archivesOpening = false;
+function openArchives(e) {
+  if (archivesOpening) return;
+  archivesOpening = true;
+  var keySvg=document.getElementById('key-svg');
+  var g1=document.getElementById('sl-glow-1');
+  var g2=document.getElementById('sl-glow-2');
+  var fl=document.getElementById('sl-flash');
+  var cv=document.getElementById('sl-canvas');
+  var li=document.getElementById('livre-img');
+  var kp=document.getElementById('key-particles-wrap');
+  var lb=document.getElementById('cta-label');
+  if(keySvg){keySvg.classList.remove('key-s2');keySvg.classList.add('key-s1');}
+  if(kp) spawnKP(kp);
+  setTimeout(function(){if(g1)g1.style.opacity='1';if(li)li.style.filter='brightness(1.08)';},300);
+  setTimeout(function(){if(keySvg){keySvg.classList.remove('key-s1');keySvg.classList.add('key-s2');}},500);
+  setTimeout(function(){if(g1)g1.style.opacity='0.85';if(g2)g2.style.opacity='0.6';if(cv){cv.style.opacity='1';startPts(cv);}if(lb)lb.textContent='ARCHIVES OUVERTES';},700);
+  setTimeout(function(){if(g2)g2.style.opacity='1';if(li)li.style.filter='brightness(1.18) drop-shadow(0 0 20px rgba(212,175,55,.4))';},1000);
+  setTimeout(function(){if(fl){fl.style.opacity='0.7';setTimeout(function(){if(fl)fl.style.opacity='0';},280);}},1200);
+  setTimeout(function(){
+    var fm=document.getElementById('commander-form');
+    if(fm)fm.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(function(){
+      if(g1)g1.style.opacity='0';if(g2)g2.style.opacity='0';
+      if(cv)cv.style.opacity='0';if(li)li.style.filter='';
+      if(keySvg){keySvg.classList.remove('key-s1','key-s2');}
+      if(lb)lb.textContent='VOIR CE QUI EST INSCRIT';
+      archivesOpening=false;
+    },2000);
+  },1500);
+}
+function spawnKP(w){
+  w.innerHTML='';
+  [0,40,80,120,160,200,240,280,320].forEach(function(a,i){
+    var p=document.createElement('div');p.className='kp';
+    var rad=a*Math.PI/180,r=28+Math.random()*10;
+    p.style.setProperty('--tx',Math.cos(rad)*r+'px');
+    p.style.setProperty('--ty',Math.sin(rad)*r+'px');
+    p.style.setProperty('--d',(0.9+Math.random()*0.6)+'s');
+    p.style.setProperty('--delay',(i*0.05)+'s');
+    p.style.left='50%';p.style.top='30%';
+    p.style.marginLeft='-1.5px';p.style.marginTop='-1.5px';
+    w.appendChild(p);
+  });
+}
+function startPts(cv){
+  var ctx=cv.getContext('2d');
+  var w=cv.parentElement.offsetWidth,h=cv.parentElement.offsetHeight;
+  cv.width=w;cv.height=h;
+  var pts=[];
+  for(var i=0;i<28;i++){pts.push({x:w*0.3+Math.random()*w*0.4,y:h*0.3+Math.random()*h*0.4,vx:(Math.random()-.5)*0.8,vy:-0.4-Math.random()*0.8,r:1+Math.random()*2,alpha:0.6+Math.random()*0.4,life:0});}
+  var frame=0,max=60;
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.life++;var a=p.alpha*(1-p.life/max);if(a<=0)return;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(212,175,55,'+a+')';ctx.fill();});
+    frame++;if(frame<max)requestAnimationFrame(draw);else ctx.clearRect(0,0,w,h);
+  }
+  requestAnimationFrame(draw);
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var k=document.getElementById('artefact-key');
+  if(k)k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openArchives(e);}});
+});
+
+/* Poussiere lumineuse formulaire */
+(function(){
+  function initFormDust(){
+    var cv = document.getElementById('form-dust-canvas');
+    if(!cv) return;
+    var ctx = cv.getContext('2d');
+    var W = cv.width = 320, H = cv.height = 60;
+    var pts = [];
+    for(var i=0;i<22;i++){
+      pts.push({
+        x:Math.random()*W, y:Math.random()*H,
+        r:0.5+Math.random()*1.5,
+        vx:(Math.random()-.5)*0.25,
+        vy:-0.1-Math.random()*0.2,
+        alpha:0.1+Math.random()*0.35,
+        flicker:Math.random()*Math.PI*2
+      });
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      var t = Date.now()/1000;
+      pts.forEach(function(p){
+        p.x += p.vx; p.y += p.vy; p.flicker += 0.04;
+        if(p.y < -2) p.y = H+2;
+        if(p.x < -2) p.x = W+2;
+        if(p.x > W+2) p.x = -2;
+        var a = p.alpha*(0.6+0.4*Math.sin(p.flicker));
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(212,175,55,'+a+')';
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', initFormDust);
+  } else { initFormDust(); }
+})();
+</script>
+</body>
+</html>
