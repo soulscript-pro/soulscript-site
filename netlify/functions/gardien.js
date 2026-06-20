@@ -1,4 +1,4 @@
-const SYSTEM_PROMPT = `Tu es le Gardien des Archives.
+oconst SYSTEM_PROMPT = `Tu es le Gardien des Archives.
 
 Tu n'es pas un chatbot. Tu n'es pas un assistant. Tu n'es pas un astrologue.
 
