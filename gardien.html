@@ -171,8 +171,8 @@
 
     /* Texte d'accueil — couleur légèrement plus discrète */
     .parchemin-texte.accueil {
-      color: var(--or);
-      opacity: 0.65;
+      color: var(--or-pale);
+      opacity: 0.9;
       font-size: clamp(0.9rem, 1.1vw, 1rem);
     }
 
@@ -265,7 +265,8 @@
       line-height: 1.6;
     }
 
-    .question-input::placeholder { color: var(--cendre); font-style: italic; }
+    .question-input::placeholder { color: var(--cendre); font-style: italic; opacity: 0; transition: opacity 1s ease; }
+    .question-input.placeholder-visible::placeholder { opacity: 1; }
     .question-input:focus { border-color: rgba(201,168,76,0.45); }
     .question-input:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -357,8 +358,8 @@
       }
 
       .parchemin-texte {
-        font-size: 1.08rem;
-        line-height: 1.9;
+        font-size: 1.15rem;
+        line-height: 2;
       }
 
       .parchemin-label {
@@ -444,7 +445,8 @@
   const consultationState = document.getElementById('consultationState');
   const lionSeal = document.getElementById('lionSeal');
 
-  // ══ V2 — PHRASES D'ACCUEIL ALÉATOIRES ══
+  // ══ V3 — MÉMOIRE DES ARCHIVES (cookies) + COMPTEUR DE QUESTIONS ══
+
   const PHRASES_ACCUEIL = [
     "Les Archives reconnaissent votre présence…",
     "Chaque question attire le Gardien dont elle a besoin.",
@@ -462,18 +464,70 @@
     return PHRASES_ACCUEIL[Math.floor(Math.random() * PHRASES_ACCUEIL.length)];
   }
 
-  // Afficher la phrase d'accueil au chargement
+  // — Gestion des cookies —
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+  }
+
+  // — Compteur de visites —
+  function getVisites() {
+    return parseInt(getCookie('ss_visites') || '0', 10);
+  }
+
+  function incrementerVisites() {
+    const n = getVisites() + 1;
+    setCookie('ss_visites', n, 365);
+    return n;
+  }
+
+  // — Compteur de questions posées —
+  function getQuestionsCount() {
+    return parseInt(getCookie('ss_questions') || '0', 10);
+  }
+
+  function incrementerQuestions() {
+    const n = getQuestionsCount() + 1;
+    setCookie('ss_questions', n, 365);
+    return n;
+  }
+
+  // — Phrase de reconnaissance selon nombre de visites —
+  function phraseReconnaissance(visites) {
+    if (visites === 1) return null;
+    if (visites <= 3) return "Les Archives reconnaissent votre retour.";
+    if (visites <= 9) return "Vous revenez souvent ici… Les Archives se souviennent.";
+    return "Les Archives vous connaissent désormais. Chaque visite ouvre une porte plus profonde.";
+  }
+
+  // — Séquence d'accueil au chargement —
   window.addEventListener('load', () => {
     setTimeout(async () => {
+      const visites = incrementerVisites();
+      const reconnaissance = phraseReconnaissance(visites);
+
       parcheeminLabel.textContent = 'Les Archives';
       parcheeminLabel.classList.add('accueil');
       parcheeminTexte.classList.add('accueil');
       parchemin.classList.add('visible');
+
+      if (reconnaissance) {
+        await revelerTexte(reconnaissance, true);
+        await sleep(900);
+        parcheeminTexte.textContent = '';
+      }
+
       await revelerTexte(phraseAleatoire(), true);
+      setTimeout(() => input.classList.add('placeholder-visible'), 500);
     }, 1200);
   });
 
-  // ══ FIN V2 ══
+  // ══ FIN V3 ══
 
   input.addEventListener('input', () => {
     input.style.height = 'auto';
@@ -511,6 +565,7 @@
     parcheeminTexte.classList.remove('accueil');
 
     historique.push({ role: 'user', content: question });
+    incrementerQuestions(); // V3 — compteur
 
     try {
       const res = await fetch('/.netlify/functions/gardien', {
