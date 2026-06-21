@@ -14,7 +14,6 @@
       --or: #c9a84c;
       --or-pale: #e8d5a3;
       --or-dim: #6b5010;
-      --bronze: #8b6914;
       --ivoire: #f0e6cc;
       --cendre: #4a4035;
     }
@@ -27,16 +26,12 @@
       overflow: hidden;
     }
 
-    /* ══════════════════════════════
-       DESKTOP LAYOUT
-    ══════════════════════════════ */
+    /* ══ DESKTOP ══ */
     .scene {
       display: flex;
       height: 100vh;
-      position: relative;
     }
 
-    /* ── SCRIBE (60%) ── */
     .scribe-zone {
       position: relative;
       width: 60%;
@@ -72,7 +67,6 @@
       z-index: 1;
     }
 
-    /* Header */
     .header-overlay {
       position: absolute;
       top: 0; left: 0; right: 0;
@@ -100,7 +94,6 @@
       text-shadow: 0 0 30px rgba(201,168,76,0.4);
     }
 
-    /* Lion */
     .lion-seal {
       position: absolute;
       bottom: 4.5rem;
@@ -110,7 +103,6 @@
       opacity: 0.3;
       font-size: 1.6rem;
       color: var(--or);
-      text-shadow: 0 0 20px rgba(201,168,76,0.5);
       transition: opacity 0.5s;
     }
 
@@ -124,7 +116,6 @@
       50% { text-shadow: 0 0 60px rgba(201,168,76,1); }
     }
 
-    /* ── PARCHEMIN (40%) ── */
     .parchemin-zone {
       width: 40%;
       height: 100%;
@@ -132,7 +123,6 @@
       flex-direction: column;
       justify-content: center;
       padding: 3rem 2.5rem 9rem 2rem;
-      position: relative;
     }
 
     .parchemin {
@@ -172,20 +162,8 @@
       font-style: italic;
       color: var(--or-pale);
       line-height: 2.1;
-      letter-spacing: 0.02em;
     }
 
-    .parchemin::before {
-      content: '';
-      position: absolute;
-      left: 0.5rem;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3), transparent);
-    }
-
-    /* Curseur */
     .curseur {
       display: inline-block;
       width: 1px;
@@ -201,16 +179,13 @@
       50% { opacity: 0; }
     }
 
-    /* État consultation */
     .consultation-state {
       display: none;
       flex-direction: column;
       gap: 1.25rem;
     }
 
-    .consultation-state.visible {
-      display: flex;
-    }
+    .consultation-state.visible { display: flex; }
 
     .consultation-label {
       font-family: 'Cinzel', serif;
@@ -234,7 +209,7 @@
       animation: fade-pulse 2.5s ease-in-out infinite;
     }
 
-    /* ── CHAMP QUESTION ── */
+    /* ══ CHAMP QUESTION ══ */
     .question-zone {
       position: fixed;
       bottom: 0; left: 0; right: 0;
@@ -315,95 +290,99 @@
       text-transform: uppercase;
     }
 
-    /* ══════════════════════════════
-       MOBILE LAYOUT
-    ══════════════════════════════ */
+    /* ══ MOBILE ══ */
     @media (max-width: 768px) {
       html, body {
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: auto;
+        overflow: hidden;
+        height: 100%;
+        height: 100dvh;
       }
 
       .scene {
         flex-direction: column;
-        height: auto;
-        min-height: 100vh;
+        height: 100vh;
+        height: 100dvh;
       }
 
-      /* Vidéo mobile : pleine largeur, hauteur fixe, cover */
+      /* Vidéo : prend exactement 55% de l'écran */
       .scribe-zone {
         width: 100%;
-        height: 56vw;
-        min-height: 240px;
-        max-height: 380px;
+        height: 55vh;
+        height: 55dvh;
         flex-shrink: 0;
       }
 
       .scribe-video {
         object-fit: cover;
-        object-position: center 25%;
+        object-position: center 20%;
       }
 
-      /* Gradient mobile vers le bas */
       .scribe-zone::after {
         background: linear-gradient(to bottom, transparent 50%, var(--noir) 100%);
       }
 
       .scribe-zone::before {
-        background: linear-gradient(to bottom, rgba(10,8,6,0.4) 0%, transparent 40%);
+        background: linear-gradient(to bottom, rgba(10,8,6,0.4) 0%, transparent 35%);
       }
 
-      /* Header mobile plus petit */
       .header-overlay {
-        padding: 1rem 1.25rem;
+        padding: 0.9rem 1.1rem;
       }
 
-      .header-eyebrow { font-size: 0.42rem; letter-spacing: 0.25em; }
-      .header-title { font-size: 0.78rem; letter-spacing: 0.15em; }
+      .header-eyebrow { font-size: 0.4rem; letter-spacing: 0.2em; }
+      .header-title { font-size: 0.72rem; letter-spacing: 0.12em; }
 
-      /* Lion mobile */
       .lion-seal {
-        font-size: 1.1rem;
-        bottom: 0.75rem;
-        left: 50%;
+        font-size: 1rem;
+        bottom: 0.5rem;
       }
 
-      /* Parchemin mobile : juste en dessous de la vidéo */
+      /* Parchemin : occupe le reste de l'écran moins le champ */
       .parchemin-zone {
         width: 100%;
+        flex: 1;
         height: auto;
-        padding: 1.5rem 1.5rem 7rem;
-        justify-content: flex-start;
+        padding: 1rem 1.25rem 5.5rem;
+        justify-content: center;
+        overflow: hidden;
       }
-
-      .parchemin::before { display: none; }
 
       .parchemin-texte {
-        font-size: 1rem;
-        line-height: 1.9;
+        font-size: 0.9rem;
+        line-height: 1.8;
       }
 
-      /* Champ mobile */
-      .question-zone {
-        padding: 0.75rem 1rem 1rem;
+      .parchemin-label {
+        font-size: 0.42rem;
+        margin-bottom: 0.75rem;
       }
+
+      .consultation-label { font-size: 0.45rem; }
+      .runes-animation { font-size: 0.65rem; }
+
+      /* Champ : collé en bas */
+      .question-zone {
+        padding: 0.6rem 0.9rem 0.8rem;
+      }
+
+      .question-zone::before { margin-bottom: 0.6rem; }
 
       .question-inner { gap: 0.5rem; }
 
       .question-input {
-        font-size: 0.95rem;
-        padding: 0.75rem 0.9rem;
-        min-height: 44px;
+        font-size: 0.9rem;
+        padding: 0.65rem 0.85rem;
+        min-height: 40px;
       }
 
       .consulter-btn {
-        font-size: 0.45rem;
-        padding: 0.75rem 1rem;
-        height: 44px;
+        font-size: 0.42rem;
+        padding: 0.65rem 0.9rem;
+        height: 40px;
+        letter-spacing: 0.15em;
       }
 
-      .mention { font-size: 0.38rem; margin-top: 0.4rem; }
+      .mention { font-size: 0.35rem; margin-top: 0.3rem; }
     }
   </style>
 </head>
@@ -411,51 +390,31 @@
 
 <div class="scene">
 
-  <!-- SCRIBE -->
   <div class="scribe-zone">
-    <video
-      class="scribe-video"
-      src="/gardien-loop.mp4"
-      autoplay
-      muted
-      loop
-      playsinline
-    ></video>
-
+    <video class="scribe-video" src="/gardien-loop.mp4" autoplay muted loop playsinline></video>
     <div class="header-overlay">
       <span class="header-eyebrow">Archives de l'Âme · Bibliothèque Interdite</span>
       <span class="header-title">Le Gardien des Archives</span>
     </div>
-
     <div class="lion-seal" id="lionSeal">🦁</div>
   </div>
 
-  <!-- PARCHEMIN -->
   <div class="parchemin-zone">
-
     <div class="consultation-state" id="consultationState">
       <div class="consultation-label">Le Gardien consulte les Archives</div>
       <div class="runes-animation">᛭ &nbsp; ᚱ &nbsp; ᚢ &nbsp; ᚾ &nbsp; ᛖ &nbsp; ᛋ &nbsp; ᛭</div>
     </div>
-
     <div class="parchemin" id="parchemin">
       <div class="parchemin-label">Le Gardien révèle</div>
       <div class="parchemin-texte" id="parcheeminTexte"></div>
     </div>
-
   </div>
 
 </div>
 
-<!-- CHAMP QUESTION -->
 <div class="question-zone">
   <div class="question-inner">
-    <textarea
-      id="questionInput"
-      class="question-input"
-      rows="1"
-      placeholder="Posez votre question au Gardien des Archives…"
-    ></textarea>
+    <textarea id="questionInput" class="question-input" rows="1" placeholder="Posez votre question au Gardien des Archives…"></textarea>
     <button id="consulterBtn" class="consulter-btn">Consulter</button>
   </div>
   <div class="mention">◆ &nbsp; Le Gardien éclaire. Il ne décide pas à votre place. &nbsp; ◆</div>
@@ -510,7 +469,6 @@
 
       const data = await res.json();
       const reponse = data.reply ?? "Les Archives sont momentanément silencieuses. Revenez dans quelques instants.";
-
       historique.push({ role: 'assistant', content: reponse });
 
       consultationState.classList.remove('visible');
@@ -538,19 +496,16 @@
     for (let i = 0; i < texte.length; i++) {
       const char = document.createTextNode(texte[i]);
       parcheeminTexte.insertBefore(char, curseur);
-      const delai = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' ? 110
-                  : texte[i] === ',' ? 60
-                  : texte[i] === ' ' ? 22
-                  : 32;
-      await sleep(delai);
+      const d = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' ? 110
+              : texte[i] === ',' ? 55
+              : texte[i] === ' ' ? 20
+              : 30;
+      await sleep(d);
     }
-
     setTimeout(() => curseur.remove(), 2500);
   }
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 
 </body>
