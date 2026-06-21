@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -155,13 +154,26 @@
       color: var(--or-dim);
     }
 
+    /* Label d'accueil — légèrement différent */
+    .parchemin-label.accueil {
+      color: var(--or-dim);
+      opacity: 0.7;
+    }
+
     .parchemin-texte {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 1.3vw, 1.15rem);
+      font-size: clamp(1.15rem, 1.6vw, 1.35rem);
       font-weight: 300;
       font-style: italic;
       color: var(--or-pale);
       line-height: 2.1;
+    }
+
+    /* Texte d'accueil — couleur légèrement plus discrète */
+    .parchemin-texte.accueil {
+      color: var(--or);
+      opacity: 0.65;
+      font-size: clamp(0.9rem, 1.1vw, 1rem);
     }
 
     .curseur {
@@ -345,8 +357,8 @@
       }
 
       .parchemin-texte {
-        font-size: 0.9rem;
-        line-height: 1.8;
+        font-size: 1.08rem;
+        line-height: 1.9;
       }
 
       .parchemin-label {
@@ -407,7 +419,7 @@
       <div class="runes-animation">᛭ &nbsp; ᚱ &nbsp; ᚢ &nbsp; ᚾ &nbsp; ᛖ &nbsp; ᛋ &nbsp; ᛭</div>
     </div>
     <div class="parchemin" id="parchemin">
-      <div class="parchemin-label">Le Gardien révèle</div>
+      <div class="parchemin-label" id="parcheeminLabel">Le Gardien révèle</div>
       <div class="parchemin-texte" id="parcheeminTexte"></div>
     </div>
   </div>
@@ -427,9 +439,41 @@
   const input = document.getElementById('questionInput');
   const btn = document.getElementById('consulterBtn');
   const parcheeminTexte = document.getElementById('parcheeminTexte');
+  const parcheeminLabel = document.getElementById('parcheeminLabel');
   const parchemin = document.getElementById('parchemin');
   const consultationState = document.getElementById('consultationState');
   const lionSeal = document.getElementById('lionSeal');
+
+  // ══ V2 — PHRASES D'ACCUEIL ALÉATOIRES ══
+  const PHRASES_ACCUEIL = [
+    "Les Archives reconnaissent votre présence…",
+    "Chaque question attire le Gardien dont elle a besoin.",
+    "Une page semble attendre votre question.",
+    "Quelqu'un écrit encore dans les profondeurs des Archives.",
+    "Vous ne venez pas ici par hasard.",
+    "Le Gardien a levé les yeux. Il vous attendait.",
+    "Certaines vérités n'attendent que d'être demandées.",
+    "Les Archives sont silencieuses. Elles écoutent.",
+    "Les Archives se sont ouvertes à votre approche.",
+    "Une page porte déjà votre nom.",
+  ];
+
+  function phraseAleatoire() {
+    return PHRASES_ACCUEIL[Math.floor(Math.random() * PHRASES_ACCUEIL.length)];
+  }
+
+  // Afficher la phrase d'accueil au chargement
+  window.addEventListener('load', () => {
+    setTimeout(async () => {
+      parcheeminLabel.textContent = 'Les Archives';
+      parcheeminLabel.classList.add('accueil');
+      parcheeminTexte.classList.add('accueil');
+      parchemin.classList.add('visible');
+      await revelerTexte(phraseAleatoire(), true);
+    }, 1200);
+  });
+
+  // ══ FIN V2 ══
 
   input.addEventListener('input', () => {
     input.style.height = 'auto';
@@ -461,6 +505,11 @@
     lionSeal.classList.add('active');
     parcheeminTexte.textContent = '';
 
+    // Rétablir le style normal (plus accueil)
+    parcheeminLabel.textContent = 'Le Gardien révèle';
+    parcheeminLabel.classList.remove('accueil');
+    parcheeminTexte.classList.remove('accueil');
+
     historique.push({ role: 'user', content: question });
 
     try {
@@ -490,7 +539,8 @@
     input.focus();
   }
 
-  async function revelerTexte(texte) {
+  // ══ V2 — isAccueil permet une vitesse plus lente pour la phrase d'accueil ══
+  async function revelerTexte(texte, isAccueil = false) {
     parcheeminTexte.textContent = '';
     const curseur = document.createElement('span');
     curseur.className = 'curseur';
@@ -499,10 +549,21 @@
     for (let i = 0; i < texte.length; i++) {
       const char = document.createTextNode(texte[i]);
       parcheeminTexte.insertBefore(char, curseur);
-      const d = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' ? 110
-              : texte[i] === ',' ? 55
-              : texte[i] === ' ' ? 20
-              : 30;
+
+      let d;
+      if (isAccueil) {
+        // Phrase d'accueil : plus lente, plus théâtrale
+        d = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' || texte[i] === '…' ? 180
+          : texte[i] === ',' ? 90
+          : texte[i] === ' ' ? 45
+          : 55;
+      } else {
+        // Réponse normale
+        d = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' ? 110
+          : texte[i] === ',' ? 55
+          : texte[i] === ' ' ? 20
+          : 30;
+      }
       await sleep(d);
     }
     setTimeout(() => curseur.remove(), 2500);
