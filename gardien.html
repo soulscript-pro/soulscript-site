@@ -209,7 +209,7 @@
       animation: fade-pulse 2.5s ease-in-out infinite;
     }
 
-    /* ══ CHAMP QUESTION ══ */
+    /* DESKTOP : champ fixe en bas */
     .question-zone {
       position: fixed;
       bottom: 0; left: 0; right: 0;
@@ -290,23 +290,26 @@
       text-transform: uppercase;
     }
 
-    /* ══ MOBILE ══ */
+    /* ══════════════════════════════
+       MOBILE — layout en colonne naturelle
+       Le formulaire N'EST PLUS fixed
+    ══════════════════════════════ */
     @media (max-width: 768px) {
       html, body {
-        overflow: hidden;
-        height: 100dvh;
+        height: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
       }
 
       .scene {
         flex-direction: column;
-        height: 100dvh;
-        position: relative;
+        height: auto;
       }
 
-      /* Vidéo : hauteur fixe compacte */
+      /* Vidéo mobile */
       .scribe-zone {
         width: 100%;
-        height: 42vh;
+        height: 48vh;
         flex-shrink: 0;
         position: relative;
       }
@@ -316,86 +319,72 @@
         object-position: center 20%;
       }
 
-      /* Gradient vers le bas uniquement */
       .scribe-zone::after {
-        background: linear-gradient(to bottom, transparent 40%, var(--noir) 100%);
+        background: linear-gradient(to bottom, transparent 45%, var(--noir) 100%);
       }
 
       .scribe-zone::before {
-        background: rgba(10,8,6,0.25);
+        background: rgba(10,8,6,0.2);
       }
 
-      .header-overlay {
-        padding: 0.75rem 1rem;
-      }
-
+      .header-overlay { padding: 0.8rem 1rem; }
       .header-eyebrow { font-size: 0.38rem; letter-spacing: 0.18em; }
-      .header-title { font-size: 0.68rem; letter-spacing: 0.1em; }
+      .header-title { font-size: 0.7rem; letter-spacing: 0.1em; }
 
       .lion-seal {
         font-size: 0.9rem;
-        bottom: 0.4rem;
+        bottom: 0.5rem;
       }
 
-      /* Parchemin : juste sous la vidéo, compact */
+      /* Parchemin mobile */
       .parchemin-zone {
         width: 100%;
-        flex: 1;
-        padding: 0.75rem 1.25rem 0;
+        height: auto;
+        padding: 1rem 1.25rem 0.5rem;
         justify-content: flex-start;
-        overflow: hidden;
       }
 
       .parchemin-texte {
-        font-size: 0.88rem;
-        line-height: 1.75;
+        font-size: 0.9rem;
+        line-height: 1.8;
       }
 
       .parchemin-label {
         font-size: 0.4rem;
         margin-bottom: 0.5rem;
-        letter-spacing: 0.3em;
       }
 
-      .consultation-label {
-        font-size: 0.42rem;
-        letter-spacing: 0.3em;
-      }
+      /* Cacher lion sur mobile */
+      .lion-seal { display: none; }
 
-      .runes-animation {
-        font-size: 0.6rem;
-        letter-spacing: 0.3em;
-      }
-
-      /* Champ : compact, collé en bas */
+      /* MOBILE : formulaire en flux normal, PAS fixed */
       .question-zone {
-        padding: 0.4rem 0.9rem 0.6rem;
-        background: linear-gradient(to top, rgba(10,8,6,1) 80%, transparent);
+        position: static;
+        padding: 0.75rem 1rem 1rem;
+        background: var(--noir);
+        margin-top: 16px;
       }
 
       .question-zone::before {
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.6rem;
       }
 
-      .question-inner { gap: 0.4rem; }
+      .question-inner { gap: 0.5rem; }
 
       .question-input {
-        font-size: 0.88rem;
-        padding: 0.55rem 0.8rem;
-        min-height: 38px;
+        font-size: 0.9rem;
+        padding: 0.65rem 0.85rem;
+        min-height: 42px;
       }
 
       .consulter-btn {
-        font-size: 0.4rem;
-        padding: 0.55rem 0.8rem;
-        height: 38px;
-        letter-spacing: 0.12em;
+        font-size: 0.42rem;
+        padding: 0.65rem 0.9rem;
+        height: 42px;
+        letter-spacing: 0.14em;
       }
 
-      .mention {
-        font-size: 0.32rem;
-        margin-top: 0.25rem;
-      }
+      .mention { font-size: 0.34rem; margin-top: 0.3rem; }
     }
   </style>
 </head>
@@ -425,6 +414,7 @@
 
 </div>
 
+<!-- Formulaire : dans le flux sur mobile, fixed sur desktop -->
 <div class="question-zone">
   <div class="question-inner">
     <textarea id="questionInput" class="question-input" rows="1" placeholder="Posez votre question au Gardien…"></textarea>
