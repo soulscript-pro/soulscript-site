@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1494,6 +1495,23 @@ footer{background:#000;border-top:1px solid rgba(212,175,55,.1);padding:72px 24p
     display: none !important;
   }
 }
+
+/* ── GARDIEN INVITE ── */
+.gardien-invite{background:#000;border-top:1px solid rgba(212,175,55,.08);border-bottom:1px solid rgba(212,175,55,.08);padding:72px 24px;display:flex;justify-content:center;align-items:center;}
+.gardien-invite-inner{max-width:560px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0;}
+.gardien-invite-ornement{font-size:10px;color:var(--gold-b);letter-spacing:4px;margin-bottom:1.25rem;animation:breathe 4s ease-in-out infinite;}
+.gardien-invite-eyebrow{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:5px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:1rem;}
+.gardien-invite-title{font-family:'Cinzel',serif;font-size:clamp(22px,3.5vw,38px);font-weight:400;letter-spacing:8px;color:var(--gold);text-transform:uppercase;text-shadow:0 0 60px rgba(212,175,55,.25),0 1px 0 rgba(0,0,0,.8);margin-bottom:0;}
+.gardien-invite-body{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.2vw,19px);font-style:italic;color:var(--text-soft);line-height:2;margin:1.5rem 0 2rem;}
+.gardien-invite-btn{display:inline-flex;align-items:center;gap:14px;padding:20px 52px;border:1px solid var(--gold-b);font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);text-decoration:none;text-transform:uppercase;background:transparent;cursor:pointer;position:relative;overflow:hidden;transition:color .45s,box-shadow .45s;animation:breathe 4s ease-in-out infinite;}
+.gardien-invite-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-b),var(--gold));transform:translateX(-101%);transition:transform .45s cubic-bezier(.4,0,.2,1);z-index:0;}
+.gardien-invite-btn span{position:relative;z-index:1;}
+.gardien-invite-btn .arr{font-size:13px;transition:transform .3s;}
+@media(hover:hover){.gardien-invite-btn:hover{color:#000;box-shadow:0 0 60px rgba(212,175,55,.35);}.gardien-invite-btn:hover::before{transform:translateX(0);}.gardien-invite-btn:hover .arr{transform:translateX(6px);}}
+.gardien-invite-btn:active{color:#000;}.gardien-invite-btn:active::before{transform:translateX(0);}
+.gardien-invite-note{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,.25);text-transform:uppercase;margin-top:1.5rem;line-height:2;}
+@media(max-width:640px){.gardien-invite{padding:52px 20px;}.gardien-invite-btn{padding:18px 32px;font-size:9px;letter-spacing:4px;width:100%;justify-content:center;}}
+
 </style>
 </head>
 <body>
@@ -1856,6 +1874,23 @@ footer{background:#000;border-top:1px solid rgba(212,175,55,.1);padding:72px 24p
     </div>
   </div>
 </section>
+
+<!-- ════ GARDIEN DES ARCHIVES ════ -->
+<div class="gardien-invite" id="gardien-invite">
+  <div class="gardien-invite-inner">
+    <div class="gardien-invite-ornement">◆</div>
+    <p class="gardien-invite-eyebrow">Bibliothèque Interdite · Archives de l'Âme</p>
+    <h2 class="gardien-invite-title">Le Gardien des Archives</h2>
+    <div class="ch-rule" style="margin:1.5rem auto;"><div class="ch-rule-diamond"></div></div>
+    <p class="gardien-invite-body">Posez une question.<br>Recevez une révélation des Archives.</p>
+    <a href="gardien.html" class="gardien-invite-btn">
+      <span>🦁&nbsp;&nbsp;Consulter le Gardien</span>
+      <span class="arr">→</span>
+    </a>
+    <p class="gardien-invite-note">Le Gardien éclaire. Il ne décide pas à votre place.</p>
+  </div>
+</div>
+
 
 <!-- ════ CE QUE CONTIENT VOTRE DOSSIER ════ -->
 <div class="receive-section" id="parcours-visuel">
