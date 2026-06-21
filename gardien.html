@@ -27,14 +27,16 @@
       overflow: hidden;
     }
 
-    /* ── LAYOUT PRINCIPAL ── */
+    /* ══════════════════════════════
+       DESKTOP LAYOUT
+    ══════════════════════════════ */
     .scene {
       display: flex;
       height: 100vh;
       position: relative;
     }
 
-    /* ── PARTIE GAUCHE : SCRIBE (60%) ── */
+    /* ── SCRIBE (60%) ── */
     .scribe-zone {
       position: relative;
       width: 60%;
@@ -52,42 +54,38 @@
       object-position: center 30%;
     }
 
-    /* Overlay gradient vers la droite */
     .scribe-zone::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to right, transparent 60%, var(--noir) 100%);
-      pointer-events: none;
-    }
-
-    /* Overlay gradient vers le bas pour le champ */
-    .scribe-zone::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(10,8,6,0.3) 0%, transparent 30%, transparent 65%, rgba(10,8,6,0.9) 100%);
+      background: linear-gradient(to right, transparent 55%, var(--noir) 100%);
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Header SOULSCRIPT sur la vidéo */
+    .scribe-zone::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(10,8,6,0.5) 0%, transparent 25%, transparent 70%, rgba(10,8,6,0.85) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Header */
     .header-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 2;
-      padding: 2rem 2.5rem;
+      padding: 1.75rem 2rem;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
       gap: 4px;
     }
 
     .header-eyebrow {
       font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       letter-spacing: 0.35em;
       color: var(--or-dim);
       text-transform: uppercase;
@@ -95,53 +93,52 @@
 
     .header-title {
       font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
+      font-size: 1rem;
       letter-spacing: 0.2em;
       color: var(--or);
       font-weight: 400;
       text-shadow: 0 0 30px rgba(201,168,76,0.4);
     }
 
-    /* Lion sceau */
+    /* Lion */
     .lion-seal {
       position: absolute;
-      bottom: 5rem;
+      bottom: 4.5rem;
       left: 50%;
       transform: translateX(-50%);
       z-index: 2;
-      opacity: 0.35;
-      font-size: 1.8rem;
+      opacity: 0.3;
+      font-size: 1.6rem;
       color: var(--or);
-      text-shadow: 0 0 20px rgba(201,168,76,0.6);
+      text-shadow: 0 0 20px rgba(201,168,76,0.5);
       transition: opacity 0.5s;
     }
 
     .lion-seal.active {
-      opacity: 0.7;
-      animation: pulse-lion 1.5s ease-in-out infinite;
+      opacity: 0.8;
+      animation: pulse-lion 1.2s ease-in-out infinite;
     }
 
     @keyframes pulse-lion {
-      0%, 100% { text-shadow: 0 0 20px rgba(201,168,76,0.4); }
-      50% { text-shadow: 0 0 50px rgba(201,168,76,0.9); }
+      0%, 100% { text-shadow: 0 0 20px rgba(201,168,76,0.3); }
+      50% { text-shadow: 0 0 60px rgba(201,168,76,1); }
     }
 
-    /* ── PARTIE DROITE : PARCHEMIN (40%) ── */
+    /* ── PARCHEMIN (40%) ── */
     .parchemin-zone {
       width: 40%;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 3rem 2.5rem 10rem 1.5rem;
+      padding: 3rem 2.5rem 9rem 2rem;
       position: relative;
     }
 
     .parchemin {
-      position: relative;
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(12px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
     }
 
     .parchemin.visible {
@@ -151,50 +148,48 @@
 
     .parchemin-label {
       font-family: 'Cinzel', serif;
-      font-size: 0.5rem;
+      font-size: 0.48rem;
       letter-spacing: 0.4em;
       color: var(--or-dim);
       text-transform: uppercase;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 0.75rem;
     }
 
     .parchemin-label::before,
     .parchemin-label::after {
       content: '◆';
-      font-size: 0.4rem;
+      font-size: 0.38rem;
       color: var(--or-dim);
     }
 
     .parchemin-texte {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      font-size: clamp(1rem, 1.3vw, 1.15rem);
       font-weight: 300;
       font-style: italic;
       color: var(--or-pale);
-      line-height: 2;
+      line-height: 2.1;
       letter-spacing: 0.02em;
-      min-height: 3rem;
     }
 
-    /* Bordure gauche dorée */
     .parchemin::before {
       content: '';
       position: absolute;
-      left: -1.5rem;
+      left: 0.5rem;
       top: 0;
       bottom: 0;
       width: 1px;
-      background: linear-gradient(to bottom, transparent, var(--or-dim), transparent);
+      background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3), transparent);
     }
 
-    /* Curseur clignotant */
+    /* Curseur */
     .curseur {
       display: inline-block;
       width: 1px;
-      height: 1.1em;
+      height: 1em;
       background: var(--or);
       margin-left: 2px;
       vertical-align: middle;
@@ -210,8 +205,7 @@
     .consultation-state {
       display: none;
       flex-direction: column;
-      gap: 1rem;
-      align-items: flex-start;
+      gap: 1.25rem;
     }
 
     .consultation-state.visible {
@@ -220,7 +214,7 @@
 
     .consultation-label {
       font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       letter-spacing: 0.4em;
       color: var(--or-dim);
       text-transform: uppercase;
@@ -228,127 +222,108 @@
     }
 
     @keyframes fade-pulse {
-      0%, 100% { opacity: 0.4; }
+      0%, 100% { opacity: 0.3; }
       50% { opacity: 1; }
     }
 
     .runes-animation {
-      font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
       color: var(--or);
-      opacity: 0.6;
-      animation: runes-shift 3s linear infinite;
+      opacity: 0.5;
+      animation: fade-pulse 2.5s ease-in-out infinite;
     }
 
-    @keyframes runes-shift {
-      0% { content: '᛭ ᚱ ᚢ ᚾ ᛖ ᛋ'; opacity: 0.3; }
-      50% { opacity: 0.8; }
-      100% { opacity: 0.3; }
-    }
-
-    /* ── CHAMP DE QUESTION ── */
+    /* ── CHAMP QUESTION ── */
     .question-zone {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       z-index: 10;
-      padding: 1.5rem 2.5rem 2rem;
-      background: linear-gradient(to top, rgba(10,8,6,0.98) 70%, transparent);
+      padding: 1.25rem 2rem 1.75rem;
+      background: linear-gradient(to top, rgba(10,8,6,0.98) 75%, transparent);
+    }
+
+    .question-zone::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.12), transparent);
+      margin-bottom: 1rem;
     }
 
     .question-inner {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       align-items: flex-end;
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
     }
 
     .question-input {
       flex: 1;
       background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(201,168,76,0.2);
+      border: 1px solid rgba(201,168,76,0.18);
       color: var(--ivoire);
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 1rem;
       font-style: italic;
       font-weight: 300;
-      padding: 1rem 1.25rem;
+      padding: 0.9rem 1.1rem;
       resize: none;
-      min-height: 52px;
-      max-height: 120px;
+      min-height: 48px;
+      max-height: 110px;
       outline: none;
       transition: border-color 0.3s;
       line-height: 1.6;
     }
 
-    .question-input::placeholder {
-      color: var(--cendre);
-      font-style: italic;
-    }
-
-    .question-input:focus {
-      border-color: rgba(201,168,76,0.5);
-    }
-
-    .question-input:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .question-input::placeholder { color: var(--cendre); font-style: italic; }
+    .question-input:focus { border-color: rgba(201,168,76,0.45); }
+    .question-input:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .consulter-btn {
       background: transparent;
       border: 1px solid var(--or-dim);
       color: var(--or);
       font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.25em;
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      padding: 1rem 1.5rem;
+      padding: 0.9rem 1.3rem;
       cursor: pointer;
       transition: all 0.3s;
       white-space: nowrap;
-      height: 52px;
+      height: 48px;
       flex-shrink: 0;
     }
 
     .consulter-btn:hover:not(:disabled) {
-      background: rgba(201,168,76,0.1);
+      background: rgba(201,168,76,0.08);
       border-color: var(--or);
-      box-shadow: 0 0 20px rgba(201,168,76,0.15);
     }
 
-    .consulter-btn:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
+    .consulter-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 
-    /* Ligne de séparation au-dessus */
-    .question-zone::before {
-      content: '';
-      display: block;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(201,168,76,0.15), transparent);
-      margin-bottom: 1.25rem;
-    }
-
-    /* Mention bas de page */
     .mention {
       text-align: center;
-      margin-top: 0.75rem;
+      margin-top: 0.6rem;
       font-family: 'Cinzel', serif;
-      font-size: 0.45rem;
-      letter-spacing: 0.3em;
+      font-size: 0.42rem;
+      letter-spacing: 0.28em;
       color: var(--cendre);
       text-transform: uppercase;
     }
 
-    /* ── MOBILE ── */
+    /* ══════════════════════════════
+       MOBILE LAYOUT
+    ══════════════════════════════ */
     @media (max-width: 768px) {
-      html, body { overflow: auto; }
+      html, body {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: auto;
+      }
 
       .scene {
         flex-direction: column;
@@ -356,31 +331,79 @@
         min-height: 100vh;
       }
 
+      /* Vidéo mobile : pleine largeur, hauteur fixe, cover */
       .scribe-zone {
         width: 100%;
-        height: 55vw;
-        min-height: 220px;
-        max-height: 320px;
+        height: 56vw;
+        min-height: 240px;
+        max-height: 380px;
+        flex-shrink: 0;
       }
 
+      .scribe-video {
+        object-fit: cover;
+        object-position: center 25%;
+      }
+
+      /* Gradient mobile vers le bas */
       .scribe-zone::after {
-        background: linear-gradient(to bottom, transparent 60%, var(--noir) 100%);
+        background: linear-gradient(to bottom, transparent 50%, var(--noir) 100%);
       }
 
+      .scribe-zone::before {
+        background: linear-gradient(to bottom, rgba(10,8,6,0.4) 0%, transparent 40%);
+      }
+
+      /* Header mobile plus petit */
+      .header-overlay {
+        padding: 1rem 1.25rem;
+      }
+
+      .header-eyebrow { font-size: 0.42rem; letter-spacing: 0.25em; }
+      .header-title { font-size: 0.78rem; letter-spacing: 0.15em; }
+
+      /* Lion mobile */
+      .lion-seal {
+        font-size: 1.1rem;
+        bottom: 0.75rem;
+        left: 50%;
+      }
+
+      /* Parchemin mobile : juste en dessous de la vidéo */
       .parchemin-zone {
         width: 100%;
         height: auto;
-        padding: 2rem 1.5rem 8rem;
+        padding: 1.5rem 1.5rem 7rem;
+        justify-content: flex-start;
       }
 
       .parchemin::before { display: none; }
 
-      .question-zone {
-        padding: 1rem 1rem 1.25rem;
+      .parchemin-texte {
+        font-size: 1rem;
+        line-height: 1.9;
       }
 
-      .header-title { font-size: 0.85rem; }
-      .lion-seal { font-size: 1.2rem; bottom: 1rem; }
+      /* Champ mobile */
+      .question-zone {
+        padding: 0.75rem 1rem 1rem;
+      }
+
+      .question-inner { gap: 0.5rem; }
+
+      .question-input {
+        font-size: 0.95rem;
+        padding: 0.75rem 0.9rem;
+        min-height: 44px;
+      }
+
+      .consulter-btn {
+        font-size: 0.45rem;
+        padding: 0.75rem 1rem;
+        height: 44px;
+      }
+
+      .mention { font-size: 0.38rem; margin-top: 0.4rem; }
     }
   </style>
 </head>
@@ -410,13 +433,11 @@
   <!-- PARCHEMIN -->
   <div class="parchemin-zone">
 
-    <!-- État consultation -->
     <div class="consultation-state" id="consultationState">
-      <div class="parchemin-label">Le Gardien consulte les Archives</div>
+      <div class="consultation-label">Le Gardien consulte les Archives</div>
       <div class="runes-animation">᛭ &nbsp; ᚱ &nbsp; ᚢ &nbsp; ᚾ &nbsp; ᛖ &nbsp; ᛋ &nbsp; ᛭</div>
     </div>
 
-    <!-- Parchemin réponse -->
     <div class="parchemin" id="parchemin">
       <div class="parchemin-label">Le Gardien révèle</div>
       <div class="parchemin-texte" id="parcheeminTexte"></div>
@@ -448,13 +469,11 @@
   const consultationState = document.getElementById('consultationState');
   const lionSeal = document.getElementById('lionSeal');
 
-  // Auto-resize textarea
   input.addEventListener('input', () => {
     input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+    input.style.height = Math.min(input.scrollHeight, 110) + 'px';
   });
 
-  // Enter pour envoyer
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -470,13 +489,11 @@
     const question = input.value.trim();
     if (!question || btn.disabled) return;
 
-    // Verrouillage
     input.disabled = true;
     btn.disabled = true;
     input.value = '';
     input.style.height = 'auto';
 
-    // État consultation
     parchemin.classList.remove('visible');
     consultationState.classList.add('visible');
     lionSeal.classList.add('active');
@@ -496,7 +513,6 @@
 
       historique.push({ role: 'assistant', content: reponse });
 
-      // Révélation
       consultationState.classList.remove('visible');
       parchemin.classList.add('visible');
       await revelerTexte(reponse);
@@ -522,11 +538,14 @@
     for (let i = 0; i < texte.length; i++) {
       const char = document.createTextNode(texte[i]);
       parcheeminTexte.insertBefore(char, curseur);
-      await sleep(texte[i] === ' ' ? 25 : texte[i] === '.' || texte[i] === '?' ? 120 : 35);
+      const delai = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' ? 110
+                  : texte[i] === ',' ? 60
+                  : texte[i] === ' ' ? 22
+                  : 32;
+      await sleep(delai);
     }
 
-    // Supprimer curseur après révélation
-    setTimeout(() => curseur.remove(), 2000);
+    setTimeout(() => curseur.remove(), 2500);
   }
 
   function sleep(ms) {
