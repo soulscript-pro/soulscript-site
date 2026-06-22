@@ -533,6 +533,57 @@
     /* Lion cliquable */
     .lion-seal { cursor: pointer; user-select: none; }
     /* ══ FIN V4 ══ */
+
+    /* ══ QUESTIONS SUGGÉRÉES ══ */
+    .questions-suggerees {
+      max-width: 860px;
+      margin: 0.75rem auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0 0;
+    }
+
+    .questions-suggerees-label {
+      width: 100%;
+      font-family: 'Cinzel', serif;
+      font-size: 0.38rem;
+      letter-spacing: 0.28em;
+      color: var(--or-dim);
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .question-suggeree {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--cendre);
+      cursor: pointer;
+      border: 1px solid rgba(201,168,76,0.08);
+      padding: 0.3rem 0.7rem;
+      background: rgba(201,168,76,0.02);
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .question-suggeree:hover {
+      color: var(--or-dim);
+      border-color: rgba(201,168,76,0.2);
+      background: rgba(201,168,76,0.04);
+    }
+
+    @media (max-width: 768px) {
+      .questions-suggerees {
+        padding: 0;
+        gap: 0.4rem;
+      }
+      .question-suggeree {
+        font-size: 0.75rem;
+        white-space: normal;
+      }
+    }
+    /* ══ FIN QUESTIONS SUGGÉRÉES ══ */
   </style>
 </head>
 <body>
@@ -564,10 +615,20 @@
 <!-- Formulaire : dans le flux sur mobile, fixed sur desktop -->
 <div class="question-zone">
   <div class="question-inner">
-    <textarea id="questionInput" class="question-input" rows="1" placeholder="Posez votre question au Gardien…"></textarea>
+    <textarea id="questionInput" class="question-input" rows="1" placeholder="Parlez d'un schéma qui se répète, d'une blessure ou d'un moment de vie…"></textarea>
     <button id="consulterBtn" class="consulter-btn">Consulter</button>
   </div>
   <div class="mention">◆ &nbsp; Le Gardien éclaire. Il ne décide pas à votre place. &nbsp; ◆</div>
+
+  <div class="questions-suggerees">
+    <div class="questions-suggerees-label">Questions que les visiteurs posent souvent</div>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi je répète toujours les mêmes schémas ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi je me sens seule même entourée ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">J'ai tout quitté et ça ne va pas mieux.</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi cette relation me bouleverse autant ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi ai-je l'impression de ne pas être à ma place ?</span>
+  </div>
+
 </div>
 
 <script>
@@ -759,6 +820,16 @@
   }
 
   function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  // ══ QUESTIONS SUGGÉRÉES ══
+  function remplirQuestion(el) {
+    input.value = el.textContent.trim();
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 110) + 'px';
+    input.focus();
+  }
+  // ══ FIN QUESTIONS SUGGÉRÉES ══
+
 
   // ══ V4 — ŒUF DE PÂQUES : 5 clics sur le titre ══
 
