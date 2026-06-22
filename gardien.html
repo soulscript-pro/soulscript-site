@@ -419,7 +419,7 @@
     }
 
     .salle-overlay.sombre {
-      background: rgba(5, 4, 3, 0.96);
+      background: rgba(5, 4, 3, 0.88);
     }
 
     .salle-porte {
@@ -506,6 +506,8 @@
       transition: all 0.3s;
       text-align: left;
     }
+
+    .question-oubliee:active { transform: scale(0.98); }
 
     .question-oubliee:hover {
       color: var(--or-pale);
@@ -860,7 +862,7 @@
 <!-- ══ V4 — SALLE DES QUESTIONS OUBLIÉES ══ -->
 <div class="salle-overlay" id="salleOverlay">
   <div class="salle-porte" id="sallePorte">
-    <div class="salle-icone-porte">🚪</div>
+
     <div class="salle-message" id="salleMessage"></div>
     <div class="salle-titre" id="salleTitre">Salle des Questions Oubliées</div>
     <div class="salle-separateur" id="salleSep"></div>
@@ -871,7 +873,7 @@
       <div class="question-oubliee" onclick="poserQuestionOubliee(this)">Pourquoi est-ce que je me sens différent des autres ?</div>
       <div class="question-oubliee" onclick="poserQuestionOubliee(this)">Qu'est-ce que j'ai abandonné en croyant protéger quelque chose ?</div>
     </div>
-    <div class="salle-fermer" id="salleFermer" onclick="fermerSalle()">◆ &nbsp; Refermer la porte &nbsp; ◆</div>
+    <div class="salle-fermer" id="salleFermer" onclick="fermerSalle()">◆ &nbsp; Refermer les Archives &nbsp; ◆</div>
   </div>
 </div>
 <!-- ══ FIN V4 ══ -->
