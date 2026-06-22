@@ -258,14 +258,14 @@
       font-weight: 300;
       padding: 0.9rem 1.1rem;
       resize: none;
-      min-height: 48px;
-      max-height: 110px;
+      min-height: 120px;
+      max-height: 160px;
       outline: none;
       transition: border-color 0.3s;
       line-height: 1.6;
     }
 
-    .question-input::placeholder { color: var(--cendre); font-style: italic; opacity: 0; transition: opacity 1s ease; }
+    .question-input::placeholder { color: #7a6a50; font-style: italic; opacity: 0; transition: opacity 1s ease; }
     .question-input.placeholder-visible::placeholder { opacity: 1; }
     .question-input:focus { border-color: rgba(201,168,76,0.45); }
     .question-input:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -387,7 +387,7 @@
       .question-input {
         font-size: 0.9rem;
         padding: 0.65rem 0.85rem;
-        min-height: 42px;
+        min-height: 100px;
       }
 
       .consulter-btn {
@@ -616,17 +616,18 @@
 <div class="question-zone">
   <div class="question-inner">
     <textarea id="questionInput" class="question-input" rows="1" placeholder="Parlez d'un schéma qui se répète, d'une blessure ou d'un moment de vie…"></textarea>
-    <button id="consulterBtn" class="consulter-btn">Consulter</button>
+    <button id="consulterBtn" class="consulter-btn">Interroger le Gardien</button>
   </div>
-  <div class="mention">◆ &nbsp; Le Gardien éclaire. Il ne décide pas à votre place. &nbsp; ◆</div>
+  <div class="mention">◆ &nbsp; Chaque question attire le Gardien dont elle a besoin. &nbsp; ◆</div>
+  <div class="mention" style="font-size:0.38rem;margin-top:0.3rem;opacity:0.5;">Le Gardien ne prédit pas l'avenir. Il révèle ce que votre âme essaie de vous montrer.</div>
 
   <div class="questions-suggerees">
     <div class="questions-suggerees-label">Questions que les visiteurs posent souvent</div>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi je répète toujours les mêmes schémas ?</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi je me sens seule même entourée ?</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">J'ai tout quitté et ça ne va pas mieux.</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi cette relation me bouleverse autant ?</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">Pourquoi ai-je l'impression de ne pas être à ma place ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi je répète toujours les mêmes schémas ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi je me sens seule même entourée ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ J'ai tout quitté et ça ne va pas mieux.</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi cette relation me bouleverse autant ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi ai-je l'impression de ne pas être à ma place ?</span>
   </div>
 
 </div>
