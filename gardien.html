@@ -303,33 +303,36 @@
 
     .question-inner {
       display: flex;
-      gap: 0.75rem;
-      align-items: flex-end;
-      max-width: 860px;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      max-width: 600px;
       margin: 0 auto;
     }
 
     .question-input {
       flex: 1;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(201,168,76,0.18);
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
       color: var(--ivoire);
       font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-style: italic;
       font-weight: 300;
-      padding: 0.9rem 1.1rem;
+      padding: 0.5rem 0.2rem;
       resize: none;
-      min-height: 120px;
-      max-height: 160px;
+      min-height: 44px;
+      max-height: 100px;
       outline: none;
-      transition: border-color 0.3s;
-      line-height: 1.6;
+      transition: border-color 0.4s;
+      line-height: 1.7;
+      width: 100%;
     }
 
-    .question-input::placeholder { color: #7a6a50; font-style: italic; opacity: 0; transition: opacity 1s ease; }
+    .question-input::placeholder { color: #6b5a3a; font-style: italic; opacity: 0; transition: opacity 1s ease; }
     .question-input.placeholder-visible::placeholder { opacity: 1; }
-    .question-input:focus { border-color: rgba(201,168,76,0.45); }
+    .question-input:focus { border-bottom-color: rgba(201,168,76,0.7); }
     .question-input:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .consulter-btn {
@@ -337,15 +340,13 @@
       border: 1px solid var(--or-dim);
       color: var(--or);
       font-family: 'Cinzel', serif;
-      font-size: 0.5rem;
-      letter-spacing: 0.22em;
+      font-size: 0.48rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      padding: 0.9rem 1.3rem;
+      padding: 0.75rem 2rem;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.35s;
       white-space: nowrap;
-      height: 48px;
-      flex-shrink: 0;
     }
 
     .consulter-btn:hover:not(:disabled) {
@@ -449,16 +450,15 @@
       .question-inner { gap: 0.5rem; }
 
       .question-input {
-        font-size: 0.9rem;
-        padding: 0.65rem 0.85rem;
-        min-height: 100px;
+        font-size: 0.95rem;
+        padding: 0.5rem 0.1rem;
+        min-height: 44px;
       }
 
       .consulter-btn {
         font-size: 0.42rem;
-        padding: 0.65rem 0.9rem;
-        height: 42px;
-        letter-spacing: 0.14em;
+        padding: 0.65rem 1.5rem;
+        letter-spacing: 0.18em;
       }
 
       .mention { font-size: 0.34rem; margin-top: 0.3rem; }
@@ -879,19 +879,34 @@
     curseur.className = 'curseur';
     parcheeminTexte.appendChild(curseur);
 
+    // Intro cérémonielle avant la réponse du Gardien
+    if (!isAccueil) {
+      // Séparateur
+      const sep = document.createElement('div');
+      sep.style.cssText = 'font-size:0.7rem;letter-spacing:0.4em;color:var(--or-dim);opacity:0.5;margin-bottom:0.8rem;';
+      sep.textContent = '✦  ✦  ✦';
+      parcheeminTexte.insertBefore(sep, curseur);
+      await sleep(600);
+
+      // Message intro
+      const intro = document.createElement('div');
+      intro.style.cssText = 'font-family:Cinzel,serif;font-size:0.44rem;letter-spacing:0.3em;color:var(--or-dim);text-transform:uppercase;margin-bottom:1.2rem;animation:fade-pulse 1.5s ease-in-out 2;opacity:0.7;';
+      intro.textContent = '📖  Le Gardien a trouvé votre dossier';
+      parcheeminTexte.insertBefore(intro, curseur);
+      await sleep(1200);
+    }
+
     for (let i = 0; i < texte.length; i++) {
       const char = document.createTextNode(texte[i]);
       parcheeminTexte.insertBefore(char, curseur);
 
       let d;
       if (isAccueil) {
-        // Phrase d'accueil : plus lente, plus théâtrale
         d = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' || texte[i] === '…' ? 180
           : texte[i] === ',' ? 90
           : texte[i] === ' ' ? 45
           : 55;
       } else {
-        // Réponse normale
         d = texte[i] === '.' || texte[i] === '?' || texte[i] === '!' ? 110
           : texte[i] === ',' ? 55
           : texte[i] === ' ' ? 20
@@ -899,6 +914,16 @@
       }
       await sleep(d);
     }
+
+    // Signature finale
+    if (!isAccueil) {
+      await sleep(400);
+      const signature = document.createElement('div');
+      signature.style.cssText = 'font-family:Cinzel,serif;font-size:0.38rem;letter-spacing:0.25em;color:var(--or-dim);text-transform:uppercase;margin-top:1.5rem;opacity:0.45;text-align:right;';
+      signature.textContent = '— Le Gardien des Archives';
+      parcheeminTexte.insertBefore(signature, curseur);
+    }
+
     setTimeout(() => curseur.remove(), 2500);
   }
 
