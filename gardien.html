@@ -264,6 +264,13 @@
       background: rgba(201,168,76,0.15);
       border-color: var(--or);
       box-shadow: 0 0 20px rgba(201,168,76,0.3);
+      animation: pulse-porte 0.5s ease;
+    }
+
+    @keyframes pulse-porte {
+      0%   { box-shadow: 0 0 0px rgba(201,168,76,0); }
+      50%  { box-shadow: 0 0 30px rgba(201,168,76,0.5); }
+      100% { box-shadow: 0 0 20px rgba(201,168,76,0.3); }
     }
 
     /* Particules dorées */
@@ -353,7 +360,7 @@
       font-size: 0.48rem;
       letter-spacing: 0.28em;
       text-transform: uppercase;
-      padding: 0.85rem 2rem;
+      padding: 1rem 2rem;
       cursor: pointer;
       transition: all 0.35s;
       white-space: nowrap;
@@ -652,7 +659,7 @@
       cursor: pointer;
       border: none;
       border-bottom: 1px solid rgba(201,168,76,0.12);
-      padding: 0.75rem 0.2rem;
+      padding: 0.55rem 0.2rem;
       background: transparent;
       transition: all 0.35s;
       white-space: normal;
@@ -752,7 +759,7 @@
     "Les Archives reconnaissent votre présence…",
     "Chaque question attire le Gardien dont elle a besoin.",
     "Une page semble attendre votre question.",
-    "Quelqu'un écrit encore dans les profondeurs des Archives.",
+    "Quelqu'un écrit encore dans les profondeurs des Archives…",
     "Vous ne venez pas ici par hasard.",
     "Le Gardien a levé les yeux. Il vous attendait.",
     "Certaines vérités n'attendent que d'être demandées.",
@@ -1064,6 +1071,37 @@
   setInterval(() => creerParticule(), 4000);
 
   // ══ FIN ANIMATIONS V5 ══
+
+  // ══ MESSAGE INACTIVITÉ ══
+  let timerInactivite = null;
+  const MSG_INACTIVITE = 'Les Archives attendent votre question…';
+
+  function demarrerInactivite() {
+    clearTimeout(timerInactivite);
+    timerInactivite = setTimeout(() => {
+      // Seulement si le champ est vide et pas de réponse en cours
+      if (!input.value.trim() && !btn.disabled && !parchemin.classList.contains('visible')) {
+        parcheeminLabel.textContent = 'Les Archives';
+        parcheeminLabel.classList.add('accueil');
+        parcheeminTexte.classList.add('accueil');
+        parchemin.classList.add('visible');
+        revelerTexte(MSG_INACTIVITE, true).then(() => {
+          setTimeout(() => {
+            parchemin.classList.remove('visible');
+            setTimeout(() => { parcheeminTexte.textContent = ''; }, 900);
+          }, 4000);
+        });
+      }
+    }, 12000);
+  }
+
+  // Réinitialiser le timer à chaque interaction
+  ['click', 'keydown', 'touchstart'].forEach(evt =>
+    document.addEventListener(evt, demarrerInactivite, { passive: true })
+  );
+  demarrerInactivite();
+  // ══ FIN MESSAGE INACTIVITÉ ══
+
 
   // ══ QUESTIONS SUGGÉRÉES ══
   function remplirQuestion(el) {
