@@ -877,10 +877,15 @@
     incrementerQuestions(); // V3 — compteur
 
     try {
+      // V5 — Détection des clés secrètes
+      const cles = detecterCles(question);
+      microAnimationCles(cles);
+      const instructionSpeciale = construireSystemePrompt(cles);
+
       const res = await fetch('/.netlify/functions/gardien', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: historique }),
+        body: JSON.stringify({ messages: historique, resonance: instructionSpeciale }),
       });
 
       const data = await res.json();
@@ -1071,6 +1076,80 @@
   setInterval(() => creerParticule(), 4000);
 
   // ══ FIN ANIMATIONS V5 ══
+
+
+  // ══ V5 — CLÉS SECRÈTES ══
+
+  const CLES_EMOTIONNELLES = [
+    'abandon', 'abandonnée', 'abandonnée', 'solitude', 'seule', 'seul',
+    'amour', 'père', 'pére', 'mere', 'mère', 'rejet', 'rejetée', 'rejeté',
+    'trahison', 'trahie', 'trahi', 'peur', 'deuil', 'mort', 'perdu', 'perdue'
+  ];
+
+  const CLES_SACREES = [
+    'mission', 'destin', 'âme', 'ame', 'appel', 'place', 'répétition',
+    'repetition', 'transformation', 'renaissance', 'chemin', 'sens', 'vocation'
+  ];
+
+  function detecterCles(texte) {
+    const t = texte.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const clesDetectees = { emotionnelles: [], sacrees: [] };
+    CLES_EMOTIONNELLES.forEach(c => {
+      const cn = c.normalize('NFD').replace(/[̀-ͯ]/g, '');
+      if (t.includes(cn)) clesDetectees.emotionnelles.push(c);
+    });
+    CLES_SACREES.forEach(c => {
+      const cn = c.normalize('NFD').replace(/[̀-ͯ]/g, '');
+      if (t.includes(cn)) clesDetectees.sacrees.push(c);
+    });
+    return clesDetectees;
+  }
+
+  function microAnimationCles(cles) {
+    const nbCles = cles.emotionnelles.length + cles.sacrees.length;
+    if (nbCles === 0) return;
+
+    // Particules supplémentaires très discrètes
+    const nbParticules = Math.min(nbCles * 2, 6);
+    for (let i = 0; i < nbParticules; i++) {
+      setTimeout(() => creerParticule(), i * 200);
+    }
+
+    // Rune qui pulse brièvement
+    const runesEl = document.getElementById('runesAnimation');
+    if (runesEl && cles.sacrees.length > 0) {
+      setTimeout(() => {
+        runesEl.style.opacity = '0.9';
+        runesEl.style.transition = 'opacity 0.3s';
+        setTimeout(() => { runesEl.style.opacity = ''; }, 800);
+      }, 300);
+    }
+  }
+
+  function construireSystemePrompt(cles) {
+    if (cles.emotionnelles.length === 0 && cles.sacrees.length === 0) return null;
+
+    let instruction = '\n\n[RÉSONANCE DES ARCHIVES — confidentiel]\n';
+
+    if (cles.emotionnelles.length > 0) {
+      instruction += `Les Archives ont reconnu les thèmes suivants dans cette question : ${cles.emotionnelles.join(', ')}. `;
+      instruction += 'Répondre avec davantage de profondeur, de douceur et de symbolisme. ';
+      instruction += 'Ne jamais mentionner ces mots-clés explicitement. Laisser la vérité émerger entre les lignes.\n';
+    }
+
+    if (cles.sacrees.length > 0) {
+      instruction += `Les Archives ont également reconnu des thèmes sacrés : ${cles.sacrees.join(', ')}. `;
+      instruction += "Traiter cette question comme un appel de l’âme. La réponse doit toucher quelque chose d’essentiel et d’irréversible.\n";
+    }
+
+    if (cles.emotionnelles.length > 0 && cles.sacrees.length > 0) {
+      instruction += 'Cette question contient une résonance multiple. Elle mérite une réponse qui soit à la hauteur de ce qui se cherche vraiment.\n';
+    }
+
+    return instruction;
+  }
+
+  // ══ FIN V5 ══
 
   // ══ MESSAGE INACTIVITÉ ══
   let timerInactivite = null;
