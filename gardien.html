@@ -194,10 +194,42 @@
     .consultation-state {
       display: none;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.5rem;
+      align-items: flex-start;
     }
 
     .consultation-state.visible { display: flex; }
+
+    @keyframes fade-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* Plume animée */
+    .plume-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .plume-icone {
+      font-size: 1.4rem;
+      animation: plume-ecrire 1.5s ease-in-out infinite;
+      transform-origin: bottom left;
+    }
+
+    @keyframes plume-ecrire {
+      0%   { transform: rotate(-5deg) translateX(0); opacity: 0.6; }
+      30%  { transform: rotate(5deg) translateX(4px); opacity: 1; }
+      60%  { transform: rotate(-3deg) translateX(2px); opacity: 0.8; }
+      100% { transform: rotate(-5deg) translateX(0); opacity: 0.6; }
+    }
+
+    .consultation-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
 
     .consultation-label {
       font-family: 'Cinzel', serif;
@@ -208,17 +240,47 @@
       animation: fade-pulse 2s ease-in-out infinite;
     }
 
-    @keyframes fade-pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
+    .consultation-sous-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--or-dim);
+      opacity: 0.7;
+      animation: fade-pulse 2.5s ease-in-out 0.5s infinite;
     }
 
     .runes-animation {
-      font-size: 0.75rem;
-      letter-spacing: 0.4em;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
       color: var(--or);
-      opacity: 0.5;
-      animation: fade-pulse 2.5s ease-in-out infinite;
+      opacity: 0.4;
+      animation: fade-pulse 3s ease-in-out infinite;
+      margin-top: 0.5rem;
+    }
+
+    /* Bouton illuminé au clic */
+    .consulter-btn.active {
+      background: rgba(201,168,76,0.15);
+      border-color: var(--or);
+      box-shadow: 0 0 20px rgba(201,168,76,0.3);
+    }
+
+    /* Particules dorées */
+    .particule {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.8), transparent);
+      animation: particule-flotter linear infinite;
+    }
+
+    @keyframes particule-flotter {
+      0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(-100vh) translateX(var(--drift)) scale(0.3); opacity: 0; }
     }
 
     /* DESKTOP : champ fixe en bas */
@@ -601,7 +663,13 @@
 
   <div class="parchemin-zone">
     <div class="consultation-state" id="consultationState">
-      <div class="consultation-label">Le Gardien consulte les Archives</div>
+      <div class="plume-container">
+        <span class="plume-icone">🪶</span>
+        <div class="consultation-messages">
+          <div class="consultation-label">Le Gardien consulte les Archives</div>
+          <div class="consultation-sous-label" id="consultationSousLabel">Les Archives recherchent votre dossier d'âme…</div>
+        </div>
+      </div>
       <div class="runes-animation">᛭ &nbsp; ᚱ &nbsp; ᚢ &nbsp; ᚾ &nbsp; ᛖ &nbsp; ᛋ &nbsp; ᛭</div>
     </div>
     <div class="parchemin" id="parchemin">
@@ -615,7 +683,7 @@
 <!-- Formulaire : dans le flux sur mobile, fixed sur desktop -->
 <div class="question-zone">
   <div class="question-inner">
-    <textarea id="questionInput" class="question-input" rows="1" placeholder="Parlez d'un schéma qui se répète, d'une blessure ou d'un moment de vie…"></textarea>
+    <textarea id="questionInput" class="question-input" rows="1" placeholder="Déposez ici une question, un doute, une répétition ou un moment de vie…"></textarea>
     <button id="consulterBtn" class="consulter-btn">Interroger le Gardien</button>
   </div>
   <div class="mention">◆ &nbsp; Chaque question attire le Gardien dont elle a besoin. &nbsp; ◆</div>
@@ -753,6 +821,7 @@
     parchemin.classList.remove('visible');
     consultationState.classList.add('visible');
     lionSeal.classList.add('active');
+    demarrerChargement();
     parcheeminTexte.textContent = '';
 
     // Rétablir le style normal (plus accueil)
@@ -784,6 +853,7 @@
       await revelerTexte("Les Archives sont momentanément silencieuses. Revenez dans quelques instants.");
     }
 
+    arreterChargement();
     lionSeal.classList.remove('active');
     input.disabled = false;
     btn.disabled = false;
@@ -821,6 +891,73 @@
   }
 
   function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+
+  // ══ ANIMATIONS V5 ══
+
+  // Messages de chargement rotatifs
+  const MESSAGES_CHARGEMENT = [
+    "Les Archives recherchent votre dossier d'âme…",
+    "Le Gardien cherche dans les mémoires anciennes…",
+    "Les pages se tournent dans les profondeurs…",
+    "Une réponse prend forme dans les Archives…",
+    "Le Gardien écoute ce que vous n'avez pas dit…",
+  ];
+
+  let intervalleChargement = null;
+
+  function demarrerChargement() {
+    const sousLabel = document.getElementById('consultationSousLabel');
+    if (!sousLabel) return;
+    let idx = 0;
+    sousLabel.textContent = MESSAGES_CHARGEMENT[idx];
+    intervalleChargement = setInterval(() => {
+      idx = (idx + 1) % MESSAGES_CHARGEMENT.length;
+      sousLabel.style.opacity = '0';
+      setTimeout(() => {
+        sousLabel.textContent = MESSAGES_CHARGEMENT[idx];
+        sousLabel.style.opacity = '';
+      }, 400);
+    }, 2800);
+  }
+
+  function arreterChargement() {
+    if (intervalleChargement) {
+      clearInterval(intervalleChargement);
+      intervalleChargement = null;
+    }
+  }
+
+  // Bouton illuminé au clic
+  btn.addEventListener('mousedown', () => btn.classList.add('active'));
+  btn.addEventListener('mouseup', () => setTimeout(() => btn.classList.remove('active'), 600));
+
+  // Particules dorées discrètes
+  function creerParticule() {
+    const p = document.createElement('div');
+    p.className = 'particule';
+    const size = Math.random() * 3 + 1;
+    const drift = (Math.random() - 0.5) * 80;
+    const duration = Math.random() * 12 + 8;
+    const left = Math.random() * 100;
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${left}vw;
+      bottom: -10px;
+      --drift: ${drift}px;
+      animation-duration: ${duration}s;
+      animation-delay: ${Math.random() * 8}s;
+    `;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), (duration + 8) * 1000);
+  }
+
+  // Lancer quelques particules discrètes
+  for (let i = 0; i < 8; i++) creerParticule();
+  setInterval(() => creerParticule(), 4000);
+
+  // ══ FIN ANIMATIONS V5 ══
 
   // ══ QUESTIONS SUGGÉRÉES ══
   function remplirQuestion(el) {
