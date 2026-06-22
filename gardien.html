@@ -333,6 +333,15 @@
     .question-input::placeholder { color: #6b5a3a; font-style: italic; opacity: 0; transition: opacity 1s ease; }
     .question-input.placeholder-visible::placeholder { opacity: 1; }
     .question-input:focus { border-bottom-color: rgba(201,168,76,0.7); }
+
+    @keyframes lueur-ligne {
+      0%   { box-shadow: -100px 0 0 0 rgba(201,168,76,0); }
+      30%  { box-shadow: 0px 0 8px 1px rgba(201,168,76,0.5); }
+      100% { box-shadow: 100px 0 0 0 rgba(201,168,76,0); }
+    }
+    .question-input:focus {
+      animation: lueur-ligne 1s ease forwards;
+    }
     .question-input:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .consulter-btn {
@@ -343,10 +352,25 @@
       font-size: 0.48rem;
       letter-spacing: 0.28em;
       text-transform: uppercase;
-      padding: 0.75rem 2rem;
+      padding: 0.85rem 2rem;
       cursor: pointer;
       transition: all 0.35s;
       white-space: nowrap;
+      width: 100%;
+      position: relative;
+      clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0% 50%);
+    }
+    .consulter-btn::before {
+      content: '◆';
+      margin-right: 0.8em;
+      font-size: 0.6em;
+      opacity: 0.6;
+    }
+    .consulter-btn::after {
+      content: '◆';
+      margin-left: 0.8em;
+      font-size: 0.6em;
+      opacity: 0.6;
     }
 
     .consulter-btn:hover:not(:disabled) {
@@ -702,7 +726,7 @@
   <div class="mention" style="font-size:0.38rem;margin-top:0.3rem;opacity:0.5;">Le Gardien ne prédit pas l'avenir. Il révèle ce que votre âme essaie de vous montrer.</div>
 
   <div class="questions-suggerees">
-    <div class="questions-suggerees-label">Questions que les visiteurs posent souvent</div>
+    <div class="questions-suggerees-label">Questions que les visiteurs murmurent aux Archives</div>
     <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi je répète toujours les mêmes schémas ?</span>
     <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi je me sens seule même entourée ?</span>
     <span class="question-suggeree" onclick="remplirQuestion(this)">✦ J'ai tout quitté et ça ne va pas mieux.</span>
