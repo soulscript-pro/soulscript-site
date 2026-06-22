@@ -60,10 +60,15 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: "Invalid JSON" };
   }
 
-  const { messages } = body;
+  const { messages, resonance } = body;
   if (!messages || !Array.isArray(messages)) {
     return { statusCode: 400, body: "Missing messages array" };
   }
+
+  // V5 — Construire le system prompt enrichi si résonance détectée
+  const systemPromptFinal = resonance
+    ? SYSTEM_PROMPT + resonance
+    : SYSTEM_PROMPT;
 
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -76,7 +81,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         model: "claude-sonnet-4-6",
         max_tokens: 400,
-        system: SYSTEM_PROMPT,
+        system: systemPromptFinal,
         messages: messages,
       }),
     });
