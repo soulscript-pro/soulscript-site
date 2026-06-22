@@ -171,8 +171,8 @@
 
     /* Texte d'accueil — couleur légèrement plus discrète */
     .parchemin-texte.accueil {
-      color: var(--or-pale);
-      opacity: 0.9;
+      color: var(--or);
+      opacity: 0.65;
       font-size: clamp(0.9rem, 1.1vw, 1rem);
     }
 
@@ -265,8 +265,7 @@
       line-height: 1.6;
     }
 
-    .question-input::placeholder { color: var(--cendre); font-style: italic; opacity: 0; transition: opacity 1s ease; }
-    .question-input.placeholder-visible::placeholder { opacity: 1; }
+    .question-input::placeholder { color: var(--cendre); font-style: italic; }
     .question-input:focus { border-color: rgba(201,168,76,0.45); }
     .question-input:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -358,8 +357,8 @@
       }
 
       .parchemin-texte {
-        font-size: 1.15rem;
-        line-height: 2;
+        font-size: 1.08rem;
+        line-height: 1.9;
       }
 
       .parchemin-label {
@@ -399,138 +398,6 @@
 
       .mention { font-size: 0.34rem; margin-top: 0.3rem; }
     }
-
-    /* ══ V4 — SALLE DES QUESTIONS OUBLIÉES ══ */
-
-    .salle-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(5, 4, 3, 0);
-      transition: background 1.2s ease;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .salle-overlay.active {
-      display: flex;
-    }
-
-    .salle-overlay.sombre {
-      background: rgba(5, 4, 3, 0.96);
-    }
-
-    .salle-porte {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-      opacity: 0;
-      transform: scale(0.94);
-      transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
-      max-width: 480px;
-      width: 90%;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .salle-overlay.sombre .salle-porte {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .salle-icone-porte {
-      font-size: 3rem;
-      animation: porte-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes porte-pulse {
-      0%, 100% { text-shadow: 0 0 20px rgba(201,168,76,0.3); opacity: 0.7; }
-      50% { text-shadow: 0 0 60px rgba(201,168,76,0.9); opacity: 1; }
-    }
-
-    .salle-message {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 1.4vw, 1.2rem);
-      font-style: italic;
-      font-weight: 300;
-      color: var(--or-pale);
-      line-height: 2;
-      min-height: 4em;
-    }
-
-    .salle-titre {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(0.7rem, 1.2vw, 0.9rem);
-      letter-spacing: 0.3em;
-      color: var(--or);
-      text-transform: uppercase;
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-
-    .salle-titre.visible { opacity: 1; }
-
-    .salle-separateur {
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--or-dim), transparent);
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-
-    .salle-separateur.visible { opacity: 1; }
-
-    .questions-oubliees {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      opacity: 0;
-      transition: opacity 1s ease;
-      width: 100%;
-    }
-
-    .questions-oubliees.visible { opacity: 1; }
-
-    .question-oubliee {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(0.85rem, 1.1vw, 1rem);
-      font-style: italic;
-      color: var(--or-dim);
-      cursor: pointer;
-      padding: 0.6rem 1rem;
-      border: 1px solid rgba(201,168,76,0.1);
-      background: rgba(201,168,76,0.02);
-      transition: all 0.3s;
-      text-align: left;
-    }
-
-    .question-oubliee:hover {
-      color: var(--or-pale);
-      border-color: rgba(201,168,76,0.3);
-      background: rgba(201,168,76,0.06);
-    }
-
-    .salle-fermer {
-      font-family: 'Cinzel', serif;
-      font-size: 0.38rem;
-      letter-spacing: 0.3em;
-      color: var(--cendre);
-      text-transform: uppercase;
-      cursor: pointer;
-      margin-top: 1rem;
-      opacity: 0;
-      transition: opacity 1s ease 2s, color 0.3s;
-    }
-
-    .salle-fermer.visible { opacity: 1; }
-    .salle-fermer:hover { color: var(--or-dim); }
-
-    /* Lion cliquable */
-    .lion-seal { cursor: pointer; user-select: none; }
-    /* ══ FIN V4 ══ */
   </style>
 </head>
 <body>
@@ -577,8 +444,7 @@
   const consultationState = document.getElementById('consultationState');
   const lionSeal = document.getElementById('lionSeal');
 
-  // ══ V3 — MÉMOIRE DES ARCHIVES (cookies) + COMPTEUR DE QUESTIONS ══
-
+  // ══ V2 — PHRASES D'ACCUEIL ALÉATOIRES ══
   const PHRASES_ACCUEIL = [
     "Les Archives reconnaissent votre présence…",
     "Chaque question attire le Gardien dont elle a besoin.",
@@ -596,70 +462,18 @@
     return PHRASES_ACCUEIL[Math.floor(Math.random() * PHRASES_ACCUEIL.length)];
   }
 
-  // — Gestion des cookies —
-  function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? decodeURIComponent(match[2]) : null;
-  }
-
-  function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
-  }
-
-  // — Compteur de visites —
-  function getVisites() {
-    return parseInt(getCookie('ss_visites') || '0', 10);
-  }
-
-  function incrementerVisites() {
-    const n = getVisites() + 1;
-    setCookie('ss_visites', n, 365);
-    return n;
-  }
-
-  // — Compteur de questions posées —
-  function getQuestionsCount() {
-    return parseInt(getCookie('ss_questions') || '0', 10);
-  }
-
-  function incrementerQuestions() {
-    const n = getQuestionsCount() + 1;
-    setCookie('ss_questions', n, 365);
-    return n;
-  }
-
-  // — Phrase de reconnaissance selon nombre de visites —
-  function phraseReconnaissance(visites) {
-    if (visites === 1) return null;
-    if (visites <= 3) return "Les Archives reconnaissent votre retour.";
-    if (visites <= 9) return "Vous revenez souvent ici… Les Archives se souviennent.";
-    return "Les Archives vous connaissent désormais. Chaque visite ouvre une porte plus profonde.";
-  }
-
-  // — Séquence d'accueil au chargement —
+  // Afficher la phrase d'accueil au chargement
   window.addEventListener('load', () => {
     setTimeout(async () => {
-      const visites = incrementerVisites();
-      const reconnaissance = phraseReconnaissance(visites);
-
       parcheeminLabel.textContent = 'Les Archives';
       parcheeminLabel.classList.add('accueil');
       parcheeminTexte.classList.add('accueil');
       parchemin.classList.add('visible');
-
-      if (reconnaissance) {
-        await revelerTexte(reconnaissance, true);
-        await sleep(900);
-        parcheeminTexte.textContent = '';
-      }
-
       await revelerTexte(phraseAleatoire(), true);
-      setTimeout(() => input.classList.add('placeholder-visible'), 500);
     }, 1200);
   });
 
-  // ══ FIN V3 ══
+  // ══ FIN V2 ══
 
   input.addEventListener('input', () => {
     input.style.height = 'auto';
@@ -697,7 +511,6 @@
     parcheeminTexte.classList.remove('accueil');
 
     historique.push({ role: 'user', content: question });
-    incrementerQuestions(); // V3 — compteur
 
     try {
       const res = await fetch('/.netlify/functions/gardien', {
@@ -757,116 +570,7 @@
   }
 
   function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-  // ══ V4 — ŒUF DE PÂQUES : 5 clics sur le lion ══
-
-  let clicsLion = 0;
-  let timerClics = null;
-
-  lionSeal.addEventListener('click', () => {
-    clicsLion++;
-    clearTimeout(timerClics);
-    timerClics = setTimeout(() => { clicsLion = 0; }, 3000);
-
-    if (clicsLion >= 5) {
-      clicsLion = 0;
-      ouvrirSalleSecrete();
-    }
-  });
-
-  async function ouvrirSalleSecrete() {
-    const overlay = document.getElementById('salleOverlay');
-    const salleMessage = document.getElementById('salleMessage');
-    const salleTitre = document.getElementById('salleTitre');
-    const salleSep = document.getElementById('salleSep');
-    const questionsOubliees = document.getElementById('questionsOubliees');
-    const salleFermer = document.getElementById('salleFermer');
-
-    // Réinitialiser
-    salleMessage.textContent = '';
-    salleTitre.classList.remove('visible');
-    salleSep.classList.remove('visible');
-    questionsOubliees.classList.remove('visible');
-    salleFermer.classList.remove('visible');
-
-    overlay.classList.add('active');
-    await sleep(50);
-    overlay.classList.add('sombre');
-    await sleep(1800);
-
-    // Message 1
-    await revelerTexteSalle("Vous avez trouvé une porte que peu de voyageurs remarquent.", salleMessage);
-    await sleep(1200);
-
-    // Effacer et message 2
-    salleMessage.textContent = '';
-    await revelerTexteSalle("Bienvenue dans la Salle des Questions Oubliées.", salleMessage);
-    await sleep(800);
-
-    salleTitre.classList.add('visible');
-    salleSep.classList.add('visible');
-    await sleep(600);
-    questionsOubliees.classList.add('visible');
-    await sleep(1000);
-    salleFermer.classList.add('visible');
-  }
-
-  async function revelerTexteSalle(texte, el) {
-    el.textContent = '';
-    const curseur = document.createElement('span');
-    curseur.className = 'curseur';
-    el.appendChild(curseur);
-    for (let i = 0; i < texte.length; i++) {
-      el.insertBefore(document.createTextNode(texte[i]), curseur);
-      const d = texte[i] === '.' || texte[i] === '?' ? 160
-              : texte[i] === ',' ? 80
-              : texte[i] === ' ' ? 40
-              : 50;
-      await sleep(d);
-    }
-    curseur.remove();
-  }
-
-  function fermerSalle() {
-    const overlay = document.getElementById('salleOverlay');
-    overlay.classList.remove('sombre');
-    setTimeout(() => overlay.classList.remove('active'), 1200);
-  }
-
-  function poserQuestionOubliee(el) {
-    const question = el.textContent.trim();
-    fermerSalle();
-    setTimeout(() => {
-      input.value = question;
-      input.style.height = 'auto';
-      input.style.height = Math.min(input.scrollHeight, 110) + 'px';
-      consulter();
-    }, 1400);
-  }
-
-  // ══ FIN V4 ══
-
 </script>
-
-
-<!-- ══ V4 — SALLE DES QUESTIONS OUBLIÉES ══ -->
-<div class="salle-overlay" id="salleOverlay">
-  <div class="salle-porte" id="sallePorte">
-    <div class="salle-icone-porte">🚪</div>
-    <div class="salle-message" id="salleMessage"></div>
-    <div class="salle-titre" id="salleTitre">Salle des Questions Oubliées</div>
-    <div class="salle-separateur" id="salleSep"></div>
-    <div class="questions-oubliees" id="questionsOubliees">
-      <div class="question-oubliee" onclick="poserQuestionOubliee(this)">Qui serais-je si je n'avais plus peur ?</div>
-      <div class="question-oubliee" onclick="poserQuestionOubliee(this)">Qu'est-ce que je protège depuis si longtemps ?</div>
-      <div class="question-oubliee" onclick="poserQuestionOubliee(this)">Quel chapitre de moi refuse encore de se terminer ?</div>
-      <div class="question-oubliee" onclick="poserQuestionOubliee(this)">Pourquoi est-ce que je me sens différent des autres ?</div>
-      <div class="question-oubliee" onclick="poserQuestionOubliee(this)">Qu'est-ce que j'ai abandonné en croyant protéger quelque chose ?</div>
-    </div>
-    <div class="salle-fermer" id="salleFermer" onclick="fermerSalle()">◆ &nbsp; Refermer la porte &nbsp; ◆</div>
-  </div>
-</div>
-<!-- ══ FIN V4 ══ -->
 
 </body>
 </html>
