@@ -328,10 +328,11 @@
       transition: border-color 0.4s;
       line-height: 1.7;
       width: 100%;
+      overflow-x: hidden;
     }
 
-    .question-input::placeholder { color: #6b5a3a; font-style: italic; opacity: 0; transition: opacity 1s ease; }
-    .question-input.placeholder-visible::placeholder { opacity: 1; }
+    .question-input::placeholder { color: #8a7050; font-style: italic; }
+    
     .question-input:focus { border-bottom-color: rgba(201,168,76,0.7); }
 
     @keyframes lueur-ligne {
@@ -357,20 +358,7 @@
       transition: all 0.35s;
       white-space: nowrap;
       width: 100%;
-      position: relative;
-      clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0% 50%);
-    }
-    .consulter-btn::before {
-      content: '◆';
-      margin-right: 0.8em;
-      font-size: 0.6em;
-      opacity: 0.6;
-    }
-    .consulter-btn::after {
-      content: '◆';
-      margin-left: 0.8em;
-      font-size: 0.6em;
-      opacity: 0.6;
+      overflow-x: hidden;
     }
 
     .consulter-btn:hover:not(:disabled) {
@@ -578,6 +566,7 @@
       opacity: 0;
       transition: opacity 1s ease;
       width: 100%;
+      overflow-x: hidden;
     }
 
     .questions-oubliees.visible { opacity: 1; }
@@ -632,54 +621,67 @@
       pointer-events: none;
     }
 
-    /* ══ QUESTIONS SUGGÉRÉES ══ */
+    /* ══ QUESTIONS SUGGÉRÉES — STYLE MANUSCRIT ══ */
     .questions-suggerees {
-      max-width: 860px;
-      margin: 0.75rem auto 0;
+      max-width: 600px;
+      margin: 1.2rem auto 0;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      padding: 0 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
     }
 
     .questions-suggerees-label {
       width: 100%;
       font-family: 'Cinzel', serif;
-      font-size: 0.38rem;
-      letter-spacing: 0.28em;
+      font-size: 0.36rem;
+      letter-spacing: 0.32em;
       color: var(--or-dim);
       text-transform: uppercase;
-      margin-bottom: 0.2rem;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+      text-align: center;
     }
 
     .question-suggeree {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       font-style: italic;
+      font-weight: 300;
       color: var(--cendre);
       cursor: pointer;
-      border: 1px solid rgba(201,168,76,0.08);
-      padding: 0.3rem 0.7rem;
-      background: rgba(201,168,76,0.02);
-      transition: all 0.3s;
-      white-space: nowrap;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      padding: 0.75rem 0.2rem;
+      background: transparent;
+      transition: all 0.35s;
+      white-space: normal;
+      text-align: left;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
     }
 
-    .question-suggeree:hover {
-      color: var(--or-dim);
-      border-color: rgba(201,168,76,0.2);
-      background: rgba(201,168,76,0.04);
+    .question-suggeree::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: -100%;
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.6), transparent);
+      transition: left 0.5s ease;
     }
+
+    .question-suggeree:hover::after,
+    .question-suggeree:active::after { left: 0; }
+
+    .question-suggeree:hover,
+    .question-suggeree:active { color: var(--or-pale); }
+
+    .question-suggeree:active { transform: scale(0.998); }
 
     @media (max-width: 768px) {
-      .questions-suggerees {
-        padding: 0;
-        gap: 0.4rem;
-      }
-      .question-suggeree {
-        font-size: 0.75rem;
-        white-space: normal;
-      }
+      .questions-suggerees { margin-top: 1rem; }
+      .question-suggeree { font-size: 0.85rem; padding: 0.65rem 0.1rem; }
     }
     /* ══ FIN QUESTIONS SUGGÉRÉES ══ */
   </style>
@@ -719,19 +721,18 @@
 <!-- Formulaire : dans le flux sur mobile, fixed sur desktop -->
 <div class="question-zone">
   <div class="question-inner">
-    <textarea id="questionInput" class="question-input" rows="1" placeholder="Déposez ici une question, un doute, une répétition ou un moment de vie…"></textarea>
+    <textarea id="questionInput" class="question-input" rows="1" placeholder="Écrivez ce qui vous amène ici…"></textarea>
     <button id="consulterBtn" class="consulter-btn">Interroger le Gardien</button>
   </div>
-  <div class="mention">◆ &nbsp; Chaque question attire le Gardien dont elle a besoin. &nbsp; ◆</div>
   <div class="mention" style="font-size:0.38rem;margin-top:0.3rem;opacity:0.5;">Le Gardien ne prédit pas l'avenir. Il révèle ce que votre âme essaie de vous montrer.</div>
 
   <div class="questions-suggerees">
     <div class="questions-suggerees-label">Questions que les visiteurs murmurent aux Archives</div>
     <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi je répète toujours les mêmes schémas ?</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi je me sens seule même entourée ?</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ J'ai tout quitté et ça ne va pas mieux.</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi cette relation me bouleverse autant ?</span>
-    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Pourquoi ai-je l'impression de ne pas être à ma place ?</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ J'ai tout quitté et pourtant je ne me sens pas plus libre.</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Cette relation me bouleverse plus qu'elle ne le devrait.</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Je me sens perdue à un moment où je pensais enfin me trouver.</span>
+    <span class="question-suggeree" onclick="remplirQuestion(this)">✦ Je ne reconnais plus la personne que je suis devenue.</span>
   </div>
 
 </div>
@@ -823,7 +824,7 @@
       }
 
       await revelerTexte(phraseAleatoire(), true);
-      setTimeout(() => input.classList.add('placeholder-visible'), 500);
+
     }, 1200);
   });
 
