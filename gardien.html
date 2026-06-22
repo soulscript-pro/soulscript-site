@@ -349,8 +349,10 @@
     }
 
     .consulter-btn:hover:not(:disabled) {
-      background: rgba(201,168,76,0.08);
+      background: rgba(201,168,76,0.12);
       border-color: var(--or);
+      box-shadow: 0 0 16px rgba(201,168,76,0.2);
+      color: var(--ivoire);
     }
 
     .consulter-btn:disabled { opacity: 0.25; cursor: not-allowed; }
@@ -596,6 +598,16 @@
     .lion-seal { cursor: pointer; user-select: none; }
     /* ══ FIN V4 ══ */
 
+
+    /* Formulaire estompé pendant chargement */
+    .question-zone {
+      transition: opacity 0.6s ease;
+    }
+    .question-zone.estompe {
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
     /* ══ QUESTIONS SUGGÉRÉES ══ */
     .questions-suggerees {
       max-width: 860px;
@@ -670,7 +682,7 @@
           <div class="consultation-sous-label" id="consultationSousLabel">Les Archives recherchent votre dossier d'âme…</div>
         </div>
       </div>
-      <div class="runes-animation">᛭ &nbsp; ᚱ &nbsp; ᚢ &nbsp; ᚾ &nbsp; ᛖ &nbsp; ᛋ &nbsp; ᛭</div>
+      <div class="runes-animation" id="runesAnimation"></div>
     </div>
     <div class="parchemin" id="parchemin">
       <div class="parchemin-label" id="parcheeminLabel">Le Gardien révèle</div>
@@ -898,18 +910,62 @@
   // Messages de chargement rotatifs
   const MESSAGES_CHARGEMENT = [
     "Les Archives recherchent votre dossier d'âme…",
-    "Le Gardien cherche dans les mémoires anciennes…",
+    "Le Gardien consulte les livres oubliés…",
     "Les pages se tournent dans les profondeurs…",
-    "Une réponse prend forme dans les Archives…",
+    "Une porte s'est ouverte dans les Archives…",
+    "Un ancien manuscrit est en train d'être révélé…",
+    "Votre histoire remonte à la surface…",
     "Le Gardien écoute ce que vous n'avez pas dit…",
+    "Les mémoires anciennes s'éveillent…",
   ];
 
   let intervalleChargement = null;
 
+  // Runes séquentielles
+  const RUNES = ['᛭', 'ᚱ', 'ᚢ', 'ᚾ', 'ᛖ', 'ᛋ', '᛭'];
+  let intervalleRunes = null;
+
+  function demarrerRunes() {
+    const el = document.getElementById('runesAnimation');
+    if (!el) return;
+    el.textContent = '';
+    let i = 0;
+    intervalleRunes = setInterval(() => {
+      if (i < RUNES.length) {
+        el.textContent += (i > 0 ? ' ' : '') + RUNES[i];
+        i++;
+      } else {
+        el.textContent = '';
+        i = 0;
+      }
+    }, 300);
+  }
+
+  function arreterRunes() {
+    if (intervalleRunes) { clearInterval(intervalleRunes); intervalleRunes = null; }
+    const el = document.getElementById('runesAnimation');
+    if (el) {
+      // Les runes s'éteignent une par une
+      let text = el.textContent;
+      const extinctionInterval = setInterval(() => {
+        if (text.length > 0) {
+          text = text.slice(0, -2);
+          el.textContent = text;
+        } else {
+          clearInterval(extinctionInterval);
+        }
+      }, 80);
+    }
+  }
+
   function demarrerChargement() {
+    // Estomper le formulaire
+    document.querySelector('.question-zone').classList.add('estompe');
+    // Runes
+    demarrerRunes();
     const sousLabel = document.getElementById('consultationSousLabel');
     if (!sousLabel) return;
-    let idx = 0;
+    let idx = Math.floor(Math.random() * MESSAGES_CHARGEMENT.length);
     sousLabel.textContent = MESSAGES_CHARGEMENT[idx];
     intervalleChargement = setInterval(() => {
       idx = (idx + 1) % MESSAGES_CHARGEMENT.length;
@@ -922,10 +978,10 @@
   }
 
   function arreterChargement() {
-    if (intervalleChargement) {
-      clearInterval(intervalleChargement);
-      intervalleChargement = null;
-    }
+    // Restaurer le formulaire
+    document.querySelector('.question-zone').classList.remove('estompe');
+    if (intervalleChargement) { clearInterval(intervalleChargement); intervalleChargement = null; }
+    arreterRunes();
   }
 
   // Bouton illuminé au clic
