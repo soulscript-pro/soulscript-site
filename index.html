@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -198,6 +197,10 @@ a.contact-submit,a.contact-submit:visited,a.contact-submit span{text-decoration:
 .field-group{display:flex;flex-direction:column;gap:8px;}
 .field-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:rgba(212,175,55,.92);text-transform:uppercase;margin-bottom:8px;display:block;}
 .field-input{background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,.55);padding:12px 2px;font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(230,225,215,.95);outline:none;transition:border-color .35s, box-shadow .35s;width:100%;color-scheme:dark;}
+.field-select{-webkit-appearance:none;appearance:none;background:transparent;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(212,175,55,0.6)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;padding-right:20px;}
+.field-select option{background:#0d0d0d;color:rgba(230,225,215,.95);}
+.lieu-item{padding:10px 14px;font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(215,208,196,.9);cursor:pointer;border-bottom:1px solid rgba(212,175,55,.1);}
+.lieu-item:hover{background:rgba(212,175,55,.1);color:#D4AF37;}
 .field-input::placeholder{color:rgba(215,208,196,.5);font-style:italic;}
 .field-input:focus{border-bottom-color:rgba(212,175,55,.95);box-shadow:0 2px 12px rgba(212,175,55,.2);color:#fff;}
 .payment-block{border:1px solid rgba(212,175,55,.15);padding:28px 24px 20px;display:flex;flex-direction:column;gap:16px;}
@@ -1495,23 +1498,6 @@ footer{background:#000;border-top:1px solid rgba(212,175,55,.1);padding:72px 24p
     display: none !important;
   }
 }
-
-/* ── GARDIEN INVITE ── */
-.gardien-invite{background:#000;border-top:1px solid rgba(212,175,55,.08);border-bottom:1px solid rgba(212,175,55,.08);padding:72px 24px;display:flex;justify-content:center;align-items:center;}
-.gardien-invite-inner{max-width:560px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0;}
-.gardien-invite-ornement{font-size:10px;color:var(--gold-b);letter-spacing:4px;margin-bottom:1.25rem;animation:breathe 4s ease-in-out infinite;}
-.gardien-invite-eyebrow{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:5px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:1rem;}
-.gardien-invite-title{font-family:'Cinzel',serif;font-size:clamp(22px,3.5vw,38px);font-weight:400;letter-spacing:8px;color:var(--gold);text-transform:uppercase;text-shadow:0 0 60px rgba(212,175,55,.25),0 1px 0 rgba(0,0,0,.8);margin-bottom:0;}
-.gardien-invite-body{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.2vw,19px);font-style:italic;color:var(--text-soft);line-height:2;margin:1.5rem 0 2rem;}
-.gardien-invite-btn{display:inline-flex;align-items:center;gap:14px;padding:20px 52px;border:1px solid var(--gold-b);font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--gold);text-decoration:none;text-transform:uppercase;background:transparent;cursor:pointer;position:relative;overflow:hidden;transition:color .45s,box-shadow .45s;animation:breathe 4s ease-in-out infinite;}
-.gardien-invite-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-b),var(--gold));transform:translateX(-101%);transition:transform .45s cubic-bezier(.4,0,.2,1);z-index:0;}
-.gardien-invite-btn span{position:relative;z-index:1;}
-.gardien-invite-btn .arr{font-size:13px;transition:transform .3s;}
-@media(hover:hover){.gardien-invite-btn:hover{color:#000;box-shadow:0 0 60px rgba(212,175,55,.35);}.gardien-invite-btn:hover::before{transform:translateX(0);}.gardien-invite-btn:hover .arr{transform:translateX(6px);}}
-.gardien-invite-btn:active{color:#000;}.gardien-invite-btn:active::before{transform:translateX(0);}
-.gardien-invite-note{font-family:'Cormorant SC',serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,.25);text-transform:uppercase;margin-top:1.5rem;line-height:2;}
-@media(max-width:640px){.gardien-invite{padding:52px 20px;}.gardien-invite-btn{padding:18px 32px;font-size:9px;letter-spacing:4px;width:100%;justify-content:center;}}
-
 </style>
 </head>
 <body>
@@ -1875,23 +1861,6 @@ footer{background:#000;border-top:1px solid rgba(212,175,55,.1);padding:72px 24p
   </div>
 </section>
 
-<!-- ════ GARDIEN DES ARCHIVES ════ -->
-<div class="gardien-invite" id="gardien-invite">
-  <div class="gardien-invite-inner">
-    <div class="gardien-invite-ornement">◆</div>
-    <p class="gardien-invite-eyebrow">Bibliothèque Interdite · Archives de l'Âme</p>
-    <h2 class="gardien-invite-title">Le Gardien des Archives</h2>
-    <div class="ch-rule" style="margin:1.5rem auto;"><div class="ch-rule-diamond"></div></div>
-    <p class="gardien-invite-body">Posez une question.<br>Recevez une révélation des Archives.</p>
-    <a href="gardien.html" class="gardien-invite-btn">
-      <span>🦁&nbsp;&nbsp;Consulter le Gardien</span>
-      <span class="arr">→</span>
-    </a>
-    <p class="gardien-invite-note">Le Gardien éclaire. Il ne décide pas à votre place.</p>
-  </div>
-</div>
-
-
 <!-- ════ CE QUE CONTIENT VOTRE DOSSIER ════ -->
 <div class="receive-section" id="parcours-visuel">
   <div class="receive-text" data-reveal>
@@ -1974,9 +1943,53 @@ footer{background:#000;border-top:1px solid rgba(212,175,55,.1);padding:72px 24p
   </div>
   <form class="soul-form" id="soulForm" onsubmit="handleSubmit(event);">
     <div class="field-group"><label class="field-label" for="f-nom">Nom</label><input class="field-input" type="text" id="f-nom" name="nom" placeholder="Votre nom complet" autocomplete="name" required></div>
-    <div class="field-group"><label class="field-label" for="f-dob">Date de naissance</label><input class="field-input" type="date" id="f-dob" name="date_naissance" required></div>
-    <div class="field-group"><label class="field-label" for="f-hob">Heure de naissance</label><input class="field-input" type="time" id="f-hob" name="heure_naissance" required></div>
-    <div class="field-group"><label class="field-label" for="f-lieu">Lieu de naissance</label><input class="field-input" type="text" id="f-lieu" name="lieu_naissance" placeholder="Ville, Pays" required></div>
+
+    <!-- DATE : trois sélecteurs -->
+    <div class="field-group">
+      <label class="field-label">Date de naissance</label>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select class="field-input field-select" id="f-dob-day" style="flex:1;cursor:pointer;" required>
+          <option value="">Jour</option>
+        </select>
+        <select class="field-input field-select" id="f-dob-month" style="flex:1.5;cursor:pointer;" required>
+          <option value="">Mois</option>
+          <option value="01">Janvier</option><option value="02">Février</option>
+          <option value="03">Mars</option><option value="04">Avril</option>
+          <option value="05">Mai</option><option value="06">Juin</option>
+          <option value="07">Juillet</option><option value="08">Août</option>
+          <option value="09">Septembre</option><option value="10">Octobre</option>
+          <option value="11">Novembre</option><option value="12">Décembre</option>
+        </select>
+        <select class="field-input field-select" id="f-dob-year" style="flex:1.2;cursor:pointer;" required>
+          <option value="">Année</option>
+        </select>
+      </div>
+      <input type="hidden" id="f-dob" name="date_naissance">
+    </div>
+
+    <!-- HEURE : deux sélecteurs -->
+    <div class="field-group">
+      <label class="field-label">Heure de naissance</label>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select class="field-input field-select" id="f-hob-hour" style="flex:1;cursor:pointer;" required>
+          <option value="">Heure</option>
+        </select>
+        <span style="color:rgba(212,175,55,.6);font-size:18px;padding:0 2px;">:</span>
+        <select class="field-input field-select" id="f-hob-min" style="flex:1;cursor:pointer;" required>
+          <option value="">Min</option>
+        </select>
+      </div>
+      <input type="hidden" id="f-hob" name="heure_naissance">
+    </div>
+
+    <!-- LIEU : autocomplétion Nominatim -->
+    <div class="field-group" style="position:relative;">
+      <label class="field-label">Lieu de naissance</label>
+      <input class="field-input" type="text" id="f-lieu-input" placeholder="Tapez votre ville..." autocomplete="off" required>
+      <input type="hidden" id="f-lieu" name="lieu_naissance">
+      <div id="f-lieu-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#1a1500;border:1px solid rgba(212,175,55,.3);z-index:999;max-height:200px;overflow-y:auto;border-radius:0 0 4px 4px;"></div>
+    </div>
+
     <div class="field-group"><label class="field-label" for="f-email">Email</label><input class="field-input" type="email" id="f-email" name="email" placeholder="votre@email.com" autocomplete="email" required></div>
     <!-- Ambiance visuelle — particules dorées -->
     <div class="form-ambiance" id="form-ambiance">
@@ -2174,22 +2187,145 @@ function openDossier_old() {
 }
 
 /* FORMULAIRE COMMANDE */
+// ── Init sélecteurs date/heure ──
+(function(){
+  // Jours
+  const dayEl = document.getElementById('f-dob-day');
+  if(dayEl){ for(let d=1;d<=31;d++){ const o=document.createElement('option'); o.value=String(d).padStart(2,'0'); o.textContent=d; dayEl.appendChild(o); } }
+  // Années
+  const yearEl = document.getElementById('f-dob-year');
+  if(yearEl){ const cur=new Date().getFullYear(); for(let y=cur;y>=1920;y--){ const o=document.createElement('option'); o.value=y; o.textContent=y; yearEl.appendChild(o); } }
+  // Heures
+  const hourEl = document.getElementById('f-hob-hour');
+  if(hourEl){ for(let h=0;h<=23;h++){ const o=document.createElement('option'); o.value=String(h).padStart(2,'0'); o.textContent=String(h).padStart(2,'0')+'h'; hourEl.appendChild(o); } }
+  // Minutes
+  const minEl = document.getElementById('f-hob-min');
+  if(minEl){ for(let m=0;m<=59;m+=5){ const o=document.createElement('option'); o.value=String(m).padStart(2,'0'); o.textContent=String(m).padStart(2,'0'); minEl.appendChild(o); }
+    // Ajouter les minutes manquantes
+    for(let m=1;m<=59;m++){
+      if(m%5!==0){ const o=document.createElement('option'); o.value=String(m).padStart(2,'0'); o.textContent=String(m).padStart(2,'0'); minEl.appendChild(o); }
+    }
+    // Trier
+    const opts = Array.from(minEl.options).slice(1).sort((a,b)=>parseInt(a.value)-parseInt(b.value));
+    while(minEl.options.length>1) minEl.remove(1);
+    opts.forEach(o=>minEl.appendChild(o));
+  }
+
+  // Sync champs cachés date/heure
+  function syncDate(){ const d=document.getElementById('f-dob-day'), m=document.getElementById('f-dob-month'), y=document.getElementById('f-dob-year'), h=document.getElementById('f-dob'); if(d&&m&&y&&h&&d.value&&m.value&&y.value) h.value=y.value+'-'+m.value+'-'+d.value; }
+  function syncTime(){ const h=document.getElementById('f-hob-hour'), m=document.getElementById('f-hob-min'), t=document.getElementById('f-hob'); if(h&&m&&t&&h.value&&m.value) t.value=h.value+':'+m.value; }
+  ['f-dob-day','f-dob-month','f-dob-year'].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change',syncDate); });
+  ['f-hob-hour','f-hob-min'].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change',syncTime); });
+
+  // ── Autocomplétion lieu (Nominatim) ──
+  let lieuTimer = null;
+  const lieuInput = document.getElementById('f-lieu-input');
+  const lieuHidden = document.getElementById('f-lieu');
+  const lieuDropdown = document.getElementById('f-lieu-dropdown');
+
+  if(lieuInput){
+    lieuInput.addEventListener('input', function(){
+      clearTimeout(lieuTimer);
+      const q = this.value.trim();
+      lieuHidden.value = '';
+      if(q.length < 3){ lieuDropdown.style.display='none'; return; }
+      lieuTimer = setTimeout(async ()=>{
+        try{
+          const res = await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(q)+'&format=json&limit=6&addressdetails=1',{headers:{'User-Agent':'SOULSCRIPT/1.0'}});
+          const data = await res.json();
+          lieuDropdown.innerHTML = '';
+          if(!data.length){ lieuDropdown.style.display='none'; return; }
+          data.forEach(item=>{
+            const city = item.address.city || item.address.town || item.address.village || item.address.county || '';
+            const country = item.address.country || '';
+            const state = item.address.state || '';
+            const label = [city, state, country].filter(Boolean).join(', ');
+            if(!label) return;
+            const div = document.createElement('div');
+            div.className = 'lieu-item';
+            div.textContent = label;
+            div.addEventListener('click', ()=>{
+              lieuInput.value = label;
+              lieuHidden.value = label;
+              lieuDropdown.style.display = 'none';
+            });
+            lieuDropdown.appendChild(div);
+          });
+          lieuDropdown.style.display = lieuDropdown.children.length ? 'block' : 'none';
+        }catch(e){ lieuDropdown.style.display='none'; }
+      }, 400);
+    });
+    document.addEventListener('click', e=>{ if(!lieuInput.contains(e.target)&&!lieuDropdown.contains(e.target)) lieuDropdown.style.display='none'; });
+  }
+})();
+
 function handleSubmit(e) {
   e.preventDefault();
 }
 
-function openStripe(e) {
+async function openStripe(e) {
   e.preventDefault();
-  const fields = ['f-nom','f-dob','f-hob','f-lieu','f-email'];
-  for (let i = 0; i < fields.length; i++) {
-    const el = document.getElementById(fields[i]);
-    if (!el || !el.value.trim()) {
-      el.focus();
-      el.style.borderBottomColor = 'rgba(212,80,55,0.75)';
-      setTimeout(() => { el.style.borderBottomColor = ''; }, 2500);
+
+  // Sync champs cachés avant validation
+  const day   = document.getElementById('f-dob-day');
+  const month = document.getElementById('f-dob-month');
+  const year  = document.getElementById('f-dob-year');
+  const dob   = document.getElementById('f-dob');
+  if(day&&month&&year&&dob&&day.value&&month.value&&year.value)
+    dob.value = year.value+'-'+month.value+'-'+day.value;
+
+  const hour  = document.getElementById('f-hob-hour');
+  const min   = document.getElementById('f-hob-min');
+  const hob   = document.getElementById('f-hob');
+  if(hour&&min&&hob&&hour.value&&min.value)
+    hob.value = hour.value+':'+min.value;
+
+  // Validation visuelle
+  const checks = [
+    {id:'f-nom', label:'Nom'},
+    {id:'f-dob', label:'Date de naissance', visual:'f-dob-day'},
+    {id:'f-hob', label:'Heure de naissance', visual:'f-hob-hour'},
+    {id:'f-lieu', label:'Lieu de naissance', visual:'f-lieu-input'},
+    {id:'f-email', label:'Email'}
+  ];
+  for(const c of checks){
+    const el = document.getElementById(c.id);
+    if(!el || !el.value.trim()){
+      const vis = document.getElementById(c.visual||c.id);
+      if(vis){ vis.focus(); vis.style.borderBottomColor='rgba(212,80,55,0.75)'; setTimeout(()=>{vis.style.borderBottomColor='';},2500); }
       return;
     }
   }
+
+  // Feedback bouton
+  const btn = document.querySelector('.form-submit');
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<span>Calcul en cours…</span>';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  try {
+    const payload = {
+      nom:             document.getElementById('f-nom').value.trim(),
+      date_naissance:  document.getElementById('f-dob').value,
+      heure_naissance: document.getElementById('f-hob').value,
+      lieu_naissance:  document.getElementById('f-lieu').value.trim(),
+      email:           document.getElementById('f-email').value.trim()
+    };
+    const response = await fetch('/.netlify/functions/natal-chart', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(!response.ok) console.warn('SOULSCRIPT — erreur function:', response.status);
+  } catch(err) {
+    console.warn('SOULSCRIPT — erreur réseau:', err);
+  }
+
+  btn.innerHTML = originalHTML;
+  btn.disabled = false;
+  btn.style.opacity = '';
+
   window.open('https://buy.stripe.com/8x2dR80sM7RXdlB2WT5AQ00', '_blank', 'noopener,noreferrer');
 }
 
