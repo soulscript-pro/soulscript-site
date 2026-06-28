@@ -3,7 +3,7 @@
 // Appel API Railway (Swiss Ephemeris) + Envoi mail Resend
 // ═══════════════════════════════════════════════════════════════
 
-const REPLIT_API = "https://astro-api-production-8665.up.railway.app";
+const REPLIT_API = "https://astro-api-production-f446.up.railway.app";
 
 const SIGNS_FR = {
   "Aries":"Bélier","Taurus":"Taureau","Gemini":"Gémeaux","Cancer":"Cancer",
