@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>SOULSCRIPT — L'Invitation aux Archives</title>
+
+<!--
+═══════════════════════════════════════════════════════════════
+  SOULSCRIPT — L'INVITATION AUX ARCHIVES — V4
+═══════════════════════════════════════════════════════════════
+
+  DÉROULEMENT DE L'EXPÉRIENCE :
+  1. Le client arrive via son lien personnel :
+     invitation-v4.html?d=0017&t=JETON_SECRET
+  2. Écran 1 : l'enveloppe scellée (poster fixe).
+     Le client touche le sceau du Lion.
+  3. Écran 2 : la vidéo Kling se joue (avec son, car
+     déclenchée par le geste du client).
+  4. Écran 3 : à la fin de la vidéo, fondu croisé vers la
+     Convocation personnelle (HTML/CSS, texte réel dynamique).
+  5. Bouton OUVRIR MES ARCHIVES → dossier du client.
+
+  DONNÉES CLIENT :
+  Récupérées via la fonction Netlify /convocation
+  (voir fichier convocation.js). Si les paramètres sont
+  absents ou invalides → mode démonstration (Anissa / 0017).
+
+  FICHIERS REQUIS DANS LE REPO (même dossier) :
+  - invitation-v4.html          (cette page)
+  - invitation-archives-v1.mp4  (la vidéo Kling optimisée)
+  - enveloppe-scellee-poster.jpg (première frame, enveloppe fermée)
+  - netlify/functions/convocation.js
+
+  RÈGLES RESPECTÉES :
+  - Aucune modification de gardien.js ni natal-chart.js
+  - Aucun reveal déclenché par le scroll (fiabilité mobile)
+  - Contenu visible par défaut, transitions par événements
+  - Titre auto-ajustable : jamais coupé, jamais débordant
+═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════ FONDATIONS ═══════════ */
+:root{
+  /* Palette officielle SOULSCRIPT */
+  --noir-mineral:#060402;
+  --noir-profond:#0B0805;
+  --bronze:#C89B5B;
+  --or-clair:#E8CC7A;
+  --or-lumiere:#F5E3B3;
+  --parchemin:#E9D9B5;
+  --parchemin-ombre:#C9B183;
+  --encre:#2A1F12;
+  --encre-douce:#4A3A24;
+
+  --police-titres:'Cinzel', Georgia, serif;
+  --police-corps:'Cormorant Garamond', Georgia, serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html,body{
+  height:100%;
+  background:var(--noir-mineral);
+  overflow:hidden;
+  font-family:var(--police-corps);
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* ═══════════ LA SCÈNE (3 écrans superposés) ═══════════ */
+.scene{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--noir-mineral);
+}
+
+/* Chaque écran occupe toute la scène.
+   Transitions gérées uniquement par classes JS — jamais par scroll. */
+.ecran{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:1;
+  transition:opacity 1.8s ease;
+}
+.ecran.masque{opacity:0;pointer-events:none;}
+
+/* ═══════════ ÉCRAN 1 & 2 : ENVELOPPE + VIDÉO ═══════════ */
+/* La vidéo sert aussi de poster : en pause sur la 1re frame,
+   elle EST l'enveloppe scellée. Un seul élément, zéro rupture. */
+.video-enveloppe{
+  width:100%;
+  height:100%;
+  object-fit:contain; /* la vidéo entière reste visible, ratio 3:4 */
+  background:var(--noir-mineral);
+}
+
+/* Halo d'invitation autour du sceau (bas de l'enveloppe) */
+.invite-toucher{
+  position:absolute;
+  bottom:6%;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  color:var(--or-clair);
+  font-family:var(--police-titres);
+  font-size:0.72rem;
+  letter-spacing:0.32em;
+  text-transform:uppercase;
+  opacity:0.85;
+  animation:respiration 3.2s ease-in-out infinite;
+  pointer-events:none;
+  text-shadow:0 0 18px rgba(200,155,91,0.55);
+  transition:opacity 0.8s ease;
+}
+.invite-toucher.masque{opacity:0;}
+
+@keyframes respiration{
+  0%,100%{opacity:0.45;}
+  50%{opacity:0.95;}
+}
+
+/* Lien discret pour passer l'animation (accessibilité + relectures) */
+.passer{
+  position:absolute;
+  top:calc(env(safe-area-inset-top, 0px) + 14px);
+  right:16px;
+  color:var(--bronze);
+  font-family:var(--police-corps);
+  font-style:italic;
+  font-size:0.9rem;
+  letter-spacing:0.08em;
+  opacity:0;
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:8px 12px;
+  transition:opacity 0.8s ease;
+}
+.passer.visible{opacity:0.55;}
+
+/* ═══════════ ÉCRAN 3 : LA CONVOCATION ═══════════ */
+.ecran-convocation{
+  overflow-y:auto;
+  /* Lumière dorée émanant du centre — prolonge la dernière
+     image de la vidéo (l'intérieur illuminé de l'enveloppe) */
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 42%,
+      rgba(200,155,91,0.20) 0%,
+      rgba(200,155,91,0.06) 45%,
+      transparent 75%),
+    var(--noir-mineral);
+}
+
+.parchemin{
+  position:relative;
+  width:min(88vw, 420px);
+  margin:auto;
+  padding:clamp(2.2rem, 7vw, 3.2rem) clamp(1.6rem, 6vw, 2.4rem);
+  text-align:center;
+  color:var(--encre);
+  /* Sécurité globale : aucun élément intérieur ne peut jamais
+     déborder horizontalement, quel que soit le rendu du navigateur */
+  overflow-x:hidden;
+  box-sizing:border-box;
+
+  /* Papier ancien lumineux */
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--or-lumiere) 0%, var(--parchemin) 55%, var(--parchemin-ombre) 100%);
+  border-radius:3px;
+  box-shadow:
+    0 0 60px rgba(200,155,91,0.35),
+    0 0 140px rgba(200,155,91,0.18),
+    inset 0 0 60px rgba(120,90,45,0.18);
+}
+
+/* Grain du papier — texture subtile sans image externe */
+.parchemin::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:3px;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(90,65,30,0.028) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(90,65,30,0.02) 0 1px, transparent 1px 4px);
+  pointer-events:none;
+}
+
+/* Double bordure gravée */
+.cadre{
+  position:relative;
+  border:1px solid rgba(90,65,30,0.55);
+  outline:1px solid rgba(90,65,30,0.28);
+  outline-offset:4px;
+  padding:clamp(1.6rem, 5vw, 2.2rem) clamp(0.9rem, 4vw, 1.4rem);
+}
+
+/* Ornements d'angle */
+.coin{
+  position:absolute;
+  width:22px;height:22px;
+  border-color:rgba(90,65,30,0.6);
+  border-style:solid;
+}
+.coin.hg{top:-2px;left:-2px;border-width:2px 0 0 2px;}
+.coin.hd{top:-2px;right:-2px;border-width:2px 2px 0 0;}
+.coin.bg{bottom:-2px;left:-2px;border-width:0 0 2px 2px;}
+.coin.bd{bottom:-2px;right:-2px;border-width:0 2px 2px 0;}
+
+/* Rosace boussole (SVG inline) */
+.rosace{
+  width:44px;height:44px;
+  margin:0 auto 0.9rem;
+  display:block;
+  opacity:0.85;
+}
+
+.marque{
+  font-family:var(--police-titres);
+  font-size:clamp(1.05rem, 4.2vw, 1.3rem);
+  font-weight:500;
+  letter-spacing:0.42em;
+  text-indent:0.42em;
+  color:var(--encre);
+}
+
+.filet{
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+  margin:1.1rem auto;
+  width:70%;
+  color:rgba(90,65,30,0.65);
+}
+.filet::before,.filet::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(90,65,30,0.5), transparent);
+}
+.filet span{font-size:0.7rem;}
+
+.titre-convocation{
+  font-family:var(--police-titres);
+  /* Taille de départ — sera réduite automatiquement par JavaScript
+     jusqu'à tenir sur UNE ligne dans le cadre (voir ajusterTitre) */
+  font-size:1.02rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  margin:0.2rem 0 1.2rem;
+  color:var(--encre);
+  /* Une seule ligne, JAMAIS de coupure de mot */
+  white-space:nowrap;
+}
+
+.phrase-reconnaissance{
+  font-style:italic;
+  font-size:clamp(1.02rem, 4vw, 1.15rem);
+  color:var(--encre-douce);
+  margin-bottom:1.4rem;
+}
+
+/* ── Les données dynamiques du client ── */
+.prenom-client{
+  font-family:var(--police-titres);
+  /* Réduit de ~7 % (validation Anissa) : le prénom garde sa présence
+     sans concurrencer la marque SOULSCRIPT */
+  font-size:clamp(1.58rem, 7.4vw, 2.14rem);
+  font-weight:600;
+  letter-spacing:0.14em;
+  color:var(--encre);
+  margin-bottom:0.25rem;
+  /* Apparition légèrement retardée : le nom se révèle */
+  opacity:0;
+  transition:opacity 2.4s ease 0.9s;
+}
+.numero-dossier{
+  font-family:var(--police-titres);
+  font-size:clamp(0.82rem, 3.4vw, 0.95rem);
+  font-weight:500;
+  letter-spacing:0.3em;
+  color:var(--encre-douce);
+  margin-bottom:1.5rem;
+  opacity:0;
+  transition:opacity 2.4s ease 1.4s;
+}
+.ecran-convocation.revelee .prenom-client,
+.ecran-convocation.revelee .numero-dossier{opacity:1;}
+
+.message-etat{
+  font-size:clamp(1.05rem, 4.2vw, 1.2rem);
+  font-style:italic;
+  line-height:1.65;
+  color:var(--encre-douce);
+  margin-bottom:1.8rem;
+}
+
+.bouton-archives{
+  display:block; /* bloc centré par marges auto : centrage garanti dans tous les rendus */
+  width:fit-content;
+  max-width:100%; /* ne peut jamais déborder du cadre */
+  margin:0 auto;
+  box-sizing:border-box;
+  font-family:var(--police-titres);
+  font-size:clamp(0.68rem, 2.5vw + 0.2rem, 0.9rem);
+  font-weight:500;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  text-decoration:none;
+  text-align:center;
+  color:var(--or-clair);
+  background:linear-gradient(180deg, #171006 0%, var(--noir-profond) 100%);
+  border:1px solid var(--bronze);
+  border-radius:2px;
+  padding:0.95rem 1.4rem;
+  box-shadow:
+    0 0 22px rgba(200,155,91,0.28),
+    inset 0 0 14px rgba(200,155,91,0.12);
+  transition:box-shadow 0.4s ease, transform 0.2s ease;
+}
+.bouton-archives:active{
+  transform:scale(0.98);
+  box-shadow:
+    0 0 34px rgba(232,204,122,0.45),
+    inset 0 0 20px rgba(200,155,91,0.2);
+}
+
+.signature-gardien{
+  /* Remontée (validation Anissa) : moins d'espace au-dessus,
+     davantage de respiration sous la signature avant le bord du cadre */
+  margin-top:1.3rem;
+  margin-bottom:0.9rem;
+  font-style:italic;
+  font-size:clamp(1rem, 4vw, 1.12rem);
+  color:var(--encre-douce);
+  letter-spacing:0.04em;
+}
+
+/* Respect du mode "réduire les animations" */
+@media (prefers-reduced-motion: reduce){
+  .invite-toucher{animation:none;opacity:0.85;}
+  .ecran, .prenom-client, .numero-dossier{transition:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+  <!-- ══ ÉCRANS 1+2 : L'ENVELOPPE (vidéo en pause = poster, puis lecture) ══ -->
+  <div class="ecran" id="ecranEnveloppe">
+    <video id="videoEnveloppe"
+           class="video-enveloppe"
+           src="invitation-archives-v1.mp4"
+           poster="enveloppe-scellee-poster.jpg"
+           preload="auto"
+           playsinline
+           webkit-playsinline></video>
+    <div class="invite-toucher" id="inviteToucher">Touchez le sceau</div>
+    <button class="passer" id="boutonPasser" type="button">passer&nbsp;→</button>
+  </div>
+
+  <!-- ══ ÉCRAN 3 : LA CONVOCATION PERSONNELLE ══ -->
+  <div class="ecran ecran-convocation masque" id="ecranConvocation">
+    <div class="parchemin">
+      <div class="cadre">
+        <span class="coin hg"></span><span class="coin hd"></span>
+        <span class="coin bg"></span><span class="coin bd"></span>
+
+        <!-- Rosace boussole -->
+        <svg class="rosace" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          <g stroke="#5A411E" stroke-width="1.2">
+            <circle cx="50" cy="50" r="30" opacity="0.7"/>
+            <circle cx="50" cy="50" r="22" opacity="0.45"/>
+            <path d="M50 8 L54 46 L50 50 L46 46 Z" fill="#5A411E" opacity="0.8"/>
+            <path d="M50 92 L54 54 L50 50 L46 54 Z" fill="#5A411E" opacity="0.5"/>
+            <path d="M8 50 L46 46 L50 50 L46 54 Z" fill="#5A411E" opacity="0.5"/>
+            <path d="M92 50 L54 46 L50 50 L54 54 Z" fill="#5A411E" opacity="0.5"/>
+            <path d="M26 26 L47 47 M74 26 L53 47 M26 74 L47 53 M74 74 L53 53" opacity="0.5"/>
+          </g>
+        </svg>
+
+        <div class="marque">SOULSCRIPT</div>
+
+        <div class="filet"><span>✦</span></div>
+
+        <h1 class="titre-convocation">CONVOCATION&nbsp;PERSONNELLE</h1>
+
+        <p class="phrase-reconnaissance">Les Archives ont reconnu votre signature.</p>
+
+        <!-- Données dynamiques — remplies par JavaScript, jamais en dur -->
+        <div class="prenom-client" id="prenomClient">&nbsp;</div>
+        <div class="numero-dossier" id="numeroDossier">&nbsp;</div>
+
+        <p class="message-etat" id="messageEtat">
+          Votre lecture est terminée.<br>
+          Le Gardien vous autorise à entrer.
+        </p>
+
+        <a class="bouton-archives" id="boutonArchives" href="#">OUVRIR&nbsp;MES&nbsp;ARCHIVES</a>
+
+        <p class="signature-gardien">Le Gardien des Archives</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   LOGIQUE DE L'INVITATION — V4
+   Aucune dépendance externe. Aucun scroll-trigger.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── CONFIGURATION (modifiable facilement) ── */
+const CONFIG = {
+  // Point d'accès de la fonction Netlify qui renvoie les données client
+  urlFonction: '/.netlify/functions/convocation',
+
+  // Données de démonstration si le lien n'a pas de paramètres valides
+  demo: {
+    prenom: 'ANISSA',
+    dossier: '0017',
+    url: '#'
+  }
+};
+
+/* ── ÉLÉMENTS ── */
+const video       = document.getElementById('videoEnveloppe');
+const ecranEnv    = document.getElementById('ecranEnveloppe');
+const ecranConv   = document.getElementById('ecranConvocation');
+const invite      = document.getElementById('inviteToucher');
+const boutonPasser= document.getElementById('boutonPasser');
+const elPrenom    = document.getElementById('prenomClient');
+const elDossier   = document.getElementById('numeroDossier');
+const elBouton    = document.getElementById('boutonArchives');
+
+let donneesClient = { ...CONFIG.demo };
+let rituelLance = false;
+
+/* ── 1. CHARGER LES DONNÉES CLIENT DÈS L'ARRIVÉE ──
+   Pendant que le client contemple l'enveloppe, les données
+   se chargent en arrière-plan : la convocation sera prête. */
+(async function chargerDonnees(){
+  const params  = new URLSearchParams(window.location.search);
+  const dossier = params.get('d');
+  const jeton   = params.get('t');
+
+  if(!dossier || !jeton){
+    console.warn('SOULSCRIPT : paramètres absents — mode démonstration.');
+    remplirConvocation();
+    return;
+  }
+
+  try{
+    const reponse = await fetch(
+      CONFIG.urlFonction + '?d=' + encodeURIComponent(dossier) +
+      '&t=' + encodeURIComponent(jeton)
+    );
+    if(!reponse.ok) throw new Error('Jeton invalide ou dossier inconnu');
+    const data = await reponse.json();
+    donneesClient = {
+      prenom : (data.prenom  || CONFIG.demo.prenom).toUpperCase(),
+      dossier: data.dossier || CONFIG.demo.dossier,
+      url    : data.url     || CONFIG.demo.url
+    };
+  }catch(erreur){
+    console.warn('SOULSCRIPT : ' + erreur.message + ' — mode démonstration.');
+  }
+  remplirConvocation();
+})();
+
+function remplirConvocation(){
+  elPrenom.textContent  = donneesClient.prenom;
+  elDossier.textContent = 'DOSSIER N° ' + donneesClient.dossier;
+  elBouton.href         = donneesClient.url;
+}
+
+/* ── 2. LE TOUCHER DU SCEAU DÉCLENCHE LE RITUEL ──
+   Le geste du client autorise la lecture avec son. */
+ecranEnv.addEventListener('click', function(){
+  if(rituelLance) return;
+  rituelLance = true;
+
+  invite.classList.add('masque');
+  video.play().catch(function(){
+    // Si la lecture échoue (cas rarissime), aller directement à la convocation
+    revelerConvocation();
+  });
+
+  // Le lien "passer" apparaît après 3 secondes de vidéo
+  setTimeout(function(){ boutonPasser.classList.add('visible'); }, 3000);
+});
+
+/* ── 3. FIN DE LA VIDÉO → FONDU CROISÉ VERS LA CONVOCATION ── */
+video.addEventListener('ended', revelerConvocation);
+
+boutonPasser.addEventListener('click', function(e){
+  e.stopPropagation(); // ne pas relancer la vidéo
+  video.pause();
+  revelerConvocation();
+});
+
+function revelerConvocation(){
+  ecranEnv.classList.add('masque');
+  ecranConv.classList.remove('masque');
+  // Ajuster le titre à la largeur réelle du cadre AVANT l'apparition
+  ajusterTitre();
+  // Déclenche l'apparition retardée du prénom puis du dossier
+  requestAnimationFrame(function(){
+    ecranConv.classList.add('revelee');
+  });
+}
+
+/* ── AJUSTEMENT AUTOMATIQUE DU TITRE ──
+   Mesure la largeur réelle du titre et réduit sa taille de police
+   jusqu'à ce qu'il tienne sur UNE ligne dans le cadre, avec une marge.
+   Fonctionne quelle que soit la police chargée (Cinzel ou fallback),
+   quel que soit le zoom ou le navigateur — y compris les rendus
+   Android en fichier local. */
+function ajusterTitre(){
+  const titre = document.querySelector('.titre-convocation');
+  const cadre = document.querySelector('.cadre');
+  if(!titre || !cadre) return;
+
+  const margeSecurite = 24; // pixels de respiration de chaque côté
+  const largeurDisponible = cadre.clientWidth - margeSecurite;
+
+  // Repartir de la taille de base à chaque appel (rotation d'écran, etc.)
+  let taille = 1.02; // rem
+  titre.style.fontSize = taille + 'rem';
+
+  // Réduire par petits pas jusqu'à ce que le titre tienne (limite : 0.55rem)
+  let garde = 40; // sécurité anti-boucle infinie
+  while(titre.scrollWidth > largeurDisponible && taille > 0.55 && garde > 0){
+    taille -= 0.02;
+    titre.style.fontSize = taille + 'rem';
+    garde--;
+  }
+}
+
+// Réajuster si l'orientation ou la taille de l'écran change
+window.addEventListener('resize', function(){
+  if(!ecranConv.classList.contains('masque')) ajusterTitre();
+});
+</script>
+
+</body>
+</html>
