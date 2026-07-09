@@ -11,8 +11,7 @@
   Sert uniquement à construire proprement la variable Netlify
   SOULSCRIPT_CLIENTS, sans risque d'erreur de syntaxe JSON.
   Aucune donnée n'est envoyée nulle part : tout se passe dans le
-  navigateur, localement. Rien n'est sauvegardé entre deux visites —
-  colle toujours le registre actuel en premier.
+  navigateur, localement.
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -245,11 +244,7 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
 </head>
 <body>
 
-<!-- ── VERROU D'ACCÈS ──
-   Simple écran de code, purement côté client (pas une vraie
-   sécurité cryptographique, mais empêche toute visite accidentelle
-   ou curieuse de voir le contenu de l'outil). Le code se change
-   ci-dessous, dans CODE_ACCES. -->
+<!-- ── VERROU D'ACCÈS ── -->
 <div id="ecranVerrou" style="position:fixed;inset:0;background:#060402;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;z-index:999;">
   <p style="font-family:'Cinzel',serif;color:#E8CC7A;letter-spacing:0.15em;font-size:0.95rem;margin-bottom:1rem;">SOULSCRIPT — ACCÈS RESTREINT</p>
   <input type="password" id="champCodeAcces" placeholder="Code d'accès" style="width:100%;max-width:280px;background:#151009;border:1px solid rgba(200,155,91,0.4);border-radius:4px;color:#E9D9B5;padding:0.7rem 0.9rem;font-family:'JetBrains Mono',monospace;font-size:1rem;text-align:center;">
@@ -260,13 +255,10 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
 
 <script>
 (function(){
-  // ── Change ce code pour le tien ──
   const CODE_ACCES = '3014231nH';
-
   const ecran = document.getElementById('ecranVerrou');
   const champ = document.getElementById('champCodeAcces');
   const msg = document.getElementById('messageVerrou');
-
   champ.addEventListener('keydown', function(e){
     if(e.key === 'Enter'){
       if(champ.value === CODE_ACCES){
@@ -290,7 +282,6 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
 
 <main>
 
-  <!-- ── ÉTAPE 1 : Charger le registre actuel ── -->
   <section>
     <h2><span class="num-etape">1</span>Coller le registre actuel</h2>
     <p class="aide">Copie la valeur actuelle de <code>SOULSCRIPT_CLIENTS</code> depuis Netlify, colle-la ici, puis charge-la.</p>
@@ -299,7 +290,6 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
     <button id="btnCharger">Charger le registre</button>
   </section>
 
-  <!-- ── ÉTAPE 2 : Liste des clientes ── -->
   <section>
     <h2><span class="num-etape">2</span>Clientes actuelles</h2>
     <div id="listeClientes" class="liste-clientes">
@@ -307,7 +297,6 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
     </div>
   </section>
 
-  <!-- ── ÉTAPE 3 : Ajouter une cliente ── -->
   <section>
     <h2><span class="num-etape">3</span>Ajouter une cliente</h2>
     <div id="messageAjout" class="message"></div>
@@ -335,7 +324,6 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
     <button class="pleine-largeur" id="btnAjouter">Ajouter cette cliente</button>
   </section>
 
-  <!-- ── ÉTAPE 4 : Registre final à coller dans Netlify ── -->
   <section>
     <h2><span class="num-etape">4</span>Registre à coller dans Netlify</h2>
     <p class="aide">Copie ce texte entier dans <code>SOULSCRIPT_CLIENTS</code> sur Netlify, puis <strong>Trigger deploy → Clear cache and deploy site</strong>.</p>
@@ -348,7 +336,6 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
     <p class="compteur" id="compteurCaracteres"></p>
   </section>
 
-  <!-- ── ÉTAPE 5 : Lien de la dernière cliente ajoutée ── -->
   <section>
     <h2><span class="num-etape">5</span>Lien à envoyer</h2>
     <p class="aide">Le lien de la dernière cliente ajoutée, prêt à transmettre.</p>
@@ -358,17 +345,19 @@ button.danger{border-color:var(--erreur);color:var(--erreur);}
     </div>
   </section>
 
+  <section>
+    <h2><span class="num-etape">↺</span>Données locales</h2>
+    <p class="aide">Le registre, les clientes et le dernier lien sont sauvegardés automatiquement sur cet appareil : tu peux quitter la page (par exemple pour aller sur Netlify) et revenir, rien n'est perdu.</p>
+    <div class="sortie-bloc">
+      <p class="compteur" id="etatSauvegarde" style="padding-left:0;margin-bottom:0.6rem;"></p>
+      <button class="secondaire danger" id="btnEffacerLocal">Effacer les données locales</button>
+    </div>
+  </section>
+
 </main>
 
 <script>
-/* ═══════════════════════════════════════════════════════════
-   OUTIL REGISTRE SOULSCRIPT
-   Tout se passe en local dans le navigateur. Rien n'est envoyé
-   ni sauvegardé entre deux visites : recharger le registre à
-   chaque utilisation.
-   ═══════════════════════════════════════════════════════════ */
-
-let registre = {}; // { "0017": {t, prenom, url}, ... }
+let registre = {};
 let dernierAjout = null;
 
 const els = {
@@ -383,12 +372,58 @@ const els = {
   sortieJson: document.getElementById('sortieJson'),
   compteur: document.getElementById('compteurCaracteres'),
   lienFinal: document.getElementById('lienFinal'),
+  etatSauvegarde: document.getElementById('etatSauvegarde'),
 };
 
 const DOMAINE_SITE = 'https://soulscript.pro';
 const PAGE_INVITATION = 'invitation-v7.html';
 
-// ── Mots thématiques pour la génération de jetons ──
+const CLE_STOCKAGE = 'soulscript_registre_clientes_v1';
+
+function sauvegarderLocal(){
+  try{
+    const donnees = { registre: registre, dernierAjout: dernierAjout };
+    localStorage.setItem(CLE_STOCKAGE, JSON.stringify(donnees));
+    afficherEtatSauvegarde();
+  }catch(e){
+    console.warn('SOULSCRIPT : sauvegarde locale impossible —', e.message);
+  }
+}
+
+function restaurerLocal(){
+  try{
+    const brut = localStorage.getItem(CLE_STOCKAGE);
+    if(!brut) return;
+    const donnees = JSON.parse(brut);
+    registre = donnees.registre || {};
+    dernierAjout = donnees.dernierAjout || null;
+  }catch(e){
+    console.warn('SOULSCRIPT : restauration locale impossible —', e.message);
+  }
+}
+
+function afficherEtatSauvegarde(){
+  const nb = Object.keys(registre).length;
+  if(nb === 0){
+    els.etatSauvegarde.textContent = 'Aucune donnée sauvegardée sur cet appareil.';
+  } else {
+    const heure = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+    els.etatSauvegarde.textContent = `${nb} cliente(s) sauvegardée(s) sur cet appareil · dernière mise à jour ${heure}.`;
+  }
+}
+
+document.getElementById('btnEffacerLocal').addEventListener('click', function(){
+  if(!confirm('Effacer définitivement le registre et le dernier lien sauvegardés sur cet appareil ? Cette action ne supprime rien sur Netlify, uniquement ici.')) return;
+  localStorage.removeItem(CLE_STOCKAGE);
+  registre = {};
+  dernierAjout = null;
+  els.entreeJson.value = '';
+  rafraichirListe();
+  rafraichirSortie();
+  rafraichirLien();
+  afficherEtatSauvegarde();
+});
+
 const MOTS_JETON = [
   'lion','lune','etoile','gardien','archive','sceau','clef','ombre',
   'encre','flamme','porte','memoire','signature','veritas','fati',
@@ -414,7 +449,6 @@ function afficherMessage(el, texte, type){
   }
 }
 
-// ── ÉTAPE 1 : Charger le registre collé ──
 document.getElementById('btnCharger').addEventListener('click', function(){
   const brut = els.entreeJson.value.trim();
   if(!brut){
@@ -428,17 +462,16 @@ document.getElementById('btnCharger').addEventListener('click', function(){
     afficherMessage(els.msgCharge, `Registre chargé : ${Object.keys(registre).length} cliente(s).`, 'succes');
     rafraichirListe();
     rafraichirSortie();
+    sauvegarderLocal();
   }catch(e){
     afficherMessage(els.msgCharge, 'JSON invalide : vérifie les accolades et les guillemets, puis réessaie.', 'erreur');
   }
 });
 
-// ── Générer un jeton ──
 document.getElementById('btnGenererJeton').addEventListener('click', function(){
   els.jeton.value = genererJeton();
 });
 
-// ── ÉTAPE 3 : Ajouter une cliente ──
 document.getElementById('btnAjouter').addEventListener('click', function(){
   const prenom  = els.prenom.value.trim();
   const dossier = els.dossier.value.trim();
@@ -463,7 +496,6 @@ document.getElementById('btnAjouter').addEventListener('click', function(){
 
   afficherMessage(els.msgAjout, `${prenom} ajoutée avec le dossier ${dossier}.`, 'succes');
 
-  // Réinitialiser le formulaire pour la prochaine cliente
   els.prenom.value = '';
   els.dossier.value = '';
   els.jeton.value = '';
@@ -472,9 +504,9 @@ document.getElementById('btnAjouter').addEventListener('click', function(){
   rafraichirListe();
   rafraichirSortie();
   rafraichirLien();
+  sauvegarderLocal();
 });
 
-// ── Afficher la liste des clientes ──
 function rafraichirListe(){
   const cles = Object.keys(registre);
   if(cles.length === 0){
@@ -499,17 +531,16 @@ function supprimerCliente(bouton){
     delete registre[dossier];
     rafraichirListe();
     rafraichirSortie();
+    sauvegarderLocal();
   }
 }
 
-// ── Générer la sortie JSON compacte ──
 function rafraichirSortie(){
   const json = JSON.stringify(registre);
   els.sortieJson.value = json;
   els.compteur.textContent = json.length + ' caractères';
 }
 
-// ── Générer le lien de la dernière cliente ajoutée ──
 function rafraichirLien(){
   if(!dernierAjout){
     els.lienFinal.textContent = '—';
@@ -525,7 +556,6 @@ function escapeHtml(s){
   });
 }
 
-// ── Copier dans le presse-papier ──
 async function copierTexte(texte, boutonEl){
   try{
     await navigator.clipboard.writeText(texte);
@@ -546,8 +576,14 @@ document.getElementById('btnCopierLien').addEventListener('click', function(){
   }
 });
 
-// ── Pré-remplir avec un exemple pour comprendre le format au premier lancement ──
-els.entreeJson.value = '';
+restaurerLocal();
+if(Object.keys(registre).length > 0){
+  els.entreeJson.value = JSON.stringify(registre);
+}
+rafraichirListe();
+rafraichirSortie();
+rafraichirLien();
+afficherEtatSauvegarde();
 </script>
 
 </div>
