@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SOULSCRIPT — Registre des Clientes</title>
+
+<!--
+  OUTIL INTERNE — usage personnel uniquement, ne pas partager ce lien.
+  Sert uniquement à construire proprement la variable Netlify
+  SOULSCRIPT_CLIENTS, sans risque d'erreur de syntaxe JSON.
+  Aucune donnée n'est envoyée nulle part : tout se passe dans le
+  navigateur, localement. Rien n'est sauvegardé entre deux visites —
+  colle toujours le registre actuel en premier.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --noir:#060402;
+  --noir-panneau:#0F0B07;
+  --noir-champ:#151009;
+  --bronze:#C89B5B;
+  --or:#E8CC7A;
+  --parchemin:#E9D9B5;
+  --texte-doux:#9C8B6E;
+  --erreur:#D96C5F;
+  --succes:#7FAE7A;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--noir);
+  color:var(--parchemin);
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:17px;
+  line-height:1.5;
+  padding-bottom:4rem;
+}
+.entete{
+  padding:1.8rem 1.2rem 1.2rem;
+  text-align:center;
+  border-bottom:1px solid rgba(200,155,91,0.25);
+}
+h1{
+  font-family:'Cinzel', serif;
+  font-size:1.3rem;
+  font-weight:600;
+  letter-spacing:0.12em;
+  color:var(--or);
+  margin:0 0 0.3rem;
+}
+.sous-titre{
+  font-style:italic;
+  color:var(--texte-doux);
+  font-size:0.95rem;
+  margin:0;
+}
+main{
+  max-width:640px;
+  margin:0 auto;
+  padding:0 1.2rem;
+}
+section{
+  margin-top:2rem;
+  padding-top:1.5rem;
+  border-top:1px solid rgba(200,155,91,0.15);
+}
+section:first-of-type{border-top:none;}
+.num-etape{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:1.7rem;height:1.7rem;
+  border:1px solid var(--bronze);
+  border-radius:50%;
+  font-family:'Cinzel',serif;
+  font-size:0.85rem;
+  color:var(--or);
+  margin-right:0.6rem;
+  flex-shrink:0;
+}
+h2{
+  font-family:'Cinzel', serif;
+  font-size:1rem;
+  font-weight:500;
+  letter-spacing:0.04em;
+  color:var(--parchemin);
+  display:flex;
+  align-items:center;
+  margin:0 0 0.9rem;
+}
+p.aide{
+  color:var(--texte-doux);
+  font-size:0.92rem;
+  margin:0 0 0.9rem;
+  padding-left:2.3rem;
+}
+textarea, input{
+  width:100%;
+  background:var(--noir-champ);
+  border:1px solid rgba(200,155,91,0.3);
+  border-radius:4px;
+  color:var(--parchemin);
+  padding:0.7rem 0.8rem;
+  font-family:'JetBrains Mono', monospace;
+  font-size:0.85rem;
+  margin-bottom:0.6rem;
+}
+textarea:focus, input:focus{
+  outline:none;
+  border-color:var(--or);
+}
+textarea{
+  resize:vertical;
+  min-height:5rem;
+}
+label{
+  display:block;
+  font-family:'Cormorant Garamond', serif;
+  font-size:0.9rem;
+  color:var(--texte-doux);
+  margin-bottom:0.3rem;
+}
+.grille-champs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 0.8rem;
+}
+.champ-pleine-largeur{grid-column:1 / -1;}
+.rangee-jeton{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:0.6rem;
+  align-items:end;
+}
+.rangee-jeton input{margin-bottom:0;}
+
+button{
+  font-family:'Cinzel', serif;
+  font-size:0.78rem;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--or);
+  background:linear-gradient(180deg,#1a130a,#0d0904);
+  border:1px solid var(--bronze);
+  border-radius:4px;
+  padding:0.65rem 1.1rem;
+  cursor:pointer;
+  transition:box-shadow 0.2s ease, transform 0.1s ease;
+}
+button:hover{box-shadow:0 0 16px rgba(200,155,91,0.3);}
+button:active{transform:scale(0.98);}
+button.secondaire{
+  background:transparent;
+  color:var(--texte-doux);
+  border-color:rgba(200,155,91,0.35);
+  font-size:0.72rem;
+  padding:0.5rem 0.8rem;
+}
+button.pleine-largeur{width:100%;margin-top:0.4rem;}
+button.danger{border-color:var(--erreur);color:var(--erreur);}
+
+.liste-clientes{
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+  padding-left:2.3rem;
+}
+.carte-cliente{
+  background:var(--noir-panneau);
+  border:1px solid rgba(200,155,91,0.2);
+  border-radius:6px;
+  padding:0.8rem 0.9rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:0.6rem;
+}
+.carte-cliente .infos{font-size:0.92rem;}
+.carte-cliente .prenom{color:var(--or);font-weight:600;}
+.carte-cliente .detail{color:var(--texte-doux);font-size:0.82rem;font-family:'JetBrains Mono',monospace;}
+.vide{
+  padding-left:2.3rem;
+  color:var(--texte-doux);
+  font-style:italic;
+  font-size:0.9rem;
+}
+
+.message{
+  padding:0.6rem 0.8rem;
+  border-radius:4px;
+  font-size:0.88rem;
+  margin-bottom:0.8rem;
+  display:none;
+}
+.message.erreur{
+  display:block;
+  background:rgba(217,108,95,0.12);
+  border:1px solid rgba(217,108,95,0.4);
+  color:var(--erreur);
+}
+.message.succes{
+  display:block;
+  background:rgba(127,174,122,0.12);
+  border:1px solid rgba(127,174,122,0.4);
+  color:var(--succes);
+}
+
+.sortie-bloc{padding-left:2.3rem;}
+.zone-copie{position:relative;}
+.zone-copie textarea{
+  min-height:6rem;
+  padding-right:4.5rem;
+}
+.bouton-copier{
+  position:absolute;
+  top:0.5rem; right:0.5rem;
+  padding:0.35rem 0.7rem;
+  font-size:0.68rem;
+}
+.lien-final{
+  background:var(--noir-champ);
+  border:1px solid var(--bronze);
+  border-radius:4px;
+  padding:0.7rem 0.8rem;
+  font-family:'JetBrains Mono', monospace;
+  font-size:0.82rem;
+  color:var(--or);
+  word-break:break-all;
+  margin-bottom:0.6rem;
+}
+.compteur{
+  color:var(--texte-doux);
+  font-size:0.78rem;
+  padding-left:2.3rem;
+  margin-top:-0.3rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ── VERROU D'ACCÈS ──
+   Simple écran de code, purement côté client (pas une vraie
+   sécurité cryptographique, mais empêche toute visite accidentelle
+   ou curieuse de voir le contenu de l'outil). Le code se change
+   ci-dessous, dans CODE_ACCES. -->
+<div id="ecranVerrou" style="position:fixed;inset:0;background:#060402;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;z-index:999;">
+  <p style="font-family:'Cinzel',serif;color:#E8CC7A;letter-spacing:0.15em;font-size:0.95rem;margin-bottom:1rem;">SOULSCRIPT — ACCÈS RESTREINT</p>
+  <input type="password" id="champCodeAcces" placeholder="Code d'accès" style="width:100%;max-width:280px;background:#151009;border:1px solid rgba(200,155,91,0.4);border-radius:4px;color:#E9D9B5;padding:0.7rem 0.9rem;font-family:'JetBrains Mono',monospace;font-size:1rem;text-align:center;">
+  <p id="messageVerrou" style="color:#D96C5F;font-family:'Cormorant Garamond',serif;font-size:0.9rem;height:1.2rem;margin-top:0.6rem;"></p>
+</div>
+
+<div id="contenuOutil" style="display:none;">
+
+<script>
+(function(){
+  // ── Change ce code pour le tien ──
+  const CODE_ACCES = '3014231nH';
+
+  const ecran = document.getElementById('ecranVerrou');
+  const champ = document.getElementById('champCodeAcces');
+  const msg = document.getElementById('messageVerrou');
+
+  champ.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      if(champ.value === CODE_ACCES){
+        ecran.style.display = 'none';
+        document.getElementById('contenuOutil').style.display = 'block';
+      } else {
+        msg.textContent = 'Code incorrect.';
+        champ.value = '';
+      }
+    }
+  });
+  champ.focus();
+})();
+</script>
+
+
+<div class="entete">
+  <h1>SOULSCRIPT</h1>
+  <p class="sous-titre">Registre des Clientes — outil interne</p>
+</div>
+
+<main>
+
+  <!-- ── ÉTAPE 1 : Charger le registre actuel ── -->
+  <section>
+    <h2><span class="num-etape">1</span>Coller le registre actuel</h2>
+    <p class="aide">Copie la valeur actuelle de <code>SOULSCRIPT_CLIENTS</code> depuis Netlify, colle-la ici, puis charge-la.</p>
+    <textarea id="entreeJson" placeholder='{"0017":{"t":"lion-etoile-7h42","prenom":"Anissa","url":"https://soulscript.pro"}}'></textarea>
+    <div id="messageCharge" class="message"></div>
+    <button id="btnCharger">Charger le registre</button>
+  </section>
+
+  <!-- ── ÉTAPE 2 : Liste des clientes ── -->
+  <section>
+    <h2><span class="num-etape">2</span>Clientes actuelles</h2>
+    <div id="listeClientes" class="liste-clientes">
+      <p class="vide">Aucune cliente chargée pour l'instant.</p>
+    </div>
+  </section>
+
+  <!-- ── ÉTAPE 3 : Ajouter une cliente ── -->
+  <section>
+    <h2><span class="num-etape">3</span>Ajouter une cliente</h2>
+    <div id="messageAjout" class="message"></div>
+    <div class="grille-champs">
+      <div class="champ-pleine-largeur">
+        <label for="champPrenom">Prénom (ou nom complet)</label>
+        <input type="text" id="champPrenom" placeholder="Camille">
+      </div>
+      <div>
+        <label for="champDossier">Numéro de dossier</label>
+        <input type="text" id="champDossier" placeholder="0019">
+      </div>
+      <div>
+        <label for="champUrl">Lien du dossier</label>
+        <input type="text" id="champUrl" placeholder="https://soulscript.pro" value="https://soulscript.pro">
+      </div>
+      <div class="champ-pleine-largeur">
+        <label for="champJeton">Jeton secret</label>
+        <div class="rangee-jeton">
+          <input type="text" id="champJeton" placeholder="etoile-gardien-4m91">
+          <button type="button" class="secondaire" id="btnGenererJeton">Générer</button>
+        </div>
+      </div>
+    </div>
+    <button class="pleine-largeur" id="btnAjouter">Ajouter cette cliente</button>
+  </section>
+
+  <!-- ── ÉTAPE 4 : Registre final à coller dans Netlify ── -->
+  <section>
+    <h2><span class="num-etape">4</span>Registre à coller dans Netlify</h2>
+    <p class="aide">Copie ce texte entier dans <code>SOULSCRIPT_CLIENTS</code> sur Netlify, puis <strong>Trigger deploy → Clear cache and deploy site</strong>.</p>
+    <div class="sortie-bloc">
+      <div class="zone-copie">
+        <textarea id="sortieJson" readonly></textarea>
+        <button class="bouton-copier secondaire" id="btnCopierJson">Copier</button>
+      </div>
+    </div>
+    <p class="compteur" id="compteurCaracteres"></p>
+  </section>
+
+  <!-- ── ÉTAPE 5 : Lien de la dernière cliente ajoutée ── -->
+  <section>
+    <h2><span class="num-etape">5</span>Lien à envoyer</h2>
+    <p class="aide">Le lien de la dernière cliente ajoutée, prêt à transmettre.</p>
+    <div class="sortie-bloc">
+      <div id="lienFinal" class="lien-final">—</div>
+      <button class="secondaire" id="btnCopierLien">Copier le lien</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   OUTIL REGISTRE SOULSCRIPT
+   Tout se passe en local dans le navigateur. Rien n'est envoyé
+   ni sauvegardé entre deux visites : recharger le registre à
+   chaque utilisation.
+   ═══════════════════════════════════════════════════════════ */
+
+let registre = {}; // { "0017": {t, prenom, url}, ... }
+let dernierAjout = null;
+
+const els = {
+  entreeJson: document.getElementById('entreeJson'),
+  msgCharge: document.getElementById('messageCharge'),
+  liste: document.getElementById('listeClientes'),
+  msgAjout: document.getElementById('messageAjout'),
+  prenom: document.getElementById('champPrenom'),
+  dossier: document.getElementById('champDossier'),
+  url: document.getElementById('champUrl'),
+  jeton: document.getElementById('champJeton'),
+  sortieJson: document.getElementById('sortieJson'),
+  compteur: document.getElementById('compteurCaracteres'),
+  lienFinal: document.getElementById('lienFinal'),
+};
+
+const DOMAINE_SITE = 'https://soulscript.pro';
+const PAGE_INVITATION = 'invitation-v7.html';
+
+// ── Mots thématiques pour la génération de jetons ──
+const MOTS_JETON = [
+  'lion','lune','etoile','gardien','archive','sceau','clef','ombre',
+  'encre','flamme','porte','memoire','signature','veritas','fati',
+  'chandelle','parchemin','vestige','murmure','seuil'
+];
+
+function genererJeton(){
+  const m1 = MOTS_JETON[Math.floor(Math.random()*MOTS_JETON.length)];
+  let m2 = MOTS_JETON[Math.floor(Math.random()*MOTS_JETON.length)];
+  while(m2 === m1) m2 = MOTS_JETON[Math.floor(Math.random()*MOTS_JETON.length)];
+  const chiffre = Math.floor(Math.random()*9)+1;
+  const lettre = 'abcdefghjkmnpqrstuvwxyz'[Math.floor(Math.random()*23)];
+  const chiffre2 = Math.floor(Math.random()*90)+10;
+  return `${m1}-${m2}-${chiffre}${lettre}${chiffre2}`;
+}
+
+function afficherMessage(el, texte, type){
+  el.textContent = texte;
+  el.className = 'message ' + type;
+  el.style.display = 'block';
+  if(type === 'succes'){
+    setTimeout(()=>{ el.style.display='none'; }, 3500);
+  }
+}
+
+// ── ÉTAPE 1 : Charger le registre collé ──
+document.getElementById('btnCharger').addEventListener('click', function(){
+  const brut = els.entreeJson.value.trim();
+  if(!brut){
+    afficherMessage(els.msgCharge, 'Colle d\'abord le registre JSON avant de charger.', 'erreur');
+    return;
+  }
+  try{
+    const parse = JSON.parse(brut);
+    if(typeof parse !== 'object' || Array.isArray(parse)) throw new Error('format');
+    registre = parse;
+    afficherMessage(els.msgCharge, `Registre chargé : ${Object.keys(registre).length} cliente(s).`, 'succes');
+    rafraichirListe();
+    rafraichirSortie();
+  }catch(e){
+    afficherMessage(els.msgCharge, 'JSON invalide : vérifie les accolades et les guillemets, puis réessaie.', 'erreur');
+  }
+});
+
+// ── Générer un jeton ──
+document.getElementById('btnGenererJeton').addEventListener('click', function(){
+  els.jeton.value = genererJeton();
+});
+
+// ── ÉTAPE 3 : Ajouter une cliente ──
+document.getElementById('btnAjouter').addEventListener('click', function(){
+  const prenom  = els.prenom.value.trim();
+  const dossier = els.dossier.value.trim();
+  const url     = els.url.value.trim();
+  let jeton     = els.jeton.value.trim();
+
+  if(!prenom || !dossier || !url){
+    afficherMessage(els.msgAjout, 'Prénom, numéro de dossier et lien sont obligatoires.', 'erreur');
+    return;
+  }
+  if(!jeton){
+    jeton = genererJeton();
+    els.jeton.value = jeton;
+  }
+  if(registre[dossier]){
+    const confirmer = confirm(`Le dossier ${dossier} existe déjà (${registre[dossier].prenom}). Le remplacer ?`);
+    if(!confirmer) return;
+  }
+
+  registre[dossier] = { t: jeton, prenom: prenom, url: url };
+  dernierAjout = { dossier, jeton };
+
+  afficherMessage(els.msgAjout, `${prenom} ajoutée avec le dossier ${dossier}.`, 'succes');
+
+  // Réinitialiser le formulaire pour la prochaine cliente
+  els.prenom.value = '';
+  els.dossier.value = '';
+  els.jeton.value = '';
+  els.url.value = DOMAINE_SITE;
+
+  rafraichirListe();
+  rafraichirSortie();
+  rafraichirLien();
+});
+
+// ── Afficher la liste des clientes ──
+function rafraichirListe(){
+  const cles = Object.keys(registre);
+  if(cles.length === 0){
+    els.liste.innerHTML = '<p class="vide">Aucune cliente chargée pour l\'instant.</p>';
+    return;
+  }
+  els.liste.innerHTML = cles.map(function(dossier){
+    const c = registre[dossier];
+    return `<div class="carte-cliente">
+      <div class="infos">
+        <div class="prenom">${escapeHtml(c.prenom || '')}</div>
+        <div class="detail">dossier ${escapeHtml(dossier)} · ${escapeHtml(c.t || '')}</div>
+      </div>
+      <button class="secondaire danger" data-dossier="${escapeHtml(dossier)}" onclick="supprimerCliente(this)">Retirer</button>
+    </div>`;
+  }).join('');
+}
+
+function supprimerCliente(bouton){
+  const dossier = bouton.getAttribute('data-dossier');
+  if(confirm(`Retirer ${registre[dossier].prenom} (dossier ${dossier}) du registre ?`)){
+    delete registre[dossier];
+    rafraichirListe();
+    rafraichirSortie();
+  }
+}
+
+// ── Générer la sortie JSON compacte ──
+function rafraichirSortie(){
+  const json = JSON.stringify(registre);
+  els.sortieJson.value = json;
+  els.compteur.textContent = json.length + ' caractères';
+}
+
+// ── Générer le lien de la dernière cliente ajoutée ──
+function rafraichirLien(){
+  if(!dernierAjout){
+    els.lienFinal.textContent = '—';
+    return;
+  }
+  const lien = `${DOMAINE_SITE}/${PAGE_INVITATION}?d=${encodeURIComponent(dernierAjout.dossier)}&t=${encodeURIComponent(dernierAjout.jeton)}`;
+  els.lienFinal.textContent = lien;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+// ── Copier dans le presse-papier ──
+async function copierTexte(texte, boutonEl){
+  try{
+    await navigator.clipboard.writeText(texte);
+    const original = boutonEl.textContent;
+    boutonEl.textContent = 'Copié ✓';
+    setTimeout(()=>{ boutonEl.textContent = original; }, 1500);
+  }catch(e){
+    alert('Impossible de copier automatiquement. Sélectionne et copie manuellement.');
+  }
+}
+
+document.getElementById('btnCopierJson').addEventListener('click', function(){
+  copierTexte(els.sortieJson.value, this);
+});
+document.getElementById('btnCopierLien').addEventListener('click', function(){
+  if(els.lienFinal.textContent !== '—'){
+    copierTexte(els.lienFinal.textContent, this);
+  }
+});
+
+// ── Pré-remplir avec un exemple pour comprendre le format au premier lancement ──
+els.entreeJson.value = '';
+</script>
+
+</div>
+</body>
+</html>
