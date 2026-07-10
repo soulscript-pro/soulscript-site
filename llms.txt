@@ -12,7 +12,17 @@ SOULSCRIPT propose une lecture astrologique exigeante, non-déterministe et non-
 ## Guides de référence
 
 - [Questions fréquentes](https://soulscript.pro/questions-frequentes.html) : Astrologie karmique, astéroïdes, persona charts, Chiron, Lilith, synastrie et lectures approfondies.
-- [Les astéroïdes karmiques](https://soulscript.pro/asteroides-karmiques.html) : Guide de référence sur Karma, Moira et les trois Moires (Klotho, Lachésis, Atropos) — ce qu'ils révèlent et comment les lire dans un thème natal.
+- [Les astéroïdes karmiques](https://soulscript.pro/asteroides-karmiques.html) : Karma, Moira et les trois Moires (Klotho, Lachésis, Atropos) — ce qu'ils révèlent et comment les lire dans un thème natal.
+- [Le thème draconique](https://soulscript.pro/theme-draconique.html) : Méthode de calcul depuis le Nœud Nord, et comparaison avec le thème natal — la couche de l'âme.
+- [Chiron](https://soulscript.pro/chiron.html) : Le guérisseur blessé — la blessure fondamentale, sa lecture par signe, maison et aspects, et sa transformation en capacité de soin.
+- [Les persona charts](https://soulscript.pro/persona-charts.html) : Méthode complète pour isoler une planète et lire une facette précise du thème.
+- [Lilith, la Lune noire](https://soulscript.pro/lilith.html) : La part refusée — ce qu'elle révèle, sa lecture, et pourquoi elle ne doit jamais être diabolisée.
+- [La synastrie](https://soulscript.pro/synastrie.html) : Lecture d'une relation à deux thèmes — méthode, ce qu'elle révèle et ses limites.
+- [Les progressions secondaires](https://soulscript.pro/progressions-secondaires.html) : Les saisons psychiques — méthode du jour pour un an et lecture de la Lune progressée.
+- [Les astéroïdes relationnels](https://soulscript.pro/asteroides-relationnels.html) : Junon, Éros, Psyché — engagement, désir et connexion d'âme.
+- [Les astéroïdes d'ombre](https://soulscript.pro/asteroides-ombre.html) : Nessus, Dejanira, Phaedra, Lust — dynamiques de pouvoir, d'emprise et de compulsion.
+- [Les astéroïdes de mission](https://soulscript.pro/asteroides-mission.html) : Vesta, Pallas, Fama, Apollo, Destinn — vocation, stratégie et direction de vie.
+- [Les astéroïdes de santé](https://soulscript.pro/asteroides-sante.html) : Hygeia, Panacea, Asclepius, Chariklo — équilibre du corps, prévention et soin (jamais un diagnostic médical).
 
 ## Service et contact
 
