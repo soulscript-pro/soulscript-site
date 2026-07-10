@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La synastrie : lire une relation à deux thèmes — SOULSCRIPT</title>
+<meta name="description" content="Guide de référence sur la synastrie en astrologie : méthode de superposition de deux thèmes, ce qu'elle révèle d'une relation, et pourquoi elle ne prédit jamais sa durée.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "La synastrie : lire une relation à deux thèmes",
+  "description": "Guide de référence sur la synastrie en astrologie : méthode de superposition de deux thèmes, ce qu'elle révèle d'une relation, et ses limites.",
+  "inLanguage": "fr",
+  "author": {
+    "@type": "Person",
+    "name": "Anissa",
+    "jobTitle": "Astrologue",
+    "description": "Astrologue avec plus de vingt ans de pratique, spécialisée en astrologie karmique, synastrie, Chiron et thèmes draconiques."
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SOULSCRIPT",
+    "url": "https://soulscript.pro"
+  },
+  "about": ["Synastrie", "Astrologie relationnelle", "Thème natal", "Astrologie karmique", "Compatibilité astrologique"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Qu'est-ce que la synastrie en astrologie ?", "acceptedAnswer": { "@type": "Answer", "text": "La synastrie superpose deux thèmes natals pour lire la dynamique réelle d'une relation : attractions, frictions, zones de croissance. Elle ne prédit pas la durée d'un lien. Elle montre les forces en présence, ce qui se répète et ce qui demande un travail conscient entre deux personnes." } },
+    { "@type": "Question", "name": "Comment fonctionne une lecture de synastrie ?", "acceptedAnswer": { "@type": "Answer", "text": "On superpose les deux thèmes natals et on observe les aspects que les planètes de l'un forment avec celles de l'autre, ainsi que les maisons où tombent les planètes du partenaire. Ces croisements révèlent les zones d'attraction, de tension et d'apprentissage propres au couple." } },
+    { "@type": "Question", "name": "La synastrie peut-elle prédire si une relation va durer ?", "acceptedAnswer": { "@type": "Answer", "text": "Non. La synastrie décrit des dynamiques, pas une durée de vie. Un aspect difficile n'annonce pas une rupture, tout comme un aspect harmonieux ne garantit pas la pérennité. La durée d'une relation dépend des choix et du travail des deux personnes, pas seulement de leurs thèmes." } },
+    { "@type": "Question", "name": "Quelle est la différence entre synastrie et thème composite ?", "acceptedAnswer": { "@type": "Answer", "text": "La synastrie superpose deux thèmes distincts et observe leurs interactions point par point. Le thème composite calcule un troisième thème, à part entière, à partir des points médians entre les deux personnes. La synastrie lit un dialogue ; le composite lit une entité relationnelle unique." } }
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --ink:#1A0E14;--ink-2:#241219;--plum:#3D2233;--gold:#D4A184;--gold-soft:#E8C4A8;
+    --bone:#ECE4D2;--bone-dim:#B39A8E;--line:rgba(212,161,132,.22);--line-strong:rgba(212,161,132,.44);
+    --serif:"EB Garamond",Georgia,serif;--display:"Fraunces",Georgia,serif;--mono:"Spline Sans Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font-family:var(--serif);font-size:1.14rem;line-height:1.78;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(1.5px 1.5px at 20% 12%, rgba(232,196,168,.55), transparent),
+      radial-gradient(1px 1px at 74% 8%, rgba(232,196,168,.45), transparent),
+      radial-gradient(1px 1px at 44% 22%, rgba(232,196,168,.4), transparent),
+      radial-gradient(1.5px 1.5px at 84% 28%, rgba(232,196,168,.35), transparent),
+      radial-gradient(1px 1px at 26% 38%, rgba(232,196,168,.3), transparent),
+      radial-gradient(1000px 620px at 50% -12%, var(--plum), transparent 70%),
+      radial-gradient(820px 560px at 88% 118%, #2A151F, transparent 70%)}
+  .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 26px}
+  header{padding:96px 0 40px;text-align:center}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);opacity:.85}
+  .crest{margin:24px auto 28px;width:52px;height:52px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:50%;color:var(--gold);font-size:1.4rem}
+  h1{font-family:var(--display);font-optical-sizing:auto;font-weight:400;font-size:clamp(2.1rem,7.2vw,3.4rem);line-height:1.06;letter-spacing:-.01em;color:var(--bone)}
+  h1 em{font-style:italic;color:var(--gold-soft)}
+  .lede{max-width:32ch;margin:26px auto 0;color:var(--bone-dim);font-size:1.16rem;font-style:italic;line-height:1.6}
+  .meta{margin-top:30px;font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim);opacity:.7}
+  .rule{width:100%;height:1px;margin:52px 0 4px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
+  main{padding-bottom:20px}
+  section{margin-top:60px}
+  .tag{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+  .tag .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+  .tag .ln{flex:1;height:1px;background:var(--line)}
+  h2{font-family:var(--display);font-weight:400;font-size:clamp(1.55rem,4.8vw,2.05rem);line-height:1.16;color:var(--bone);margin-bottom:20px}
+  h2 em{font-style:italic;color:var(--gold-soft)}
+  p{margin:0 0 20px}
+  p .lead-answer{color:var(--bone);font-weight:500}
+  strong{color:var(--bone);font-weight:500}
+  em.term{font-style:italic;color:var(--gold-soft)}
+  .maxime{margin:44px 0;padding:4px 0 4px 26px;border-left:2px solid var(--gold);
+    font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.5;color:var(--bone)}.duo{display:flex;flex-direction:column;gap:16px;margin:30px 0}
+  .duo-card{flex:1;padding:24px 24px 22px;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg,rgba(61,34,51,.4),rgba(26,14,20,.16))}
+  .duo-card h3{font-family:var(--display);font-size:1.22rem;color:var(--gold-soft);margin-bottom:10px}
+  .duo-card p{font-size:1.04rem;color:var(--bone-dim);margin-bottom:0}
+  .duo-link{text-align:center;color:var(--gold);font-size:1.3rem;opacity:.75}
+  .steps{counter-reset:step;margin:28px 0 0}
+  .step{position:relative;padding:0 0 26px 46px;border-left:1px solid var(--line);margin-left:14px}
+  .step:last-child{border-color:transparent;padding-bottom:0}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;left:-15px;top:-2px;
+    width:29px;height:29px;border-radius:50%;background:var(--ink);border:1px solid var(--gold);
+    color:var(--gold);font-family:var(--mono);font-size:.8rem;display:grid;place-items:center}
+  .step h3{font-family:var(--display);font-size:1.14rem;color:var(--bone);margin-bottom:8px}
+  .step p{font-size:1.04rem;color:var(--bone-dim);margin-bottom:0}
+  .fiche{margin:26px 0;padding:26px 26px 24px;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg,rgba(61,34,51,.4),rgba(26,14,20,.16))}
+  .fiche h3{font-family:var(--display);font-size:1.28rem;color:var(--gold-soft);margin-bottom:10px}
+  .fiche p{font-size:1.06rem;color:var(--bone-dim);margin-bottom:0}
+  .fiche p+p{margin-top:14px}
+  details{border-top:1px solid var(--line)}
+  #faq details:last-of-type{border-bottom:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;padding:20px 4px 20px 0;display:flex;align-items:flex-start;gap:14px;
+    font-family:var(--display);font-weight:400;font-size:1.16rem;line-height:1.34;color:var(--bone);transition:color .3s ease}
+  summary::-webkit-details-marker{display:none}
+  summary:hover{color:var(--gold-soft)}
+  .star{color:var(--gold);font-size:.85rem;line-height:1.9;flex:0 0 auto;transition:transform .5s cubic-bezier(.2,.7,.2,1);opacity:.9}
+  details[open] .star{transform:rotate(72deg) scale(1.15);opacity:1}
+  .sign{margin-left:auto;color:var(--gold);font-family:var(--mono);font-size:1.25rem;line-height:1.5;flex:0 0 auto;transition:transform .4s ease}
+  details[open] .sign{transform:rotate(45deg)}
+  .answer{padding:0 4px 24px 32px;color:var(--bone-dim);font-size:1.05rem;line-height:1.75;
+    opacity:0;transform:translateY(-6px);transition:opacity .5s ease,transform .5s ease}
+  details[open] .answer{opacity:1;transform:none}
+  .answer a{color:var(--gold-soft);text-decoration:underline;text-underline-offset:2px}
+  .invite{margin:80px 0 20px;padding:44px 34px;text-align:center;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg,rgba(61,34,51,.55),rgba(26,14,20,.22))}
+  .invite p{font-family:var(--display);font-style:italic;font-size:1.34rem;color:var(--bone);max-width:26ch;margin:0 auto 26px;line-height:1.42}
+  .cta{display:inline-block;font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;
+    color:var(--ink);background:var(--gold);padding:15px 30px;border-radius:2px;transition:background .3s ease,transform .3s ease}
+  .cta:hover{background:var(--gold-soft);transform:translateY(-2px)}
+  footer{margin-top:66px;padding:46px 0 66px;text-align:center;border-top:1px solid var(--line)}
+  footer .sig{font-family:var(--display);font-style:italic;font-size:1.14rem;color:var(--bone-dim);max-width:40ch;margin:0 auto 24px;line-height:1.5}
+  footer .links{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+  footer a{color:var(--gold);text-decoration:none;margin:0 12px}
+  footer a:hover{color:var(--gold-soft)}
+  footer .mark{margin-top:24px;font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--bone-dim);opacity:.6;text-transform:uppercase}
+  @media (min-width:640px){.duo{flex-direction:row;align-items:stretch}.duo-link{display:flex;align-items:center;font-size:1.5rem}}
+  @media (max-width:520px){header{padding:70px 0 30px}body{font-size:1.08rem}.fiche{padding:20px}.duo-card{padding:20px}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  :focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Soulscript · Les Archives · Dossier</div>
+    <div class="crest" aria-hidden="true">✦</div>
+    <h1>La <em>synastrie</em></h1>
+    <p class="lede">Deux thèmes qui se superposent ne racontent pas un accord parfait. Ils racontent un dialogue.</p>
+    <div class="meta">Astrologie relationnelle · Lecture de référence</div>
+    <div class="rule" aria-hidden="true"></div>
+  </header>
+  <main>
+    <section>
+      <p>Aucune lecture n'est autant demandée, autant fantasmée, et autant mal comprise que celle du couple. On voudrait un verdict — compatibles ou non, faits l'un pour l'autre ou pas. La <em class="term">synastrie</em> ne donne jamais ce verdict. Elle donne quelque chose de plus utile : une carte des forces réellement en présence entre deux personnes.</p>
+      <p>Ce n'est pas un troisième thème qui prédit l'avenir d'un couple. C'est la rencontre de deux thèmes existants, lus l'un à travers l'autre.</p>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Repère</span><span class="ln"></span></div>
+      <h2>Qu'est-ce que la synastrie ?</h2>
+      <p><span class="lead-answer">La synastrie superpose deux thèmes natals pour lire la dynamique réelle d'une relation : attractions, frictions, zones de croissance.</span> Elle ne prédit pas la durée d'un lien. Elle montre les forces en présence, ce qui se répète et ce qui demande un travail conscient entre deux personnes.</p>
+      <p>Le mot vient du grec <em class="term">syn</em> (avec) et <em class="term">astron</em> (astre) — littéralement, lire les astres ensemble. C'est une lecture comparative, pas un thème unique : les deux cartes restent distinctes, et c'est précisément leur mise en regard qui produit l'information.</p>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Méthode</span><span class="ln"></span></div>
+      <h2>Comment fonctionne une lecture de synastrie</h2>
+      <p>La méthode superpose deux ensembles d'informations distincts, croisés systématiquement.</p>
+      <div class="steps">
+        <div class="step">
+          <h3>Établir les deux thèmes natals</h3>
+          <p>On calcule séparément le thème de chaque personne, avec ses propres positions planétaires et maisons. Chaque thème garde son intégrité propre — rien n'est fusionné à cette étape.</p>
+        </div>
+        <div class="step">
+          <h3>Croiser les aspects inter-thèmes</h3>
+          <p>On observe les aspects que forment les planètes d'une personne avec celles de l'autre — une Vénus qui trigone un Mars, une Lune qui conjoint un Soleil. Ce sont ces croisements qui révèlent l'attraction et la friction spécifiques au duo.</p>
+        </div>
+        <div class="step">
+          <h3>Observer les maisons superposées</h3>
+          <p>On regarde dans quelle maison du thème de l'un tombent les planètes de l'autre. Une planète qui atterrit en maison 7 (les partenariats) ou en maison 8 (l'intimité, la fusion) active des zones de vie précises chez la personne qui reçoit.</p>
+        </div>
+      </div>
+    </section><section>
+      <div class="tag"><span class="k">Distinction</span><span class="ln"></span></div>
+      <h2>Synastrie et thème composite : <em>deux approches</em></h2>
+      <p>Ce sont les deux méthodes les plus utilisées pour lire une relation, mais elles ne procèdent pas de la même logique.</p>
+
+      <div class="duo">
+        <div class="duo-card">
+          <h3>La synastrie</h3>
+          <p>Superpose deux thèmes distincts et observe leurs interactions point par point. Chaque personne garde son thème intact ; c'est le dialogue entre les deux qui est lu.</p>
+        </div>
+        <div class="duo-link" aria-hidden="true">✦</div>
+        <div class="duo-card">
+          <h3>Le thème composite</h3>
+          <p>Calcule un troisième thème, à part entière, à partir des points médians entre les deux personnes. Ce nouveau thème décrit la relation elle-même, comme une entité distincte des deux individus.</p>
+        </div>
+      </div>
+
+      <p style="margin-top:28px">La synastrie lit un <strong>dialogue</strong> entre deux êtres qui restent chacun eux-mêmes. Le composite lit une <strong>entité</strong> née de leur rencontre. Les deux se complètent ; aucune ne remplace l'autre.</p>
+    </section>
+
+    <section>
+      <div class="tag"><span class="k">Lecture</span><span class="ln"></span></div>
+      <h2>Ce que la synastrie révèle vraiment</h2>
+      <p>Les aspects entre luminaires (Soleil, Lune) montrent souvent la reconnaissance instinctive, ce sentiment de familiarité qui ne s'explique pas. Les aspects entre Vénus et Mars révèlent l'attraction et la dynamique de désir. Les aspects impliquant Saturne apportent souvent une charge de sérieux, d'engagement, ou de leçon à apprendre — pas nécessairement négative, mais rarement légère.</p>
+      <p>Les astéroïdes karmiques et Chiron, une fois croisés en synastrie, éclairent des dynamiques plus profondes : une continuité qui semblait déjà écrite, une blessure de l'un qui trouve un écho chez l'autre. Ce sont souvent ces points, plus que les grandes planètes, qui expliquent l'intensité d'un lien.</p>
+    </section>
+
+    <section>
+      <div class="tag"><span class="k">Posture</span><span class="ln"></span></div>
+      <h2>Ce que la synastrie ne dit jamais</h2>
+      <p>Aucune combinaison d'aspects ne dit si une relation va durer, ni si elle est "faite pour" quelqu'un. La synastrie décrit des dynamiques, pas une durée de vie. Un aspect difficile n'annonce pas une rupture, tout comme un aspect harmonieux ne garantit pas la pérennité.</p>
+      <p>La durée d'une relation dépend des choix et du travail des deux personnes, pas seulement de leurs thèmes. La synastrie donne une carte des forces en présence ; elle ne joue jamais la partie à la place des deux joueurs.</p>
+      <p class="maxime">Un thème sobre n'exige pas une révélation spectaculaire. Il exige une révélation exacte.</p>
+    </section>
+
+    <section id="faq">
+      <div class="tag"><span class="k">Questions</span><span class="ln"></span></div>
+      <h2>Questions fréquentes</h2>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Qu'est-ce que la synastrie en astrologie ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">La synastrie superpose deux thèmes natals pour lire la dynamique réelle d'une relation : attractions, frictions, zones de croissance. Elle ne prédit pas la durée d'un lien. Elle montre les forces en présence, ce qui se répète et ce qui demande un travail conscient entre deux personnes.</div>
+      </details>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Comment fonctionne une lecture de synastrie ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">On superpose les deux thèmes natals et on observe les aspects que les planètes de l'un forment avec celles de l'autre, ainsi que les maisons où tombent les planètes du partenaire. Ces croisements révèlent les zones d'attraction, de tension et d'apprentissage propres au couple.</div>
+      </details>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>La synastrie peut-elle prédire si une relation va durer ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">Non. La synastrie décrit des dynamiques, pas une durée de vie. Un aspect difficile n'annonce pas une rupture, tout comme un aspect harmonieux ne garantit pas la pérennité. La durée d'une relation dépend des choix et du travail des deux personnes, pas seulement de leurs thèmes.</div>
+      </details>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Quelle est la différence entre synastrie et thème composite ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">La synastrie superpose deux thèmes distincts et observe leurs interactions point par point. Le thème composite calcule un troisième thème, à part entière, à partir des points médians entre les deux personnes. La synastrie lit un dialogue ; le composite lit une entité relationnelle unique.</div>
+      </details>
+    </section>
+
+    <section class="invite">
+      <p>Votre synastrie ne se lit pas en général. Elle se lit entre votre thème et celui de l'autre.</p>
+      <a class="cta" href="/gardien.html">Ouvrir une Première Page</a>
+    </section>
+  </main>
+
+  <footer>
+    <p class="sig">Les étoiles tracent les coordonnées. Les Archives révèlent leur signification.</p>
+    <div class="links">
+      <a href="/questions-frequentes.html">Questions fréquentes</a>
+      <a href="/asteroides-karmiques.html">Astéroïdes karmiques</a>
+      <a href="/theme-draconique.html">Thème draconique</a>
+      <a href="/chiron.html">Chiron</a>
+      <a href="/persona-charts.html">Persona charts</a>
+      <a href="/lilith.html">Lilith</a>
+      <a href="mailto:soulscript.officiel@outlook.com">Écrire</a>
+      <a href="https://instagram.com/soulscript.officiel">Instagram</a>
+    </div>
+    <div class="mark">Soulscript — Les Archives</div>
+  </footer>
+</div>
+</body>
+</html>
