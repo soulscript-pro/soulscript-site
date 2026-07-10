@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les persona charts : isoler une facette de l'âme — SOULSCRIPT</title>
+<meta name="description" content="Guide de référence sur les persona charts en astrologie : méthode de calcul, ce qu'ils révèlent d'une planète précise, et comment les distinguer du thème natal et du thème draconique.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Les persona charts : isoler une facette de l'âme",
+  "description": "Guide de référence sur les persona charts en astrologie : méthode de calcul, ce qu'ils révèlent, et comment les distinguer du thème natal et du thème draconique.",
+  "inLanguage": "fr",
+  "author": {
+    "@type": "Person",
+    "name": "Anissa",
+    "jobTitle": "Astrologue",
+    "description": "Astrologue avec plus de vingt ans de pratique, spécialisée en astrologie karmique, persona charts, thèmes draconiques et synastrie."
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SOULSCRIPT",
+    "url": "https://soulscript.pro"
+  },
+  "about": ["Persona chart", "Astrologie karmique", "Thème natal", "Thème draconique", "Astéroïdes en astrologie"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Qu'est-ce qu'un persona chart en astrologie ?", "acceptedAnswer": { "@type": "Answer", "text": "Un persona chart est un thème dérivé, calculé en plaçant une planète ou un point précis à l'Ascendant, puis en redistribuant l'ensemble du thème autour de ce nouveau repère. Il isole et amplifie la lecture d'une fonction psychique unique, au-delà de sa place habituelle dans le thème natal." } },
+    { "@type": "Question", "name": "Comment calculer un persona chart ?", "acceptedAnswer": { "@type": "Answer", "text": "On choisit une planète ou un point (Vénus, Chiron, un astéroïde), on relève sa position exacte, puis on la ramène au degré de l'Ascendant en décalant toutes les autres positions du thème d'autant. Le point choisi devient ainsi le nouvel Ascendant du persona chart." } },
+    { "@type": "Question", "name": "Quelle différence entre un persona chart et un thème draconique ?", "acceptedAnswer": { "@type": "Answer", "text": "Le thème draconique recentre toujours le thème sur le Nœud Nord, pour lire une couche générale de l'âme. Un persona chart peut se calculer sur n'importe quel point choisi, pour isoler une fonction précise — une seule planète ou un seul astéroïde à la fois, selon ce qu'on veut explorer." } },
+    { "@type": "Question", "name": "À quoi sert un persona chart de Vénus ?", "acceptedAnswer": { "@type": "Answer", "text": "Un persona chart de Vénus isole la façon dont la fonction amoureuse et relationnelle s'organise en elle-même, indépendamment de sa place dans le thème natal. Il révèle une dynamique interne à l'amour, à la valeur de soi et au désir, souvent plus nuancée que ce que montre le placement natal seul." } }
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --ink:#0C0A1B;--ink-2:#141031;--plum:#241640;--gold:#C6A15B;--gold-soft:#DcC08A;
+    --bone:#ECE4D2;--bone-dim:#A79E88;--line:rgba(198,161,91,.20);--line-strong:rgba(198,161,91,.42);
+    --serif:"EB Garamond",Georgia,serif;--display:"Fraunces",Georgia,serif;--mono:"Spline Sans Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font-family:var(--serif);font-size:1.14rem;line-height:1.78;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(1.5px 1.5px at 20% 12%, rgba(236,228,210,.6), transparent),
+      radial-gradient(1px 1px at 74% 8%, rgba(236,228,210,.5), transparent),
+      radial-gradient(1px 1px at 44% 22%, rgba(236,228,210,.45), transparent),
+      radial-gradient(1.5px 1.5px at 84% 28%, rgba(236,228,210,.4), transparent),
+      radial-gradient(1px 1px at 26% 38%, rgba(236,228,210,.35), transparent),
+      radial-gradient(1000px 620px at 50% -12%, var(--plum), transparent 70%),
+      radial-gradient(820px 560px at 88% 118%, #1a1236, transparent 70%)}
+  .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 26px}
+  header{padding:96px 0 40px;text-align:center}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);opacity:.85}
+  .crest{margin:24px auto 28px;width:52px;height:52px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:50%;color:var(--gold);font-size:1.4rem}
+  h1{font-family:var(--display);font-optical-sizing:auto;font-weight:400;font-size:clamp(2.1rem,7.2vw,3.4rem);line-height:1.06;letter-spacing:-.01em;color:var(--bone)}
+  h1 em{font-style:italic;color:var(--gold-soft)}
+  .lede{max-width:32ch;margin:26px auto 0;color:var(--bone-dim);font-size:1.16rem;font-style:italic;line-height:1.6}
+  .meta{margin-top:30px;font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim);opacity:.7}
+  .rule{width:100%;height:1px;margin:52px 0 4px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
+  main{padding-bottom:20px}
+  section{margin-top:60px}
+  .tag{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+  .tag .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+  .tag .ln{flex:1;height:1px;background:var(--line)}
+  h2{font-family:var(--display);font-weight:400;font-size:clamp(1.55rem,4.8vw,2.05rem);line-height:1.16;color:var(--bone);margin-bottom:20px}
+  h2 em{font-style:italic;color:var(--gold-soft)}
+  p{margin:0 0 20px}
+  p .lead-answer{color:var(--bone);font-weight:500}
+  strong{color:var(--bone);font-weight:500}
+  em.term{font-style:italic;color:var(--gold-soft)}
+  .maxime{margin:44px 0;padding:4px 0 4px 26px;border-left:2px solid var(--gold);
+    font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.5;color:var(--bone)}.steps{counter-reset:step;margin:28px 0 0}
+  .step{position:relative;padding:0 0 26px 46px;border-left:1px solid var(--line);margin-left:14px}
+  .step:last-child{border-color:transparent;padding-bottom:0}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;left:-15px;top:-2px;
+    width:29px;height:29px;border-radius:50%;background:var(--ink);border:1px solid var(--gold);
+    color:var(--gold);font-family:var(--mono);font-size:.8rem;display:grid;place-items:center}
+  .step h3{font-family:var(--display);font-size:1.14rem;color:var(--bone);margin-bottom:8px}
+  .step p{font-size:1.04rem;color:var(--bone-dim);margin-bottom:0}
+  .fiche{margin:26px 0;padding:26px 26px 24px;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg,rgba(36,22,64,.34),rgba(20,16,49,.14))}
+  .fiche h3{font-family:var(--display);font-size:1.28rem;color:var(--gold-soft);margin-bottom:10px}
+  .fiche p{font-size:1.06rem;color:var(--bone-dim);margin-bottom:0}
+  .fiche p+p{margin-top:14px}
+  details{border-top:1px solid var(--line)}
+  #faq details:last-of-type{border-bottom:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;padding:20px 4px 20px 0;display:flex;align-items:flex-start;gap:14px;
+    font-family:var(--display);font-weight:400;font-size:1.16rem;line-height:1.34;color:var(--bone);transition:color .3s ease}
+  summary::-webkit-details-marker{display:none}
+  summary:hover{color:var(--gold-soft)}
+  .star{color:var(--gold);font-size:.85rem;line-height:1.9;flex:0 0 auto;transition:transform .5s cubic-bezier(.2,.7,.2,1);opacity:.9}
+  details[open] .star{transform:rotate(72deg) scale(1.15);opacity:1}
+  .sign{margin-left:auto;color:var(--gold);font-family:var(--mono);font-size:1.25rem;line-height:1.5;flex:0 0 auto;transition:transform .4s ease}
+  details[open] .sign{transform:rotate(45deg)}
+  .answer{padding:0 4px 24px 32px;color:var(--bone-dim);font-size:1.05rem;line-height:1.75;
+    opacity:0;transform:translateY(-6px);transition:opacity .5s ease,transform .5s ease}
+  details[open] .answer{opacity:1;transform:none}
+  .answer a{color:var(--gold-soft);text-decoration:underline;text-underline-offset:2px}
+  .invite{margin:80px 0 20px;padding:44px 34px;text-align:center;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg,rgba(36,22,64,.5),rgba(20,16,49,.2))}
+  .invite p{font-family:var(--display);font-style:italic;font-size:1.34rem;color:var(--bone);max-width:26ch;margin:0 auto 26px;line-height:1.42}
+  .cta{display:inline-block;font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;
+    color:var(--ink);background:var(--gold);padding:15px 30px;border-radius:2px;transition:background .3s ease,transform .3s ease}
+  .cta:hover{background:var(--gold-soft);transform:translateY(-2px)}
+  footer{margin-top:66px;padding:46px 0 66px;text-align:center;border-top:1px solid var(--line)}
+  footer .sig{font-family:var(--display);font-style:italic;font-size:1.14rem;color:var(--bone-dim);max-width:40ch;margin:0 auto 24px;line-height:1.5}
+  footer .links{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+  footer a{color:var(--gold);text-decoration:none;margin:0 12px}
+  footer a:hover{color:var(--gold-soft)}
+  footer .mark{margin-top:24px;font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--bone-dim);opacity:.6;text-transform:uppercase}
+  @media (max-width:520px){header{padding:70px 0 30px}body{font-size:1.08rem}.fiche{padding:20px}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  :focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Soulscript · Les Archives · Dossier</div>
+    <div class="crest" aria-hidden="true">✦</div>
+    <h1>Les persona <em>charts</em></h1>
+    <p class="lede">Une seule voix, isolée du chœur, pour mieux entendre ce qu'elle dit vraiment.</p>
+    <div class="meta">Astrologie de l'âme · Lecture de référence</div>
+    <div class="rule" aria-hidden="true"></div>
+  </header>
+  <main>
+    <section>
+      <p>Un thème natal fait cohabiter des dizaines de voix : le Soleil, la Lune, Vénus, Mars, chaque astéroïde — toutes parlent en même temps, se répondent, se contredisent parfois. C'est cette polyphonie qui rend un thème vivant, mais elle rend aussi difficile d'entendre distinctement une seule fonction.</p>
+      <p>Le <em class="term">persona chart</em> répond à un besoin précis : isoler une voix du chœur, l'amener au premier plan, et l'écouter seule un moment. Ce n'est pas un nouveau thème — c'est un projecteur braqué sur un point du thème existant.</p>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Repère</span><span class="ln"></span></div>
+      <h2>Qu'est-ce qu'un persona chart ?</h2>
+      <p><span class="lead-answer">Un persona chart est un thème dérivé, calculé en plaçant une planète ou un point précis à l'Ascendant, puis en redistribuant l'ensemble du thème autour de ce nouveau repère.</span> Il isole et amplifie la lecture d'une fonction psychique unique, au-delà de sa place habituelle dans le thème natal.</p>
+      <p>Le principe rappelle celui du thème draconique — un recentrage complet du thème sur un nouveau point de départ — mais en plus flexible. Le draconique recentre toujours sur le Nœud Nord ; un persona chart peut se construire sur n'importe quelle planète ou astéroïde choisi selon la question posée.</p>
+    </section><section>
+      <div class="tag"><span class="k">Méthode</span><span class="ln"></span></div>
+      <h2>Comment calculer un persona chart</h2>
+      <p>Trois étapes suffisent, mais chacune demande de la précision.</p>
+
+      <div class="steps">
+        <div class="step">
+          <h3>Choisir le point à isoler</h3>
+          <p>On sélectionne la planète, l'astéroïde ou le point dont on veut isoler la fonction — Vénus pour l'amour, Chiron pour la blessure, un astéroïde karmique pour un motif de répétition précis.</p>
+        </div>
+        <div class="step">
+          <h3>Relever sa position exacte</h3>
+          <p>On note le degré et le signe exacts de ce point dans le thème natal. C'est la valeur qui va devenir le nouveau repère du persona chart.</p>
+        </div>
+        <div class="step">
+          <h3>Ramener ce point à l'Ascendant</h3>
+          <p>On décale l'ensemble du thème pour que ce point choisi se retrouve exactement à l'Ascendant, entraînant toutes les autres planètes du même angle. Le point devient ainsi la porte d'entrée du thème dérivé.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="tag"><span class="k">Exemple</span><span class="ln"></span></div>
+      <h2>Le persona chart de Vénus</h2>
+      <p>Prenons l'exemple le plus demandé : isoler Vénus pour comprendre une dynamique amoureuse qui semble échapper à la lecture natale habituelle.</p>
+
+      <div class="fiche">
+        <h3>Ce qu'il révèle</h3>
+        <p>Un persona chart de Vénus isole la façon dont la fonction amoureuse et relationnelle s'organise en elle-même, indépendamment de sa place dans le thème natal. Il révèle une dynamique interne à l'amour, à la valeur de soi et au désir, souvent plus nuancée que ce que montre le placement natal seul.</p>
+        <p>Une Vénus discrète en thème natal peut ainsi révéler, dans son propre persona chart, une maison 1 flamboyante — signe que la fonction amoureuse, une fois isolée, a une voix bien plus affirmée qu'elle ne le laisse paraître dans l'ensemble du thème.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="tag"><span class="k">Distinction</span><span class="ln"></span></div>
+      <h2>Persona chart et thème draconique : <em>deux logiques</em></h2>
+      <p>Les deux méthodes recentrent un thème, mais elles ne répondent pas à la même question.</p>
+      <p>Le <strong>thème draconique</strong> recentre toujours sur le Nœud Nord, pour lire une couche générale et stable de l'âme — la même pour toute lecture, quel que soit le sujet exploré.</p>
+      <p>Un <strong>persona chart</strong> se construit sur mesure, planète par planète, selon la question posée. Il n'y a pas un seul persona chart d'un thème, mais potentiellement autant que de fonctions à isoler — un pour Vénus, un pour Mars, un pour Chiron, chacun éclairant un aspect différent.</p>
+    </section>
+
+    <section>
+      <div class="tag"><span class="k">Posture</span><span class="ln"></span></div>
+      <h2>Ce qu'un persona chart ne remplace pas</h2>
+      <p>Un persona chart amplifie une voix — il ne la sépare pas du reste. La fonction isolée continue d'exister dans le thème natal, avec toutes ses nuances et ses tensions propres. Le persona chart ne corrige rien, il grossit simplement le trait d'un point pour le rendre plus lisible un moment.</p>
+      <p class="maxime">Un thème sobre n'exige pas une révélation spectaculaire. Il exige une révélation exacte.</p>
+    </section>
+
+    <section id="faq">
+      <div class="tag"><span class="k">Questions</span><span class="ln"></span></div>
+      <h2>Questions fréquentes</h2>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Qu'est-ce qu'un persona chart en astrologie ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">Un persona chart est un thème dérivé, calculé en plaçant une planète ou un point précis à l'Ascendant, puis en redistribuant l'ensemble du thème autour de ce nouveau repère. Il isole et amplifie la lecture d'une fonction psychique unique, au-delà de sa place habituelle dans le thème natal.</div>
+      </details>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Comment calculer un persona chart ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">On choisit une planète ou un point (Vénus, Chiron, un astéroïde), on relève sa position exacte, puis on la ramène au degré de l'Ascendant en décalant toutes les autres positions du thème d'autant. Le point choisi devient ainsi le nouvel Ascendant du persona chart.</div>
+      </details>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Quelle différence entre un persona chart et un thème draconique ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">Le thème draconique recentre toujours le thème sur le Nœud Nord, pour lire une couche générale de l'âme. Un persona chart peut se calculer sur n'importe quel point choisi, pour isoler une fonction précise — une seule planète ou un seul astéroïde à la fois, selon ce qu'on veut explorer. Pour approfondir le draconique, <a href="/theme-draconique.html">notre dossier de référence</a> détaille sa méthode complète.</div>
+      </details>
+
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>À quoi sert un persona chart de Vénus ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">Un persona chart de Vénus isole la façon dont la fonction amoureuse et relationnelle s'organise en elle-même, indépendamment de sa place dans le thème natal. Il révèle une dynamique interne à l'amour, à la valeur de soi et au désir, souvent plus nuancée que ce que montre le placement natal seul.</div>
+      </details>
+    </section>
+
+    <section class="invite">
+      <p>Votre persona chart ne se lit pas en général. Il se lit dans le vôtre, sur la planète qui vous appelle.</p>
+      <a class="cta" href="/gardien.html">Ouvrir une Première Page</a>
+    </section>
+  </main>
+
+  <footer>
+    <p class="sig">Les étoiles tracent les coordonnées. Les Archives révèlent leur signification.</p>
+    <div class="links">
+      <a href="/questions-frequentes.html">Questions fréquentes</a>
+      <a href="/asteroides-karmiques.html">Astéroïdes karmiques</a>
+      <a href="/theme-draconique.html">Thème draconique</a>
+      <a href="/chiron.html">Chiron</a>
+      <a href="mailto:soulscript.officiel@outlook.com">Écrire</a>
+      <a href="https://instagram.com/soulscript.officiel">Instagram</a>
+    </div>
+    <div class="mark">Soulscript — Les Archives</div>
+  </footer>
+</div>
+</body>
+</html>
