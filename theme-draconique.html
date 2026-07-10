@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le thème draconique : lire la couche de l'âme — SOULSCRIPT</title>
+<meta name="description" content="Guide de référence sur le thème draconique en astrologie : sa méthode de calcul depuis le Nœud Nord, ce qu'il révèle de la couche de l'âme, et comment le comparer au thème natal. Une lecture exacte, jamais déterministe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Le thème draconique : lire la couche de l'âme",
+  "description": "Guide de référence sur le thème draconique en astrologie : méthode de calcul depuis le Nœud Nord, ce qu'il révèle, et comment le comparer au thème natal.",
+  "inLanguage": "fr",
+  "author": {
+    "@type": "Person",
+    "name": "Anissa",
+    "jobTitle": "Astrologue",
+    "description": "Astrologue avec plus de vingt ans de pratique, spécialisée en astrologie karmique, thèmes draconiques, persona charts et synastrie."
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SOULSCRIPT",
+    "url": "https://soulscript.pro"
+  },
+  "about": ["Thème draconique", "Astrologie karmique", "Nœud Nord", "Thème natal", "Astrologie de l'âme"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Qu'est-ce qu'un thème draconique ?", "acceptedAnswer": { "@type": "Answer", "text": "Le thème draconique est un thème recalculé en plaçant le Nœud Nord natal à 0° Bélier, puis en redistribuant toutes les planètes selon ce nouveau repère. Il révèle une couche plus intérieure de la personnalité, souvent décrite comme celle de l'âme, sous la structure du thème natal habituel." } },
+    { "@type": "Question", "name": "Comment calculer un thème draconique ?", "acceptedAnswer": { "@type": "Answer", "text": "On calcule d'abord le thème natal classique, on repère la position du Nœud Nord, puis on soustrait cette valeur à chaque planète pour obtenir leurs positions draconiques. Le Nœud Nord se retrouve ainsi à 0° Bélier, et toutes les autres planètes se déplacent d'autant." } },
+    { "@type": "Question", "name": "Quelle est la différence entre le thème natal et le thème draconique ?", "acceptedAnswer": { "@type": "Answer", "text": "Le thème natal décrit la personnalité incarnée, sa façon de fonctionner dans le monde matériel et social. Le thème draconique décrit une couche plus profonde, souvent lue comme celle de l'âme ou de l'intention originelle. L'écart entre les deux montre la distance entre qui l'on est et ce vers quoi l'on tend." } },
+    { "@type": "Question", "name": "Le thème draconique remplace-t-il le thème natal ?", "acceptedAnswer": { "@type": "Answer", "text": "Non. Le thème draconique ne remplace jamais le thème natal, il le complète. Le natal reste la carte de référence pour la personnalité et la vie concrète ; le draconique en est une lecture superposée, réservée à ceux qui veulent explorer une dimension plus intérieure." } }
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --ink:#0C0A1B;--ink-2:#141031;--plum:#241640;--gold:#C6A15B;--gold-soft:#DcC08A;
+    --bone:#ECE4D2;--bone-dim:#A79E88;--line:rgba(198,161,91,.20);--line-strong:rgba(198,161,91,.42);
+    --serif:"EB Garamond",Georgia,serif;--display:"Fraunces",Georgia,serif;--mono:"Spline Sans Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font-family:var(--serif);font-size:1.14rem;line-height:1.78;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(1.5px 1.5px at 20% 12%, rgba(236,228,210,.6), transparent),
+      radial-gradient(1px 1px at 74% 8%, rgba(236,228,210,.5), transparent),
+      radial-gradient(1px 1px at 44% 22%, rgba(236,228,210,.45), transparent),
+      radial-gradient(1.5px 1.5px at 84% 28%, rgba(236,228,210,.4), transparent),
+      radial-gradient(1px 1px at 26% 38%, rgba(236,228,210,.35), transparent),
+      radial-gradient(1000px 620px at 50% -12%, var(--plum), transparent 70%),
+      radial-gradient(820px 560px at 88% 118%, #1a1236, transparent 70%)}
+  .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 26px}
+  header{padding:96px 0 40px;text-align:center}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);opacity:.85}
+  .crest{margin:24px auto 28px;width:52px;height:52px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:50%;color:var(--gold);font-size:1.4rem}
+  h1{font-family:var(--display);font-optical-sizing:auto;font-weight:400;font-size:clamp(2.1rem,7.2vw,3.4rem);line-height:1.06;letter-spacing:-.01em;color:var(--bone)}
+  h1 em{font-style:italic;color:var(--gold-soft)}
+  .lede{max-width:32ch;margin:26px auto 0;color:var(--bone-dim);font-size:1.16rem;font-style:italic;line-height:1.6}
+  .meta{margin-top:30px;font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim);opacity:.7}
+  .rule{width:100%;height:1px;margin:52px 0 4px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
+  main{padding-bottom:20px}
+  section{margin-top:60px}
+  .tag{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+  .tag .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+  .tag .ln{flex:1;height:1px;background:var(--line)}
+  h2{font-family:var(--display);font-weight:400;font-size:clamp(1.55rem,4.8vw,2.05rem);line-height:1.16;color:var(--bone);margin-bottom:20px}
+  h2 em{font-style:italic;color:var(--gold-soft)}p{margin:0 0 20px}
+  p .lead-answer{color:var(--bone);font-weight:500}
+  strong{color:var(--bone);font-weight:500}
+  em.term{font-style:italic;color:var(--gold-soft)}
+  .maxime{margin:44px 0;padding:4px 0 4px 26px;border-left:2px solid var(--gold);
+    font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.5;color:var(--bone)}
+  .compare{display:flex;flex-direction:column;gap:16px;margin:30px 0}
+  .compare-card{padding:24px 24px 22px;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg,rgba(36,22,64,.34),rgba(20,16,49,.14))}
+  .compare-card h3{font-family:var(--display);font-size:1.28rem;color:var(--gold-soft);margin-bottom:10px}
+  .compare-card p{font-size:1.06rem;color:var(--bone-dim);margin-bottom:0}
+  .compare-arrow{text-align:center;color:var(--gold);font-size:1.1rem;opacity:.7}
+  .steps{counter-reset:step;margin:28px 0 0}
+  .step{position:relative;padding:0 0 26px 46px;border-left:1px solid var(--line);margin-left:14px}
+  .step:last-child{border-color:transparent;padding-bottom:0}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;left:-15px;top:-2px;
+    width:29px;height:29px;border-radius:50%;background:var(--ink);border:1px solid var(--gold);
+    color:var(--gold);font-family:var(--mono);font-size:.8rem;display:grid;place-items:center}
+  .step h3{font-family:var(--display);font-size:1.14rem;color:var(--bone);margin-bottom:8px}
+  .step p{font-size:1.04rem;color:var(--bone-dim);margin-bottom:0}
+  details{border-top:1px solid var(--line)}
+  #faq details:last-of-type{border-bottom:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;padding:20px 4px 20px 0;display:flex;align-items:flex-start;gap:14px;
+    font-family:var(--display);font-weight:400;font-size:1.16rem;line-height:1.34;color:var(--bone);transition:color .3s ease}
+  summary::-webkit-details-marker{display:none}
+  summary:hover{color:var(--gold-soft)}
+  .star{color:var(--gold);font-size:.85rem;line-height:1.9;flex:0 0 auto;transition:transform .5s cubic-bezier(.2,.7,.2,1);opacity:.9}
+  details[open] .star{transform:rotate(72deg) scale(1.15);opacity:1}
+  .sign{margin-left:auto;color:var(--gold);font-family:var(--mono);font-size:1.25rem;line-height:1.5;flex:0 0 auto;transition:transform .4s ease}
+  details[open] .sign{transform:rotate(45deg)}
+  .answer{padding:0 4px 24px 32px;color:var(--bone-dim);font-size:1.05rem;line-height:1.75;
+    opacity:0;transform:translateY(-6px);transition:opacity .5s ease,transform .5s ease}
+  details[open] .answer{opacity:1;transform:none}
+  .answer a{color:var(--gold-soft);text-decoration:underline;text-underline-offset:2px}
+  .invite{margin:80px 0 20px;padding:44px 34px;text-align:center;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg,rgba(36,22,64,.5),rgba(20,16,49,.2))}
+  .invite p{font-family:var(--display);font-style:italic;font-size:1.34rem;color:var(--bone);max-width:26ch;margin:0 auto 26px;line-height:1.42}
+  .cta{display:inline-block;font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;
+    color:var(--ink);background:var(--gold);padding:15px 30px;border-radius:2px;transition:background .3s ease,transform .3s ease}
+  .cta:hover{background:var(--gold-soft);transform:translateY(-2px)}
+  footer{margin-top:66px;padding:46px 0 66px;text-align:center;border-top:1px solid var(--line)}
+  footer .sig{font-family:var(--display);font-style:italic;font-size:1.14rem;color:var(--bone-dim);max-width:40ch;margin:0 auto 24px;line-height:1.5}
+  footer .links{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+  footer a{color:var(--gold);text-decoration:none;margin:0 12px}
+  footer a:hover{color:var(--gold-soft)}
+  footer .mark{margin-top:24px;font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--bone-dim);opacity:.6;text-transform:uppercase}
+  @media (min-width:640px){.compare{flex-direction:row;align-items:stretch}.compare-card{flex:1}.compare-arrow{display:flex;align-items:center;font-size:1.4rem}}
+  @media (max-width:520px){header{padding:70px 0 30px}body{font-size:1.08rem}.compare-card{padding:20px}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  :focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Soulscript · Les Archives · Dossier</div>
+    <div class="crest" aria-hidden="true">✦</div>
+    <h1>Le thème <em>draconique</em></h1>
+    <p class="lede">Sous la personne que vous êtes devenue, il y a celle que vous étiez venue être.</p>
+    <div class="meta">Astrologie de l'âme · Lecture de référence</div>
+    <div class="rule" aria-hidden="true"></div>
+  </header>
+  <main>
+    <section>
+      <p>Le thème natal décrit remarquablement bien une chose : comment vous fonctionnez, ici, dans ce corps, dans cette vie, avec ces circonstances précises. Mais il existe une question qu'il ne pose jamais tout à fait : celle de l'intention, de ce qui préexistait à l'incarnation elle-même.</p>
+      <p>Le <em class="term">thème draconique</em> est la tentative astrologique la plus directe de répondre à cette question. Il ne remplace rien ; il déplace le point de vue. Et ce déplacement, souvent, change tout ce qu'on croyait savoir d'un thème.</p>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Repère</span><span class="ln"></span></div>
+      <h2>Qu'est-ce qu'un thème draconique ?</h2>
+      <p><span class="lead-answer">Le thème draconique est un thème recalculé en plaçant le Nœud Nord natal à 0° Bélier, puis en redistribuant toutes les planètes selon ce nouveau repère.</span> Il révèle une couche plus intérieure de la personnalité, souvent décrite comme celle de l'âme, sous la structure du thème natal habituel.</p>
+      <p>Le nom vient du <em class="term">Dracon</em>, la constellation du Dragon associée depuis l'Antiquité à l'axe des nœuds lunaires — cet axe qui, dans bien des traditions, symbolise le passage entre les mondes. Recentrer le thème sur cet axe, c'est littéralement changer de repère : on ne regarde plus depuis le point vernal, mais depuis le point que l'âme, dit-on, a choisi comme direction.</p>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Méthode</span><span class="ln"></span></div>
+      <h2>Comment calculer un thème draconique</h2>
+      <p>Le calcul est d'une simplicité trompeuse — trois étapes, mais une lecture qui, elle, demande de la patience.</p>
+      <div class="steps">
+        <div class="step"><h3>Établir le thème natal</h3>
+          <p>On part toujours du thème natal classique, avec ses positions planétaires exactes à l'instant de la naissance. C'est la référence à partir de laquelle tout le reste se calcule.</p>
+        </div>
+        <div class="step">
+          <h3>Repérer le Nœud Nord</h3>
+          <p>On note la position exacte du Nœud Nord natal — son degré et son signe. C'est la valeur qui va servir de nouveau zéro.</p>
+        </div>
+        <div class="step">
+          <h3>Redistribuer chaque planète</h3>
+          <p>On soustrait la position du Nœud Nord à celle de chaque planète. Le Nœud Nord se retrouve ainsi ramené à 0° Bélier, et toutes les planètes se déplacent d'autant, conservant entre elles les mêmes écarts angulaires — seul le point de départ change.</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Distinction</span><span class="ln"></span></div>
+      <h2>Thème natal et thème draconique : <em>deux couches</em></h2>
+      <p>Ce ne sont pas deux thèmes concurrents. Ce sont deux profondeurs de lecture du même être.</p>
+      <div class="compare">
+        <div class="compare-card">
+          <h3>Le thème natal</h3>
+          <p>La personnalité incarnée. Comment vous fonctionnez dans le monde matériel, social, relationnel. La carte de référence pour toute lecture concrète — travail, relations, tempérament.</p>
+        </div>
+        <div class="compare-arrow" aria-hidden="true">→</div>
+        <div class="compare-card">
+          <h3>Le thème draconique</h3>
+          <p>Une couche plus intérieure, souvent lue comme celle de l'âme ou de l'intention originelle. Ce vers quoi vous tendez sans toujours le nommer — l'arrière-plan silencieux du thème natal.</p>
+        </div>
+      </div>
+      <p style="margin-top:28px">L'intérêt ne réside pas dans l'un ou l'autre, mais dans <strong>l'écart</strong> entre eux. Une planète qui occupe une position très différente en natal et en draconique signale une tension féconde : entre ce que vous montrez et ce que vous visez, entre le personnage et l'intention.</p>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Lecture</span><span class="ln"></span></div>
+      <h2>Comment lire un thème draconique</h2>
+      <p>La règle est la même que pour toute lecture chez SOULSCRIPT : jamais isolément, toujours par convergence. Un draconique se lit en superposition du natal, jamais à sa place.</p>
+      <p>On regarde d'abord les planètes dont l'écart de signe est le plus marqué entre les deux thèmes — ce sont elles qui portent le plus de tension entre incarnation et intention. On regarde ensuite les conjonctions : une planète draconique qui tombe exactement sur un point sensible du natal (Ascendant, Soleil, Lune, un angle) mérite une attention particulière, car elle indique que l'intention de l'âme s'exprime directement à travers cette fonction de la personnalité.</p>
+      <p>Le Soleil draconique, en particulier, est souvent lu comme une signature de vocation profonde — non celle qu'on choisit consciemment, mais celle vers laquelle on est structurellement orienté.</p>
+    </section>
+    <section>
+      <div class="tag"><span class="k">Posture</span><span class="ln"></span></div>
+      <h2>Ce que le thème draconique ne remplace pas</h2>
+      <p>Le draconique séduit parce qu'il semble promettre un accès direct à quelque chose de plus vrai, de plus essentiel. C'est une tentation à manier avec prudence.</p>
+      <p>Le thème natal n'est ni moins vrai ni secondaire. Il reste la carte de référence pour comprendre une vie concrète, ses choix, ses relations, son fonctionnement quotidien. Le draconique ne le corrige pas, il l'éclaire d'un jour différent. Le confondre avec une vérité supérieure reviendrait à oublier que vous vivez, précisément, la vie que décrit votre thème natal — et que c'est elle qui compte d'abord.</p>
+      <p class="maxime">Un thème sobre n'exige pas une révélation spectaculaire. Il exige une révélation exacte.</p>
+    </section>
+    <section id="faq">
+      <div class="tag"><span class="k">Questions</span><span class="ln"></span></div>
+      <h2>Questions fréquentes</h2>
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Qu'est-ce qu'un thème draconique ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">Le thème draconique est un thème recalculé en plaçant le Nœud Nord natal à 0° Bélier, puis en redistribuant toutes les planètes selon ce nouveau repère. Il révèle une couche plus intérieure de la personnalité, souvent décrite comme celle de l'âme, sous la structure du thème natal habituel.</div>
+      </details>
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Comment calculer un thème draconique ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">On calcule d'abord le thème natal classique, on repère la position du Nœud Nord, puis on soustrait cette valeur à chaque planète pour obtenir leurs positions draconiques. Le Nœud Nord se retrouve ainsi à 0° Bélier, et toutes les autres planètes se déplacent d'autant.</div>
+      </details>
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Quelle différence entre le thème natal et le thème draconique ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">Le thème natal décrit la personnalité incarnée, sa façon de fonctionner dans le monde matériel et social. Le thème draconique décrit une couche plus profonde, souvent lue comme celle de l'âme ou de l'intention originelle. L'écart entre les deux montre la distance entre qui l'on est et ce vers quoi l'on tend.</div>
+      </details>
+      <details>
+        <summary><span class="star" aria-hidden="true">✦</span><span>Le thème draconique remplace-t-il le thème natal ?</span><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="answer">Non. Le thème draconique ne remplace jamais le thème natal, il le complète. Le natal reste la carte de référence pour la personnalité et la vie concrète ; le draconique en est une lecture superposée, réservée à ceux qui veulent explorer une dimension plus intérieure. Pour aller plus loin sur les lectures profondes, <a href="/asteroides-karmiques.html">notre dossier sur les astéroïdes karmiques</a> explore une autre couche de continuité du thème.</div>
+      </details>
+    </section>
+    <section class="invite">
+      <p>Votre thème draconique ne se lit pas en général. Il se lit dans le vôtre, superposé au natal.</p>
+      <a class="cta" href="/gardien.html">Ouvrir une Première Page</a>
+    </section>
+  </main>
+  <footer>
+    <p class="sig">Les étoiles tracent les coordonnées. Les Archives révèlent leur signification.</p>
+    <div class="links">
+      <a href="/questions-frequentes.html">Questions fréquentes</a>
+      <a href="/asteroides-karmiques.html">Astéroïdes karmiques</a>
+      <a href="mailto:soulscript.officiel@outlook.com">Écrire</a>
+      <a href="https://instagram.com/soulscript.officiel">Instagram</a>
+    </div>
+    <div class="mark">Soulscript — Les Archives</div>
+  </footer>
+</div>
+</body>
+</html>
