@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>SOULSCRIPT — Envoi d'un dossier</title>
+<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+  body{margin:0;min-height:100vh;background:#0C0A1B;color:#ECE4D2;font-family:Georgia,serif;padding:40px 20px;}
+  .wrap{max-width:480px;margin:0 auto;}
+  h1{font-size:1.2rem;color:#C6A15B;letter-spacing:2px;margin-bottom:24px;text-align:center;}
+  label{display:block;font-size:.85rem;color:#A79E88;margin:16px 0 6px;}
+  input{width:100%;padding:10px;background:#141031;border:1px solid rgba(198,161,91,.3);color:#ECE4D2;font-family:Georgia,serif;border-radius:2px;box-sizing:border-box;}
+  button{width:100%;margin-top:24px;padding:14px;background:#C6A15B;color:#0C0A1B;border:none;font-weight:bold;letter-spacing:2px;text-transform:uppercase;font-size:.85rem;cursor:pointer;border-radius:2px;}
+  #status{margin-top:16px;text-align:center;font-size:.9rem;}
+  #gate{text-align:center;padding:60px 0;}
+  #logoutBar{text-align:right;margin-bottom:12px;}
+  #logoutBar button{width:auto;padding:6px 14px;background:transparent;border:1px solid rgba(198,161,91,.4);color:#A79E88;font-size:.75rem;text-transform:none;letter-spacing:0;margin-top:0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>✦ Envoi d'un dossier SOULSCRIPT</h1>
+
+  <div id="gate">
+    <p>Connexion requise.</p>
+    <button onclick="netlifyIdentity.open()">Se connecter</button>
+  </div>
+
+  <div id="logoutBar" style="display:none;">
+    <button onclick="netlifyIdentity.logout()">Se déconnecter</button>
+  </div>
+
+  <form id="sendForm" style="display:none;">
+    <label>Prénom de la cliente</label>
+    <input type="text" id="nom_client_court" required>
+
+    <label>Référence du dossier</label>
+    <input type="text" id="ref_dossier" placeholder="SS-2026-014" required>
+
+    <label>Lien du dossier (archives.soulscript.pro)</label>
+    <input type="text" id="lien_dossier" placeholder="https://archives.soulscript.pro/dossiers/..." required>
+
+    <label>Date d'expiration</label>
+    <input type="text" id="date_expiration" placeholder="10 septembre 2026" required>
+
+    <label>Email de la cliente</label>
+    <input type="email" id="email" required>
+
+    <button type="submit">Envoyer le dossier</button>
+  </form>
+
+  <div id="status"></div>
+</div>
+
+<script>
+function showForm() {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('logoutBar').style.display = 'block';
+  document.getElementById('sendForm').style.display = 'block';
+}
+function showGate() {
+  document.getElementById('gate').style.display = 'block';
+  document.getElementById('logoutBar').style.display = 'none';
+  document.getElementById('sendForm').style.display = 'none';
+  document.getElementById('status').textContent = '';
+}
+
+netlifyIdentity.on('init', user => {
+  if (user) showForm(); else showGate();
+});
+netlifyIdentity.on('login', () => {
+  showForm();
+  netlifyIdentity.close();
+});
+netlifyIdentity.on('logout', () => {
+  showGate();
+});
+
+document.getElementById('sendForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const statusEl = document.getElementById('status');
+
+  const user = netlifyIdentity.currentUser();
+  if (!user) {
+    statusEl.textContent = 'Session expirée. Merci de vous reconnecter.';
+    showGate();
+    return;
+  }
+
+  statusEl.textContent = 'Envoi en cours...';
+
+  let token;
+  try {
+    token = await user.jwt();
+  } catch (err) {
+    statusEl.textContent = 'Session expirée. Merci de vous reconnecter.';
+    showGate();
+    return;
+  }
+
+  const payload = {
+    nom_client_court: document.getElementById('nom_client_court').value,
+    ref_dossier: document.getElementById('ref_dossier').value,
+    lien_dossier: document.getElementById('lien_dossier').value,
+    date_expiration: document.getElementById('date_expiration').value,
+    email: document.getElementById('email').value
+  };
+
+  try {
+    const res = await fetch('/.netlify/functions/send-client-dossier', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok) {
+      statusEl.innerHTML = '<pre style="text-align:left;white-space:pre-wrap;word-break:break-word;">'
+        + JSON.stringify(data, null, 2)
+        + '</pre>';
+    } else if (res.status === 401 || res.status === 403) {
+      statusEl.textContent = 'Accès refusé ou session expirée. Merci de vous reconnecter.';
+    } else {
+      statusEl.textContent = 'Erreur : ' + (data.error || 'inconnue');
+    }
+  } catch (err) {
+    statusEl.textContent = 'Erreur réseau : ' + err.message;
+  }
+});
+</script>
+</body>
+</html>
